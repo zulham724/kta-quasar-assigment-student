@@ -43,6 +43,16 @@ const actions = {
                     axios
                         .get(`${this.state.Setting.url}/api/user`)
                         .then(res => {
+                            if(res.data.role_id != 8){
+                                delete axios.defaults.headers.common.Authorization
+                                return reject({
+                                    response:{
+                                        data:{
+                                            message: 'This app for student only'
+                                        }
+                                    }
+                                })
+                            }
                             const auth = res.data;
                             // Add the following line:
                             const payload = {

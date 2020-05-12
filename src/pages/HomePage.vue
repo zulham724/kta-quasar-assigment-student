@@ -69,7 +69,7 @@
       </div>
       <div class="row q-mb-md">
         <div class="col-4">
-          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh">
+          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh" @click="search()">
             <q-icon name="mdi-puzzle" style="position:absolute;bottom:0;right:0" size="xl" />
             <q-card-section>
               Kerjakan soal
@@ -77,7 +77,7 @@
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh">
+          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh" @click="$router.push('/post')">
             <q-icon name="mdi-feather" style="position:absolute;bottom:0;right:0" size="xl" />
             <q-card-section>
               Ruang diskusi
@@ -101,7 +101,7 @@
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh">
+          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh" @click="$router.push('/account')">
             <q-icon name="mdi-account" style="position:absolute;bottom:0;right:0" size="xl" />
             <q-card-section>
               Profil
@@ -158,26 +158,40 @@
 </template>
 
 <script>
-const maxSize = 10000;
-const heavyList = [];
-
-for (let i = 0; i < maxSize; i++) {
-  heavyList.push({
-    label: "Soal baru ",
-    class:
-      i % 2 === 0
-        ? "q-pa-md self-center bg-grey-2 text-black"
-        : "q-pa-lg bg-grey text-white"
-  });
-}
-
-Object.freeze(heavyList);
+import SearchComponent from 'components/assigment/SearchComponent'
 export default {
   data() {
     return {
       slide: 1,
-      heavyList
     };
+  },
+  methods:{
+    search(){
+      
+    this.$q.dialog({
+      component: SearchComponent,
+
+      // optional if you want to have access to
+      // Router, Vuex store, and so on, in your
+      // custom component:
+      parent: this, // becomes child of this Vue node
+                    // ("this" points to your Vue component)
+                    // (prop was called "root" in < 1.1.0 and
+                    // still works, but recommending to switch
+                    // to the more appropriate "parent" name)
+
+      // props forwarded to component
+      // (everything except "component" and "parent" props above):
+      text: 'something',
+      // ...more.props...
+    }).onOk(() => {
+      console.log('OK')
+    }).onCancel(() => {
+      console.log('Cancel')
+    }).onDismiss(() => {
+      console.log('Called on OK or Cancel')
+    })
+    }
   }
 };
 </script>
