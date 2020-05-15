@@ -4,7 +4,7 @@
       <q-toolbar style="background-color:teal">
         <q-btn flat dense icon="arrow_back" @click="$router.back()" />
         <q-toolbar-title>
-          <div class="text-body1 text-bold">{{Auth.auth.name}}</div>
+          <div class="text-body1 text-bold">{{ Auth.auth.name }}</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -14,28 +14,46 @@
           <div class="row q-pb-md">
             <div class="col-3">
               <q-avatar size="15vw">
-                <q-img :src="`${Setting.storageUrl}/${Auth.auth.avatar}`" no-default-spinner />
+                <q-img
+                  :src="`${Setting.storageUrl}/${Auth.auth.avatar}`"
+                  no-default-spinner
+                />
               </q-avatar>
             </div>
             <div class="col-9 self-center">
-              <div class="text-body1">{{Auth.auth.name}}</div>
-              <q-btn dense size="sm" color="teal" flat label="Ubah foto profil" @click="$refs.inputFile.pickFiles()" />
-              <q-file v-show="false" v-model="file" ref="inputFile" @input="file=>$router.push({
-	              name:'accountchangeavatar',
-	              params:{
-	                file:file
-	              }
-	            })"></q-file>
+              <div class="text-body1">{{ Auth.auth.name }}</div>
+              <q-btn
+                dense
+                size="sm"
+                color="teal"
+                flat
+                label="Ubah foto profil"
+                @click="$refs.inputFile.pickFiles()"
+              />
+              <q-file
+                v-show="false"
+                v-model="file"
+                ref="inputFile"
+                @input="
+                  file =>
+                    $router.push({
+                      name: 'accountchangeavatar',
+                      params: {
+                        file: file
+                      }
+                    })
+                "
+              ></q-file>
             </div>
           </div>
           <div class="row q-pb-md">
-          	<q-list>
-          	  <q-item>
-          	  	<q-item-section>
-		          <q-item-label>Edit Profile</q-item-label>
-		        </q-item-section>
-          	  </q-item>
-          	</q-list>
+            <q-list>
+              <q-item @click="onLogout()" clickable>
+                <q-item-section>
+                  <q-item-label>Logout</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
           </div>
         </div>
       </q-pull-to-refresh>
@@ -43,26 +61,24 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
-
-  name: 'AccountPage',
+  name: "AccountPage",
 
   data() {
-    return {
-
-    };
+    return {};
   },
   computed: {
-    ...mapState(['Auth', 'Setting'])
+    ...mapState(["Auth", "Setting"])
   },
   methods: {
-    onRefresh() {
-
+    onRefresh() {},
+    onLogout(){
+      this.$router.push("/login").then(() => {
+        this.$store.dispatch("Auth/logout");
+      });
     }
   }
 };
-
 </script>
-<style lang="css" scoped>
-</style>
+<style lang="css" scoped></style>
