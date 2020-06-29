@@ -54,16 +54,16 @@
                         round
                         icon="check"
                         :flat="
-                          question_list.answer != answer_list.id ? true : false
+                          question_list.answer.id != answer_list.id ? true : false
                         "
                         :color="
-                          question_list.answer == answer_list.id
+                          question_list.answer.id == answer_list.id
                             ? 'green-4'
                             : null
                         "
                         @click="
                           () => {
-                            question_list.answer = answer_list.id;
+                            question_list.answer = answer_list;
                             $forceUpdate();
                           }
                         "
@@ -165,7 +165,15 @@ export default {
   methods:{
     init(){
       this.$store.dispatch('Assigment/show',this.assigmentId).then(res=>{
-        this.assigment = res.data
+        this.assigment = res.data = {
+          ...res.data,
+          question_lists:[
+            ...res.data.question_lists.map(item=>{
+              item.answer = {}
+              return item
+            })
+          ]
+        }
         this.session = {
           questions: this.assigment.question_lists
         }
@@ -187,7 +195,7 @@ export default {
           ).length == 0
         ) {
           this.$router.push({
-            name: "knowledgeresult",
+            name: "quizresult",
             params: {
               assigment: this.assigment,
             },

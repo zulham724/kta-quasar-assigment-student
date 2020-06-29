@@ -41,13 +41,13 @@ const actions = {
                     axios.defaults.headers.common.Accept = "application/json";
                     axios.defaults.headers.common.Authorization = `${token.token_type} ${token.access_token}`;
                     axios
-                        .get(`${this.state.Setting.url}/api/user`)
+                        .get(`${this.state.Setting.url}/api/v1/auth/assigment/student`)
                         .then(res => {
-                            if(res.data.role_id != 8){
+                            if (res.data.role_id != 8) {
                                 delete axios.defaults.headers.common.Authorization
                                 return reject({
-                                    response:{
-                                        data:{
+                                    response: {
+                                        data: {
                                             message: 'This app for student only'
                                         }
                                     }
@@ -82,7 +82,7 @@ const actions = {
     getAuth({ commit }) {
         return new Promise((resolve, reject) => {
             axios
-                .get(`${this.state.Setting.url}/api/user`)
+                .get(`${this.state.Setting.url}/api/v1/auth/assigment/student`)
                 .then(res => {
                     const auth = res.data
                         // Add the following line:

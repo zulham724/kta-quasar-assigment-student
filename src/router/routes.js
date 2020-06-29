@@ -13,7 +13,6 @@ const auth = function(to, from, next) {
 
 const routes = [{
         path: "/",
-        beforeEnter: multiguard([auth]),
         component: () =>
             import ("layouts/MainLayout.vue"),
         children: [{
@@ -61,6 +60,13 @@ const routes = [{
                 path: "/quiz/:assigmentId",
                 component: () =>
                     import ("pages/QuizPage.vue"),
+                props: true
+            },
+            {
+                path: '/quiz/result',
+                name: 'quizresult',
+                component: () =>
+                    import ('pages/quiz/ResultPage.vue'),
                 props: true
             }
         ]
