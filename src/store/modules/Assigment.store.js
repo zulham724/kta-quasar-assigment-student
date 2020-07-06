@@ -50,6 +50,7 @@ const actions = {
         });
     },
     store({ commit }, access) {
+        console.log(access)
         return new Promise((resolve, reject) => {
             axios
                 .post(`${this.state.Setting.url}/api/v1/assigment`, access)

@@ -5,11 +5,10 @@
         <q-toolbar style="background-color:teal">
           <q-btn flat dense icon="arrow_back" @click="$router.back()" />
           <q-toolbar-title>
-            <div class="text-body1 text-bold">Quiz</div>
+            <div class="text-body1 text-bold">Tugas Mandiri</div>
           </q-toolbar-title>
-          <div class="caption text-bold" v-if="isStart && assigment.timer">
-            Waktu anda {{ this.dispMinutes}} menit {{ this.dispSeconds }} detik
-            <!-- waktu {{ assigment.created_at | moment('LLLL') }} -->
+          <div class="caption text-bold" v-if="isStart">
+            Waktu anda {{ timer ? timer : `${assigment.timer} menit` }}
           </div>
         </q-toolbar>
       </q-header>
@@ -36,7 +35,9 @@
             <q-item v-ripple class="row justify">
               <q-item-section avatar>
                 <q-avatar>
-                  <q-img src=""></q-img>
+                  <q-img
+                    src=""
+                  ></q-img>
                 </q-avatar>
               </q-item-section>
               <q-item-section style="align-items:center">
@@ -81,11 +82,23 @@
                     <div class="text-subtitle1 " style="font-size:20px">
                       {{ assigment.topic }}
                     </div>
-                    <div class="q-pt-sm text-h8 text-weight-light">
+                    <div class="text-h8 text-weight-light">
                       {{ assigment.subject }}
                     </div>
                   </div>
                 </div>
+              </q-item-section>
+            </q-item>
+            <q-item>
+                <q-item-section>
+                  <div class="q-pa-md">
+                      <div class="" style="color:lightgray;font-size:10px">Lihat Komentar</div>
+                  </div>
+              </q-item-section>
+              <q-item-section side>
+                  <q-icon>
+
+                  </q-icon>
               </q-item-section>
             </q-item>
           </q-card>
@@ -238,17 +251,12 @@ export default {
       step: 1,
       isTime: false,
       isStart: false,
-      dispMinutes :  null,
-      dispSeconds : null,
       timer: null,
-      session: {},
-      questions: null,
-      assigmentSession: null,
-      intervalTime: null
+      session: {}
     };
   },
   computed: {
-    ...mapState(["Setting","AssigmentSession","Auth"])
+    ...mapState(["Setting"])
   },
   created() {
     if (this.assigmentId) this.init();
@@ -270,42 +278,23 @@ export default {
         };
       });
     },
-    onCountdown() {
-      const time = moment().add(this.assigment.timer,'minutes')
-      this.intervalTime = setInterval(()=>{
-        let now = moment()
-        let distance = time - now
-        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        this.dispMinutes = minutes
-        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        this.dispSeconds = seconds
-        let timeDisplay = minutes + " Menit" + seconds + " Detik"
-        // console.log( "menit: ", minutes, "detik ", seconds)
-        if  (distance < 2) {
-          clearInterval(intervalTime);
-          this.$router.push({
-            name: "result",
-            params: {
-              assigment: this.assigment
-            }
-          });
-        } else {
-          null
-        }
-      }, 1000);
-      
-    },
     onStart() {
-      this.assigment.timer? this.onCountdown() : null
+      const start = moment().add(10,'seconds')
+      setInterval(()=>{
+        this.timer = `${start.diff(moment(),'minutes')} Menit 
+                      ${start.diff(moment(),'seconds')} Detik`
+      },1000)
+      clearInterval(this.timer)
+      `${start.diff(moment(),'seconds')} Detik` == 0 ? this.getonSubmit() : null
     },
     onSubmit() {
       this.$refs.form.validate().then(success => {
         if (
           success &&
-          this.assigment.question_lists.filter(item => item.answer.id).length == this.assigment.question_lists.length
+          this.assigment.question_lists.filter(item =>
+            !item.answer ? item : null
+          ).length == 0
         ) {
-          clearInterval(this.intervalTime);
-          this.sendNotif()
           this.$router.push({
             name: "result",
             params: {
@@ -316,24 +305,7 @@ export default {
           this.$q.notify("Periksa apakah semua telah terisi dengan benar");
         }
       });
-    },
-    sendNotif(){
-        const payload = {
-          title: `AGPAII DIGITAL`,
-          // body: `Postingan anda dikomentari oleh ${this.Auth.auth.name}: ${this.comment.value}`,
-          body: `Postingan anda dikomentari oleh ${this.Auth.auth.name}`,
-          params:{
-            sender_id: this.Auth.auth.id,
-            target_id: this.Auth.auth.posts.id,
-            target_type: `Post`,
-            text: `Postingan anda dikomentari oleh ${this.Auth.auth.name}`,
-          },
-          to: `/topics/user_${this.Auth.auth.id}_post_${this.Auth.auth.posts.id}_comment`
-        }
-        this.$store.dispatch('Notif/send',payload).then(res=>{
-          console.log(res)
-        })
-      }
+    }
   }
 };
 </script>

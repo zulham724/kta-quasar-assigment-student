@@ -85,7 +85,7 @@
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh">
+          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh" @click="search()">
             <q-icon name="mdi-timer" style="position:absolute;bottom:0;right:0" size="xl" />
             <q-card-section>
               Latihan mandiri
@@ -109,7 +109,7 @@
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh">
+          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh" @click="$router.push('/history')">
             <q-icon name="mdi-poll" style="position:absolute;bottom:0;right:0" size="xl" />
             <q-card-section>
               Riwayat
@@ -124,32 +124,30 @@
         </div>
         <div class="col-12">
           <q-list bordered separator>
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon color="teal" name="emoji_events" style="font-size:3em" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label overline>Mengerjakan 20 Soal</q-item-label>
-                <q-item-label>
-                  <q-linear-progress color="teal" :value="0.4" class="q-mt-md" />
-                </q-item-label>
-                <q-item-label overline>40% Terlampaui</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon color="teal" name="emoji_events" style="font-size:3em" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label overline>Mendapat nilai diatas 75</q-item-label>
-                <q-item-label>
-                  <q-linear-progress color="teal" :value="0.8" class="q-mt-md" />
-                </q-item-label>
-                <q-item-label overline>40% Terlampaui</q-item-label>
-              </q-item-section>
-            </q-item>
+            <div v-for="(daily, e) in this.Achievement.items" :key="e">
+              <q-item clickable v-ripple>
+                <q-item-section avatar>
+                  <q-icon :style="daily.value == daily.limit ? 'color:#ffff4d' : 'color:teal'" name="emoji_events" style="font-size:4em" />
+                </q-item-section>
+                <q-item-section>
+                  <div class="row justify-between">
+                    <div class="text-subtitle2" style="font-size:12px">{{ daily.description}}</div> 
+                    <div :style="`${daily.value == daily.limit? 'visibility:visible' : 'visibility:hidden'}`">
+                      <span class="material-icons" style="color:teal">done</span>
+                    </div>
+                  </div>
+                  <q-item-label overline>({{ daily.value }}/{{ daily.limit }})
+                    <!-- <span class="material-icons q-mx-xs" style="font-size:13px;color:#ffff66">stars</span>
+                    <span style="font-size:11px; color:#cccccc">20</span> -->
+                  </q-item-label>
+                  <q-item-label>
+                    <q-linear-progress color="teal" :value="daily.daily_progress" class="q-mt-md" />
+                  </q-item-label>
+                  <q-item-label overline>{{ Math.floor((daily.value / daily.limit)*100) }}
+                    % Terlampaui</q-item-label>
+                </q-item-section>
+              </q-item>
+            </div>
           </q-list>
         </div>
       </div>
@@ -159,11 +157,38 @@
 
 <script>
 import SearchComponent from 'components/assigment/SearchComponent'
+import {mapState} from 'vuex'
+import moment from "moment";
 export default {
   data() {
     return {
       slide: 1,
+      items:[
+      ]
+
     };
+  },
+  computed:{
+    ...mapState(['Auth','AssigmentSession','Achievement'])
+  },
+  mounted() {
+    // let hari= moment().format('LL')
+    // console.log("hari ini: ",hari)
+    this.$store.dispatch('Auth/getAuth').then(res=>{
+      this.$store.dispatch("Achievement/calculate").then(res=>{
+        this.Achievement.items.map(item=>{
+          item.daily_progress = item.value / item.limit
+          return item
+        })
+        // console.log("DT1: ",this.Achievement.items[0].value,
+        //               " DT2: ",this.Achievement.items[1].value,
+        //               " DT3 : ",this.Achievement.items[2].value,
+        //               " DT5: ",this.Achievement.items[4].value)
+      })
+    })
+  },
+  created() {
+
   },
   methods:{
     search(){

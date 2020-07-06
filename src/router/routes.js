@@ -22,6 +22,7 @@ const routes = [{
             },
             {
                 path: "/post",
+                beforeEnter: multiguard([auth]),
                 component: () =>
                     import ("pages/PostPage.vue")
             },
@@ -53,21 +54,39 @@ const routes = [{
             },
             {
                 path: "/account",
+                beforeEnter: multiguard([auth]),
                 component: () =>
                     import ("pages/AccountPage.vue")
             },
             {
                 path: "/quiz/:assigmentId",
+                beforeEnter: multiguard([auth]),
                 component: () =>
                     import ("pages/QuizPage.vue"),
                 props: true
             },
             {
-                path: '/quiz/result',
-                name: 'quizresult',
+                path: "/task/:assigmentId",
+                beforeEnter: multiguard([auth]),
                 component: () =>
-                    import ('pages/quiz/ResultPage.vue'),
+                    import ("pages/IndividualTaskPage.vue"),
                 props: true
+            },
+            {
+            path: "/register",
+                component: () =>
+                    import ("layouts/RegisterLayout.vue")
+            },
+            {
+            path: "/account/edit",
+                component: () =>
+                    import ("pages/account/EditPage.vue")
+            },
+            {
+            path: "/history",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/HistoryPage.vue")
             }
         ]
     },
@@ -76,6 +95,12 @@ const routes = [{
         name: "login",
         component: () =>
             import ("layouts/LoginLayout.vue")
+    },
+    {
+        path: '/result',
+        name: 'result',
+        component: ()=> import('pages/quiz/ResultPage.vue'),
+        props: true
     }
 ];
 

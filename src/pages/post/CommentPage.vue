@@ -87,7 +87,7 @@ export default {
     postId: null
   },
   computed: {
-    ...mapState(["Setting", "Auth"])
+    ...mapState(["Setting", "Auth","Post"])
   },
   data() {
     return {
@@ -99,15 +99,28 @@ export default {
     };
   },
   mounted() {
-    this.post == null ? this.getPost() : null;
+    this.$store.dispatch("Post/show", this.postId).then(res => {
+      this.post = res.data
+    });
+    // this.post == null ? this.getPost() : null;
+    // this.post.comments ? this.getComment() : null
+    
     this.$refs.keyboard.focus()
+    
   },
   methods: {
     getPost() {
       this.$store.dispatch("Post/show", this.postId).then(res => {
         this.post = res.data;
+        console.log("cek : ", this.post)
       });
     },
+    // getComment() {
+    //   this.$store.dispatch("PostComment/index", this.postId).then(res => {
+    //     this.comment = res.data.comments
+    //     console.log("res data comment: ",this.comment)
+    //   });
+    // },
     store() {
       this.loading = true
       const payload = {
@@ -118,7 +131,8 @@ export default {
       this.$store
         .dispatch("PostComment/store", payload)
         .then(res => {
-            if(this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
+            // if(this.post.author_id.id != this.Auth.auth.id) 
+            this.sendNotif();
             this.post.comments.splice(0, 0, res.data);
             this.post.comments_like += 1;
             this.comment.value = ''

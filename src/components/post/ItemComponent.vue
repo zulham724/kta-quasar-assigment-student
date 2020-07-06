@@ -158,7 +158,8 @@ export default {
       slide: 0,
       isReadMore: false,
       dialog: false,
-      file: null
+      file: null,
+      tes: null
     };
   },
   methods: {
@@ -205,15 +206,11 @@ export default {
     like() {
       this.$store.dispatch("Post/like", this.post.id).then(res => {
         if(this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
-        this.post.liked_count = res.data.liked_count;
-        this.post.likes_count = res.data.likes_count;
         this.$forceUpdate();
       });
     },
     dislike() {
       this.$store.dispatch("Post/dislike", this.post.id).then(res => {
-        this.post.liked_count = res.data.liked_count;
-        this.post.likes_count = res.data.likes_count;
         this.$forceUpdate();
       });
     },

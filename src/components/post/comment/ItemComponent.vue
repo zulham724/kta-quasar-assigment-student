@@ -50,15 +50,17 @@ export default {
   },
   methods: {
     like(commentId) {
-      this.$store.dispatch("PostComment/like", commentId).then(res => {
-        this.comment.liked_count = res.data.liked_count
-        this.comment.likes_count = res.data.likes_count
+      this.$store.dispatch("Post/likeComment", commentId).then(res => {
+        // if(this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
+        this.$forceUpdate();
+        console.log("ini comment di halaman:",this.comment)
       });
     },
     dislike(commentId) {
-      this.$store.dispatch("PostComment/dislike", commentId).then(res => {
-        this.comment.liked_count = res.data.liked_count
-        this.comment.likes_count = res.data.likes_count
+      this.$store.dispatch("Post/dislikeComment", commentId).then(res => {
+        // if(this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
+        this.$forceUpdate();
+        console.log("ini comment di halaman:",this.comment)
       });
     }
   }

@@ -29,11 +29,15 @@
               v-model="credential.password"
               type="password"
               lazy-rules
-              :rules="[
-                val => (val && val.length > 0) || 'Please type something'
-              ]"
+              :rules="[val => (val && val.length > 0) || 'Please type something']"
             />
           </q-form>
+        </div>
+        <div class="q-pa-sm text-center" style="background-color:#e0ebeb;
+         opacity:80%; border-radius:5px">
+          <label>Belum pernah mendaftar? Ayo </label>
+          <q-btn class="" @click="$router.push('/register')">Daftar</q-btn>
+          <label> sekarang!</label>
         </div>
       </div>
 
