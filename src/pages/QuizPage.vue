@@ -125,6 +125,7 @@
                   rounded
                   outlined
                   dense
+                  autogrow
                   v-for="answer_list in question_list.answer_lists"
                   :key="answer_list.id"
                   v-model="answer_list.name"
@@ -151,7 +152,7 @@
                             $forceUpdate();
                           }
                         "
-                      />
+                      /> 
                     </div>
                   </template>
                 </q-input>
@@ -167,8 +168,8 @@
                   rounded
                   outlined
                   dense
-                  v-model="question_list.answer"
-                  :rules="[val => !!val || 'Harus diisi']"
+                  v-model="answer_textfield"
+                  :rules="[answer_textfield => !!answer_textfield || 'Harus diisi']"
                 />
               </div>
 
@@ -183,8 +184,8 @@
                   rounded
                   outlined
                   dense
-                  v-model="question_list.answer"
-                  :rules="[val => !!val || 'Harus diisi']"
+                  v-model="answer_textarea"
+                  :rules="[answer_textarea => !!answer_textarea || 'Harus diisi']"
                 />
               </div>
 
@@ -201,7 +202,7 @@
                   v-if="ql + 1 != assigment.question_lists.length"
                   outline
                   rounded
-                  @click="step++"
+                  @click="[step++,onTextarea(question_list),onTextfield(question_list)]"
                   color="primary"
                   label="Lanjut"
                 />
@@ -209,7 +210,7 @@
                   v-if="ql + 1 == assigment.question_lists.length"
                   outline
                   rounded
-                  @click="onSubmit"
+                  @click="[onTextarea(question_list),onTextfield(question_list),onSubmit()]"  
                   color="primary"
                   label="Selesai"
                   :loading="loading"
@@ -229,7 +230,8 @@ import { mapState } from "vuex";
 import moment from "moment";
 export default {
   props: {
-    assigmentId: null
+    assigmentId: null,
+    userId: null
   },
   data() {
     return {
@@ -244,6 +246,9 @@ export default {
       session: {},
       questions: null,
       assigmentSession: null,
+      answer_textfield: null,
+      answer_textarea: null,
+      teacher: {},
       intervalTime: null
     };
   },
@@ -252,12 +257,14 @@ export default {
   },
   created() {
     if (this.assigmentId) this.init();
+    // user:this.user
   },
   methods: {
     init() {
       this.$store.dispatch("Assigment/show", this.assigmentId).then(res => {
         this.assigment = {
           ...res.data,
+          teacher_id: this.userId,
           question_lists: [
             ...res.data.question_lists.map(item => {
               item.answer = {};
@@ -295,14 +302,38 @@ export default {
       }, 1000);
       
     },
+    onTextarea(payload){
+      if (payload.pivot.assigment_type.description == "textarea") {
+        payload.answer_lists[0].name = this.answer_textarea
+        payload.answer = payload.answer_lists[0];
+        payload.answer.value = null
+        this.$forceUpdate();
+      }
+    },
+    onTextfield(payload){
+      if (payload.pivot.assigment_type.description == "textfield") {
+        payload.answer_lists[0].name = this.answer_textfield
+        payload.answer = payload.answer_lists[0];
+        payload.answer.value = null
+        this.$forceUpdate();
+      }
+    },
     onStart() {
       this.assigment.timer? this.onCountdown() : null
     },
     onSubmit() {
+      // console.log("ini assigment: ", this.assigment)
+      let indikator = 0
+      this.assigment.question_lists.forEach(item => {
+        if (item.answer.name == null) {
+          indikator = 1
+        }
+      });
       this.$refs.form.validate().then(success => {
         if (
           success &&
-          this.assigment.question_lists.filter(item => item.answer.id).length == this.assigment.question_lists.length
+          // this.assigment.question_lists.filter(item => item.pivot.assigment_type.description == 'selectoptions' ? item.answer.id : item.answer).length == this.assigment.question_lists.length
+          indikator == 0
         ) {
           clearInterval(this.intervalTime);
           this.sendNotif()
@@ -321,12 +352,12 @@ export default {
         const payload = {
           title: `AGPAII DIGITAL`,
           // body: `Postingan anda dikomentari oleh ${this.Auth.auth.name}: ${this.comment.value}`,
-          body: `Postingan anda dikomentari oleh ${this.Auth.auth.name}`,
+          body: `Soal telah selesai dikerjakan oleh ${this.Auth.auth.name}`,
           params:{
             sender_id: this.Auth.auth.id,
             target_id: this.Auth.auth.posts.id,
             target_type: `Post`,
-            text: `Postingan anda dikomentari oleh ${this.Auth.auth.name}`,
+            text: `${this.Auth.auth.name} telah melakukan submit jawaban`,
           },
           to: `/topics/user_${this.Auth.auth.id}_post_${this.Auth.auth.posts.id}_comment`
         }

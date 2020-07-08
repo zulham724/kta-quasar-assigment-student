@@ -40,7 +40,10 @@ const state = {
             value: 0,
             limit: 1
         }
-    ]
+    ],
+    Skor_sempurna: null,
+    Jumlah_post: null,
+    Soal_selesai: null
 }
 
 // Mutations
@@ -62,15 +65,29 @@ const mutations = {
             item.value = 0
         })
     },
+    decreamentAchievement(state){
+       state.Soal_selesai = 0
+       state.Jumlah_post = 0
+       state.Skor_sempurna = 0
+    },
     setValuetoLimit(state,payload){
         const index = state.items.findIndex(item=>item.id == payload.id)
         state.items[index].value = payload.limit
-    }
+    },
+    increment_soal(state,payload) {
+        state.Soal_selesai += payload.questions.length
+    },
+    increment_post(state,payload){
+        state.Jumlah_post = payload.posts.length
+    },
+    increment_score(state){
+        state.Skor_sempurna += 1
+    }    
 }
 
 // Actions
 const actions = {
-    calculate({commit}) {
+    calculateDailyTask({commit}) {
         return new Promise((resolve, reject) => {
             axios
                 .get(`${this.state.Setting.url}/api/v1/auth/assigment/student`)
@@ -117,36 +134,32 @@ const actions = {
                     reject(err)
                 })
         })
-        
-        // this.$store.dispatch('Auth/getAuth').then(res=>{
-        // })
-
-        // this.Auth.auth.sessions.forEach(session => {
-        //     let create = moment(session.created_at).format('LL')
-        //     let now = moment().format('LL')
-        //     console.log("now : ",now, "create: ", create," id: ", session.id)
-        //     if( now == create) {
-        //         commit('increment',{id:1})
-        //         const payload = {
-        //             id:2,
-        //             value:session.questions.length
-        //         }
-        //         commit('increment_batch',payload)
-        //         if (session.value == 100){
-        //             commit('increment',{id:3})
-        //             commit('increment',{id:5})
-        //         } else if(session.value > 75) {
-        //             commit('increment',{id:5})
-        //         }
-        //         }
-        //   });
-        //   console.log("DT1: ",Achivement.items.find(item=>item.id == 1).value,
-        //   " DT2: ",Achivement.items.find(item=>item.id == 2).value,
-        //   " DT3 : ",Achivement.items.find(item=>item.id == 3).value,
-        //   " DT5: ",Achivement.items.find(item=>item.id == 5).value)
-        //   if (Achivement.items.find(item=>item.id == 1)> 3) {
-            
-        //   }
+    },
+    calculateAchievement({commit}) {
+        return new Promise((resolve, reject) => {
+            axios
+            .get(`${this.state.Setting.url}/api/v1/auth/assigment/student`)
+            .then(res => {
+                const auth = res.data
+                commit('decreamentAchievement')
+                commit('increment_post', auth)
+                auth.sessions.forEach(session => {
+                    commit('increment_soal', session)
+                    if (session.value == 100){
+                        commit('increment_score')
+                    } else{
+                        null
+                    }
+                })
+                console.log("ini skor sempurna: ", this.state.Achievement.Skor_sempurna, )
+                console.log("ini jumlah post: ", this.state.Achievement.Jumlah_post, )
+                console.log("ini soal selesai: ", this.state.Achievement.Soal_selesai, )    
+                resolve(res)
+            })
+            .catch(err => {
+                reject(err)
+            });
+        })
     }
 }
 

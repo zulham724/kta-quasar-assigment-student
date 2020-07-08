@@ -10,8 +10,17 @@
         </q-header>
       </div>
       <q-page-container>
-        <div class="row justify-center full-height full-width text-center q-pt-xl">
+        <div class="q-pa-md text-center text-weight-light" style="font-size:30px" v-if="isKeterangan">
+          Skor Sementara: 
+        </div>
+         <div class="q-pa-md text-center text-weight-light" style="font-size:30px" v-if="!isKeterangan">
+          Skor Anda: 
+        </div>
+        <div class="row justify-center full-height full-width text-center q-pt-sm">
             <q-btn round outline bold size="60px" :color="item.color ? item.color : null">{{score}} </q-btn>
+        </div>
+        <div class="q-pa-md text-center text-weight-light" v-if="isKeterangan">
+          Skor akhir dapat dilihat melalui menu <span style="color:#00b377"><b>riwayat</b></span> setelah assigment sudah dinilai oleh guru penilai 
         </div>
         <div class="q-pt-lg row justify-center">
             <q-btn outline color="teal" size:6px @click="$router.push('/') && sendNotif()"> KEMBALI</q-btn>
@@ -29,41 +38,48 @@ export default {
     data(){
         return {
             item: {},
-            score: 0
+            score: 0,
+            sumSelectOptions : 0,
+            isKeterangan: false
         }
     },
     computed: {
       // ...mapState(["Auth"])
     },
     mounted(){
-        this.item = {...this.assigment,color:null}
-        this.item.question_lists.forEach(item => {
-            if(item.answer.value == 100)
-                this.score += 1;
-        })
-        
-        this.score = (this.score / this.item.question_lists.length)*100
-        assigment:this.assigment
-        const payload = {
-            ...this.assigment,
-            value:this.score,
-            questions: [
-              ...this.assigment.question_lists.map(item=>{
-                item.question_list_id = item.id
-                item.answer ? item.answer.answer_list_id = item.answer.id : null 
-                return item
-              })
-            ]
-        }
-        this.$store.dispatch('AssigmentSession/store',payload).then(res=>{
-
-        });
-        // console.log(this.score)
-        if(this.score > 60){
-            this.item.color = "green"
+      this.item = {...this.assigment,color:null}
+      this.item.question_lists.forEach(item => {
+        if(item.pivot.assigment_type.description == "selectoptions") {
+          this.sumSelectOptions += 1
+          if(item.answer.value == 100)
+              this.score += 1;
         } else {
-            this.item.color = "red"
+          this.isKeterangan = true
         }
+        });
+        
+      this.score = (this.score / this.sumSelectOptions)*100
+      assigment:this.assigment
+      const payload = {
+          ...this.assigment,
+          value:0,
+          questions: [
+            ...this.assigment.question_lists.map(item=>{
+              item.question_list_id = item.id
+              item.answer ? item.answer.answer_list_id = item.answer.id : null 
+              return item
+            })
+          ]
+      }
+      this.$store.dispatch('AssigmentSession/store',payload).then(res=>{
+
+      });
+        // console.log(this.score)
+      if(this.score > 60){
+          this.item.color = "green"
+      } else {
+          this.item.color = "red"
+      }
     },
     created(){
         this.$store.dispatch('Auth/getAuth').then(res=>{

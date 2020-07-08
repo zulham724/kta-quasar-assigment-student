@@ -16,14 +16,14 @@
             style="width:100%">
               <div class="row full-width justify-between">
                 <div class="row text-body1 items-center">{{Auth.auth.profile.school_place}}</div>
-                <q-btn color="red" flat icon="exit_to_app" size="md" @click="onLogout()"/>
+                <q-btn color="red" flat icon="exit_to_app" size="md" @click="onLogout()"><span class="q-pl-sm">Logout</span></q-btn>
               </div>
         </q-img>
         <div class="q-pa-md">
           <div class="row" >        
             <div class="col-3 text-center float-left">
               <div class="float-left">
-                <q-icon name="thumb_up" color="amber" style="font-size:20px" />
+                
               </div>
             </div>
             <div class="col-6 self-center text-center">
@@ -76,32 +76,39 @@
         </div>
         <div>
           <div class="q-px-md">
-            <div class="row q-mb-md">
+            <div class="row q-mt-xl">
               <div class="col-4 text-center" style="border-bottom:1">
-                <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px">Soal selesai</div>
-                <span class="material-icons" style="font-size:45px; color: #4dff4d">
+                <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px"><b>Soal selesai</b></div>
+                <span class="material-icons" style="font-size:60px; color:#006652">
                   assignment
                 </span>
-                <div style="margin-top:10px">
-                  200
-                </div>
+                <div style="margin-top:10px"><b>
+                  {{ this.Achievement.Soal_selesai }}
+                </b></div>
               </div>
               <div class="col-4 text-center">
-               <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px">Points</div>
-                <span class="material-icons" style="font-size:45px; color: yellow">stars</span>
-                <div style="margin-top:10px">
-                  7
-                </div>
+               <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px"><b>Skor Sempurna</b></div>
+                <span class="material-icons" style="font-size:60px; color: #ffa31a">whatshot</span>
+                <div style="margin-top:10px"><b>
+                  {{ this.Achievement.Skor_sempurna }}
+                </b></div>
               </div>
               <div class="col-4 text-center">
-                <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px">Jumlah Komentar</div>
-                <span class="material-icons md-light" style="font-size:45px; color:#4da6ff">comment</span>
-                <div style="margin-top:10px">
-                  30
-                </div>
+                <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px"><b>Jumlah Post</b></div>
+                <span class="material-icons md-light" style="font-size:60px; color:#006652">comment</span>
+                <div style="margin-top:10px"><b>
+                  {{ this.Achievement.Jumlah_post }}
+                </b></div>
               </div>
             </div>
           </div>
+          <!-- <div class="q-pa-md text-center">
+            <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px">Jumlah Post</div>
+            <q-icon name="thumb_up" style="color:#006652;font-size:60px" />
+            <div style="margin-top:10px">
+                  30
+            </div>
+          </div> -->
         </div>
         <!-- <div class="text-center q-my-lg">
           <q-btn color="teal" push size="12px">
@@ -119,20 +126,42 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import AchievementStore from '../store/modules/Achievement.store';
 export default {
   name: "AccountPage",
 
   data() {
-    return {};
+    return {
+      SkorSempurna: null,
+      SoalSelesai: null,
+      TotalPost: null
+    };
   },
   computed: {
-    ...mapState(["Auth", "Setting"])
+    ...mapState(["Auth", "Setting", "Achievement"])
+  },
+  created() {
+    
+      this.$store.dispatch('Auth/getAuth').then(res=>{
+        this.$store.dispatch('Achievement/calculateAchievement').then(res=>{
+          // console.log("resdata nya amna: ", res)
+          // this.SkorSempurna = res.data.Skor_sempurna,
+          // this.TotalPost = res.data.Jumlah_post,
+          // this.SoalSelesai = res.data.Soal_selesai
+          console.log("cek : ",res.data)
+          // console.log("cek : ",this.SkorSempurna,this.TotalPost, this.SoalSelesai )
+        });
+      });
   },
   methods: {
     onRefresh(done) {
       this.$store.dispatch('Auth/getAuth').then(res=>{
-        if(done)done()
-      })
+        this.$store.dispatch('Achievement/calculateAchievement').then(res=>{
+          this.SkorSempurna = res.data.Skor_sempurna,
+          this.TotalPost = res.data.Jumlah_post,
+          this.SoalSelesai = res.data.Soal_selesai
+        });
+      });
     },
     onLogout(){
       this.$router.push("/login").then(() => {

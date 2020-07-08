@@ -23,11 +23,13 @@
     >
       <q-carousel-slide
         :name="1"
-        img-src="https://serangkab.info/wp-content/uploads/2019/03/maxresdefault-1.jpg"
+        img-src="~assets/AGPAII_Logo_edit5.jpg"
+        :ratio="4/1"
       />
-      <q-carousel-slide
+      <!-- <q-carousel-slide
         :name="2"
-        img-src="https://serangkab.info/wp-content/uploads/2019/03/maxresdefault-1.jpg"
+        img-src="~assets/AGPAII_Logo_edit4.jpg"
+
       />
       <q-carousel-slide
         :name="3"
@@ -36,7 +38,7 @@
       <q-carousel-slide
         :name="4"
         img-src="https://serangkab.info/wp-content/uploads/2019/03/maxresdefault-1.jpg"
-      />
+      /> --> -->
     </q-carousel>
 
     <div class="q-pa-md">
@@ -127,7 +129,7 @@
             <div v-for="(daily, e) in this.Achievement.items" :key="e">
               <q-item clickable v-ripple>
                 <q-item-section avatar>
-                  <q-icon :style="daily.value == daily.limit ? 'color:#ffff4d' : 'color:teal'" name="emoji_events" style="font-size:4em" />
+                  <q-icon :style="daily.value == daily.limit ? 'color:#00ffff' : 'color:teal'" name="emoji_events" style="font-size:4em" />
                 </q-item-section>
                 <q-item-section>
                   <div class="row justify-between">
@@ -175,7 +177,7 @@ export default {
     // let hari= moment().format('LL')
     // console.log("hari ini: ",hari)
     this.$store.dispatch('Auth/getAuth').then(res=>{
-      this.$store.dispatch("Achievement/calculate").then(res=>{
+      this.$store.dispatch("Achievement/calculateDailyTask").then(res=>{
         this.Achievement.items.map(item=>{
           item.daily_progress = item.value / item.limit
           return item

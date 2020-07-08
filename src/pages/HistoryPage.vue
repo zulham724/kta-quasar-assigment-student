@@ -41,10 +41,13 @@
                           :subtitle="moment(item.created_at).format('LLLL')"
                           >
                           <template v-slot:default>
-                              <div class="text-h6 q-pt-sm">{{ item.assigment.topic }}</div>
+                              <div class="text-weight-regular q-pt-sm" style="font-size:15px">
+                                Anda telah menyelesaikan: 
+                                <span class="text-h6 q-pt-sm" style="color:#008055">{{ item.assigments[0].topic }}</span>
+                              </div>
                               <div style="overflow-wrap:break-word; white-space:pre-line">
-                              <div class="text-body2" v-linkified>{{ item.assigment.subject }}</div>
-                              <!-- <div> Score: {{ this.score }} </div> -->
+                              <div class="text-body2" v-linkified>{{ item.assigments[0].subject }}</div>
+                              <div class="q-pt-md"><b> Score: {{ item.value }} </b></div>
                               </div>
                           </template>
                           </q-timeline-entry>

@@ -131,11 +131,12 @@ export default {
       this.$store
         .dispatch("PostComment/store", payload)
         .then(res => {
-            // if(this.post.author_id.id != this.Auth.auth.id) 
+            if(this.post.author_id.id != this.Auth.auth.id) 
             this.sendNotif();
             this.post.comments.splice(0, 0, res.data);
-            this.post.comments_like += 1;
-            this.comment.value = ''
+            console.log("asdf")
+            // this.post.comments_like += 1;
+            // this.comment.value = ''
         })
         .catch(err => {})
         .finally(()=>{

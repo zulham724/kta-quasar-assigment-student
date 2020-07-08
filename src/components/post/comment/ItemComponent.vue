@@ -50,14 +50,14 @@ export default {
   },
   methods: {
     like(commentId) {
-      this.$store.dispatch("Post/likeComment", commentId).then(res => {
+      this.$store.dispatch("PostComment/likeComment", commentId).then(res => {
         // if(this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
         this.$forceUpdate();
         console.log("ini comment di halaman:",this.comment)
       });
     },
     dislike(commentId) {
-      this.$store.dispatch("Post/dislikeComment", commentId).then(res => {
+      this.$store.dispatch("PostComment/dislikeComment", commentId).then(res => {
         // if(this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
         this.$forceUpdate();
         console.log("ini comment di halaman:",this.comment)
