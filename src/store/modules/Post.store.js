@@ -32,20 +32,6 @@ const mutations = {
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
         state.posts.data[index].liked_count = 1;
     },
-    addLikesComment(state, payload) {
-        state.posts.comments.forEach(item => {
-            if (item.id == payload.id) {
-                item.likes_count += 1;
-            }
-        });
-    },
-    addLikedComment(state, payload) {
-        state.posts.comments.forEach(item => {
-            if (item.id == payload.id) {
-                item.liked_count = 1;
-            }
-        });
-    },
     removeLikes(state, payload) {
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
         state.posts.data[index].likes_count -= 1;
@@ -53,14 +39,6 @@ const mutations = {
     removeLiked(state, payload) {
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
         state.posts.data[index].liked_count = 0;
-    },
-    removeLikesComment(state, payload) {
-        const index = state.posts.findIndex(item=>item.id == payload.id);
-        state.posts[index].likes_count -= 1;
-    },
-    removeLikedComment(state, payload) {
-        const index = state.posts.findIndex(item=>item.id == payload.id);
-        state.posts[index].liked_count = 0;
     },
     next(state, payload) {
         // payload.posts.data.map(item => item.isReadMore = false)
@@ -176,25 +154,6 @@ const actions = {
                 });
         });
     },
-    likeComment({ commit }, commentId) {
-        return new Promise((resolve, reject) => {
-            const access = {
-                comment_id: commentId
-            };
-            axios
-                .post(`${this.state.Setting.url}/api/v1/commentlike`, access)
-                .then(res => {
-                    commit("addLikesComment",res.data);
-                    commit("addLikedComment",res.data);
-                    console.log("cek res like: ", res)
-                    this.show()
-                    resolve(res);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
-    },
     dislike({ commit }, id) {
         return new Promise((resolve, reject) => {
             const access = {
@@ -205,24 +164,6 @@ const actions = {
                 .then(res => {
                     commit("removeLikes",res.data);
                     commit("removeLiked",res.data);
-                    resolve(res);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
-    },
-    dislikeComment({ commit }, commentId) {
-        return new Promise((resolve, reject) => {
-            const access = {
-                comment_id: commentId
-            };
-            axios
-                .post(`${this.state.Setting.url}/api/v1/commentlike`, access)
-                .then(res => {
-                    commit("removeLikesComment",res.data);
-                    commit("removeLikedComment",res.data);
-                    console.log("cek dislike: ", this.state.Post.posts)
                     resolve(res);
                 })
                 .catch(err => {

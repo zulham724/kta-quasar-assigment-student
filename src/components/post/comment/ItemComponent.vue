@@ -1,25 +1,25 @@
 <template>
   <div>
-    <q-item clickable v-ripple v-if="comment != null">
-      <q-item-section avatar @click="$router.push(`/user/profile/${comment.user.id}`)">
+    <q-item clickable v-ripple v-if="this.Comment != null">
+      <q-item-section avatar @click="$router.push(`/user/profile/${Comment.user.id}`)">
         <q-avatar>
-          <q-img :src="`${Setting.storageUrl}/${comment.user.avatar}`" no-default-spinner />
+          <q-img :src="`${Setting.storageUrl}/${Comment.user.avatar}`" no-default-spinner />
         </q-avatar>
       </q-item-section>
 
       <q-item-section>
         <q-item-label>
-          <div class="text-caption text-black text-bold" @click="$router.push(`/user/profile/${comment.user.id}`)">{{ comment.user.name }}</div>
+          <div class="text-caption text-black text-bold" @click="$router.push(`/user/profile/${Comment.user.id}`)">{{ comment.user.name }}</div>
         </q-item-label>
         <q-item-label caption>
-          <div class="text-caption text-black">{{ comment.value }}</div>
+          <div class="text-caption text-black">{{ Comment.value }}</div>
         </q-item-label>
         <q-item-label caption>
           <div class="row">
             <div class="text-caption text-grey q-pr-md">
-              {{comment.created_at | moment('from','now')}}
+              {{Comment.created_at | moment('from','now')}}
             </div>
-            <div class="text-caption text-grey text-bold" v-show="comment.likes_count" @click="$router.push(`/post/comment/like/${comment.id}`)">{{comment.likes_count}} suka</div>
+            <div class="text-caption text-grey text-bold" v-show="Comment.likes_count" @click="$router.push(`/post/comment/like/${comment.id}`)">{{comment.likes_count}} suka</div>
           </div>
         </q-item-label>
       </q-item-section>
@@ -30,9 +30,9 @@
           size="sm"
           class="q-pt-md"
           round
-          :color="comment.liked_count ? 'red' : null"
-          :icon="comment.liked_count ? 'favorite' : 'favorite_border'"
-          @click="comment.liked_count ? dislike(comment.id) : like(comment.id)"
+          :color="Comment.liked_count ? 'red' : null"
+          :icon="Comment.liked_count ? 'favorite' : 'favorite_border'"
+          @click="Comment.liked_count ? dislike(Comment.id) : like(Comment.id)"
         />
       </q-item-section>
     </q-item>
@@ -45,22 +45,32 @@ export default {
   props: {
     comment: null,
   },
+  data() {
+    return {
+      Comment: null,
+    }
+  },
   computed: {
     ...mapState(["Setting",'Auth'])
   },
+  created() {
+    this.Comment = this.comment
+  },
   methods: {
     like(commentId) {
-      this.$store.dispatch("PostComment/likeComment", commentId).then(res => {
-        // if(this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
-        this.$forceUpdate();
-        console.log("ini comment di halaman:",this.comment)
+      this.$store.dispatch("PostComment/index", commentId).then(res => {
+        this.$store.dispatch("PostComment/likeComment", commentId).then(res => {
+          this.Comment = res.data
+          this.$forceUpdate();
+        });
       });
     },
     dislike(commentId) {
-      this.$store.dispatch("PostComment/dislikeComment", commentId).then(res => {
-        // if(this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
-        this.$forceUpdate();
-        console.log("ini comment di halaman:",this.comment)
+      this.$store.dispatch("PostComment/index", commentId).then(res => {
+        this.$store.dispatch("PostComment/dislikeComment", commentId).then(res => {
+          this.Comment = res.data
+          this.$forceUpdate();
+        });
       });
     }
   }

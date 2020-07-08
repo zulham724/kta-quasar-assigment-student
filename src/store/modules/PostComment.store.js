@@ -11,36 +11,19 @@ const state = {
 const mutations = {
     set(state, payload) {
         // payload.posts.data.map(item => item.isReadMore = false)
-        state.comment = payload.data.comments;
+        state.comment = payload.data;
     },
     addLikes(state, payload) {
-        state.comment.forEach(item => {
-            if (item.id == payload.id) {
-                item.likes_count += 1;
-            }
-        });
-        
+        state.comment.likes_count += 1
     },
     addLiked(state, payload) {
-        state.comment.forEach(item => {
-            if (item.id == payload.id) {
-                item.liked_count = 1;
-            }
-        });
+        state.comment.liked_count = 1
     },
     removeLikes(state, payload) {
-        state.comment.forEach(item => {
-            if (item.id == payload.id) {
-                item.likes_count -= 1;
-            }
-        });
+        state.comment.likes_count -= 1
     },
     removeLiked(state, payload) {
-        state.comment.forEach(item => {
-            if (item.id == payload.id) {
-                item.liked_count = 0;
-            }
-        });
+        state.comment.liked_count = 0
     },
 };
 
@@ -49,7 +32,7 @@ const actions = {
     index({ commit }, id) {
         return new Promise((resolve, reject) => {
             axios
-                .get(`${this.state.Setting.url}/api/v1/post/${id}`)
+                .get(`${this.state.Setting.url}/api/v1/comment/${id}`)
                 .then(res => {
                     commit("set", res);
                     resolve(res);
@@ -82,13 +65,11 @@ const actions = {
             const access = {
                 comment_id: commentId
             };
-            this.index(comment_id)
-            console.log("cek console", this.state.PostComment.comment)
             axios
                 .post(`${this.state.Setting.url}/api/v1/commentlike`, access)
                 .then(res => {
-                    // commit("addLikes",res.data);
-                    // commit("addLiked",res.data);
+                    commit("addLikes");
+                    commit("addLiked");
                     resolve(res);
                 })
                 .catch(err => {
@@ -105,8 +86,8 @@ const actions = {
                 .post(`${this.state.Setting.url}/api/v1/commentlike/${commentId}`, access)
                 .then(res => {
                     resolve(res);
-                    // commit("removeLikes",res.data);
-                    // commit("removeLiked",res.data);
+                    commit("removeLikes");
+                    commit("removeLiked");
                     // console.log("ini data dislike: ", this.state.PostComment.comment)
                 })
                 .catch(err => {

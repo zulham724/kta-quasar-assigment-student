@@ -112,7 +112,6 @@ export default {
     getPost() {
       this.$store.dispatch("Post/show", this.postId).then(res => {
         this.post = res.data;
-        console.log("cek : ", this.post)
       });
     },
     // getComment() {
@@ -133,10 +132,10 @@ export default {
         .then(res => {
             if(this.post.author_id.id != this.Auth.auth.id) 
             this.sendNotif();
-            this.post.comments.splice(0, 0, res.data);
-            console.log("asdf")
+            this.getPost();
+            // this.post.comments.splice(0, 0, res.data);
             // this.post.comments_like += 1;
-            // this.comment.value = ''
+            this.comment.value = ''
         })
         .catch(err => {})
         .finally(()=>{
