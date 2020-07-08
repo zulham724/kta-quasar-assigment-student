@@ -168,8 +168,9 @@
                   rounded
                   outlined
                   dense
-                  v-model="answer_textfield"
-                  :rules="[answer_textfield => !!answer_textfield || 'Harus diisi']"
+                  
+                  v-model="question_list.answer_lists.name"
+                  :rules="[val => !!val || 'Harus diisi']"
                 />
               </div>
 
@@ -184,8 +185,9 @@
                   rounded
                   outlined
                   dense
-                  v-model="answer_textarea"
-                  :rules="[answer_textarea => !!answer_textarea || 'Harus diisi']"
+        
+                  v-model="question_list.answer_lists.name"
+                  :rules="[val => !!val || 'Harus diisi']"
                 />
               </div>
 
@@ -246,8 +248,8 @@ export default {
       session: {},
       questions: null,
       assigmentSession: null,
-      answer_textfield: null,
-      answer_textarea: null,
+      // answer_textfield: null,
+      // answer_textarea: null,
       teacher: {},
       intervalTime: null
     };
@@ -304,7 +306,7 @@ export default {
     },
     onTextarea(payload){
       if (payload.pivot.assigment_type.description == "textarea") {
-        payload.answer_lists[0].name = this.answer_textarea
+        payload.answer_lists[0].name = payload.answer_lists.name
         payload.answer = payload.answer_lists[0];
         payload.answer.value = null
         this.$forceUpdate();
@@ -312,7 +314,7 @@ export default {
     },
     onTextfield(payload){
       if (payload.pivot.assigment_type.description == "textfield") {
-        payload.answer_lists[0].name = this.answer_textfield
+        payload.answer_lists[0].name = payload.answer_lists.name
         payload.answer = payload.answer_lists[0];
         payload.answer.value = null
         this.$forceUpdate();

@@ -20,7 +20,7 @@
             <q-btn round outline bold size="60px" :color="item.color ? item.color : null">{{score}} </q-btn>
         </div>
         <div class="q-pa-md text-center text-weight-light" v-if="isKeterangan">
-          Skor akhir dapat dilihat melalui menu <span style="color:#00b377"><b>riwayat</b></span> setelah assigment sudah dinilai oleh guru penilai 
+          Skor akhir dapat dilihat melalui menu <span style="color:#00b377"><b>riwayat</b></span> setelah tugas sudah dinilai oleh guru penilai 
         </div>
         <div class="q-pt-lg row justify-center">
             <q-btn outline color="teal" size:6px @click="$router.push('/') && sendNotif()"> KEMBALI</q-btn>
@@ -57,8 +57,13 @@ export default {
           this.isKeterangan = true
         }
         });
-        
-      this.score = (this.score / this.sumSelectOptions)*100
+      
+      if (this.sumSelectOptions == 0) {
+        this.score = 0
+      } else {
+        this.score = (this.score / this.sumSelectOptions)*100
+      }
+      console.log("scofre: ", this.score)
       assigment:this.assigment
       const payload = {
           ...this.assigment,
