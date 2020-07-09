@@ -131,11 +131,13 @@ export default {
       //   });
       // });
       this.loading = true;
-      this.$store
+      if (this.Auth.auth) {
+        this.$store
         .dispatch("Assigment/search", { code: this.code })
         .then(res => {
           if(res.data.id){
             this.code1 = true
+            this.$q.notify("Kode Soal Ditemukan");
           } else {
             this.$q.notify("Kode soal tidak ditemukan")
           }
@@ -176,6 +178,11 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+      } else {
+        this.$router.push({
+            path:`/login`
+          });
+      }
     },
     
     verifikasiCode() {
