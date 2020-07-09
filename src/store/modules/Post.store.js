@@ -96,7 +96,6 @@ const actions = {
                 .get(`${this.state.Setting.url}/api/v1/post/${id}`)
                 .then(res => {
                     commit("setComment", res.data.comments );
-                    console.log(" state.posts: ", this.state.Post.posts)
                     resolve(res);
                     
                 })

@@ -60,6 +60,7 @@ export default {
     like(commentId) {
       this.$store.dispatch("PostComment/index", commentId).then(res => {
         this.$store.dispatch("PostComment/likeComment", commentId).then(res => {
+          if(this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
           this.Comment = res.data
           this.$forceUpdate();
         });
@@ -72,6 +73,22 @@ export default {
           this.$forceUpdate();
         });
       });
+    },
+    sendNotif(){
+      const payload = {
+        title: `AGPAII DIGITAL`,
+        body: `Komentar anda disukai oleh ${this.Auth.auth.name}`,
+        params:{
+          sender_id: this.Auth.auth.id,
+          target_id: this.post.id,
+          target_type: `Post`,
+          text: `Komentar anda disukai oleh ${this.Auth.auth.name}`,
+        },
+        to: `/topics/user_${this.Comment.user_id}_post_${this.Comment.id}_like`
+      }
+      this.$store.dispatch('Notif/send',payload).then(res=>{
+        console.log(res)
+      })
     }
   }
 };

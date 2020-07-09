@@ -59,6 +59,19 @@ const actions = {
                 });
         });
     },
+    show({ commit }, id) {
+        return new Promise((resolve, reject) => {
+            axios
+                .get(`${this.state.Setting.url}/api/v1/comment/${id}`)
+                .then(res => {
+                    commit("set", res);
+                    resolve(res);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    },
     destroy() {},
     likeComment({ commit }, commentId) {
         return new Promise((resolve, reject) => {

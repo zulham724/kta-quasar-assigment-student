@@ -42,7 +42,7 @@
             <q-intersection
               v-for="(user,u) in comment.likes.map(like=>like.user)"
               :key="u"
-              :style="`min-height: 10vh;width: 100vw`"
+              :style="`width: 100vw`"
               transition="scale"
             >
               <item-component :user="user"></item-component>
@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     getComment(){
-      this.$store.dispatch('Comment/show',this.commentId).then(res=>{
+      this.$store.dispatch('PostComment/show',this.commentId).then(res=>{
         this.comment = res.data
       })
     }

@@ -42,7 +42,7 @@
             <q-intersection
               v-for="(user,u) in post.likes.map(like=>like.user)"
               :key="u"
-              :style="`min-height: 10vh;width: 100vw`"
+              :style="`width: 100vw`"
               transition="scale"
             >
               <item-component :user="user"></item-component>

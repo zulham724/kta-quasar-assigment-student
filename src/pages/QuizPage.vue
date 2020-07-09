@@ -11,6 +11,9 @@
             Waktu anda {{ this.dispMinutes}} menit {{ this.dispSeconds }} detik
             <!-- waktu {{ assigment.created_at | moment('LLLL') }} -->
           </div>
+          <q-avatar square color="cyan-7">
+            <q-img src="~assets/Logo-Siswa-1.png"/>
+          </q-avatar>
         </q-toolbar>
       </q-header>
       <div class="">
@@ -362,6 +365,7 @@ export default {
             text: `${this.Auth.auth.name} telah melakukan submit jawaban`,
           },
           to: `/topics/user_${this.Auth.auth.id}_post_${this.Auth.auth.posts.id}_comment`
+          // `/topics/user_${this.userId}_assigment_${this.assigmentId}_quiz`
         }
         this.$store.dispatch('Notif/send',payload).then(res=>{
           console.log(res)

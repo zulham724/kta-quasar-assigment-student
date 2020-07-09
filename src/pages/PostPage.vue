@@ -6,6 +6,9 @@
         <q-toolbar-title>
           <div class="text-body1 text-bold">Diskusi</div>
         </q-toolbar-title>
+        <q-avatar square color="cyan-7">
+          <q-img src="~assets/Logo-Siswa-1.png"/>
+        </q-avatar>
       </q-toolbar>
     </q-header>
     <q-page>

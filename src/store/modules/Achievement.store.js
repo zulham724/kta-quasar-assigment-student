@@ -150,10 +150,7 @@ const actions = {
                     } else{
                         null
                     }
-                })
-                console.log("ini skor sempurna: ", this.state.Achievement.Skor_sempurna, )
-                console.log("ini jumlah post: ", this.state.Achievement.Jumlah_post, )
-                console.log("ini soal selesai: ", this.state.Achievement.Soal_selesai, )    
+                })   
                 resolve(res)
             })
             .catch(err => {

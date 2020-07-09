@@ -7,6 +7,10 @@
         <q-toolbar-title>
           <div class="text-body1 text-bold">Home</div>
         </q-toolbar-title>
+        <q-space />
+        <q-avatar square color="cyan-7">
+          <q-img src="~assets/Logo-Siswa-1.png"/>
+        </q-avatar>
       </q-toolbar>
     </q-header>
 
@@ -126,7 +130,7 @@
         </div>
         <div class="col-12">
           <q-list bordered separator>
-            <div v-for="(daily, e) in this.Achievement.items" :key="e">
+            <div v-for="(daily, e) in items" :key="e">
               <q-item clickable v-ripple>
                 <q-item-section avatar>
                   <q-icon :style="daily.value == daily.limit ? 'color:#00ffff' : 'color:teal'" name="emoji_events" style="font-size:4em" />
@@ -178,7 +182,8 @@ export default {
     // console.log("hari ini: ",hari)
     this.$store.dispatch('Auth/getAuth').then(res=>{
       this.$store.dispatch("Achievement/calculateDailyTask").then(res=>{
-        this.Achievement.items.map(item=>{
+        this.items = this.Achievement.items
+        this.items.map(item=>{
           item.daily_progress = item.value / item.limit
           return item
         })
@@ -188,6 +193,7 @@ export default {
         //               " DT5: ",this.Achievement.items[4].value)
       })
     })
+    
   },
   created() {
 

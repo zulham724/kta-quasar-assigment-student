@@ -6,6 +6,9 @@
         <q-toolbar-title>
           <div class="text-body1 text-bold">Kembali</div>
         </q-toolbar-title>
+        <q-avatar square color="cyan-7">
+          <q-img src="~assets/Logo-Siswa-1.png"/>
+        </q-avatar>
       </q-toolbar>
     </q-header>
     <q-page>
@@ -41,12 +44,12 @@
                           :subtitle="moment(item.created_at).format('LLLL')"
                           >
                           <template v-slot:default>
-                              <div class="text-weight-regular q-pt-sm" style="font-size:15px">
+                              <div class="text-weight-regular q-pt-sm" style="font-size:15px" v-if="item.assigments">
                                 Anda telah menyelesaikan: 
                                 <span class="text-h6 q-pt-sm" style="color:#008055">{{ item.assigments[0].topic }}</span>
                               </div>
                               <div style="overflow-wrap:break-word; white-space:pre-line">
-                              <div class="text-body2" v-linkified>{{ item.assigments[0].subject }}</div>
+                              <div class="text-body2" v-linkified v-if="item.assigments">{{ item.assigments[0].subject }}</div>
                               <div class="q-pt-md"><b> Score: {{ item.value }} </b></div>
                               </div>
                           </template>

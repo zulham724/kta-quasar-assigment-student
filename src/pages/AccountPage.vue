@@ -4,8 +4,11 @@
       <q-toolbar style="background-color:teal">
         <q-btn flat dense icon="arrow_back" @click="$router.back()" />
         <q-toolbar-title>
-          <div class="text-body1 text-bold">Kembali</div>
+          <div class="text-body1 text-bold">Profil</div>
         </q-toolbar-title>
+        <q-avatar square color="cyan-7">
+          <q-img src="~assets/Logo-Siswa-1.png"/>
+        </q-avatar>
       </q-toolbar>
     </q-header>
     <q-page>
@@ -148,7 +151,6 @@ export default {
           // this.SkorSempurna = res.data.Skor_sempurna,
           // this.TotalPost = res.data.Jumlah_post,
           // this.SoalSelesai = res.data.Soal_selesai
-          console.log("cek : ",res.data)
           // console.log("cek : ",this.SkorSempurna,this.TotalPost, this.SoalSelesai )
         });
       });
