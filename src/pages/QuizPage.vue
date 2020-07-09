@@ -360,12 +360,13 @@ export default {
           body: `Soal telah selesai dikerjakan oleh ${this.Auth.auth.name}`,
           params:{
             sender_id: this.Auth.auth.id,
-            target_id: this.Auth.auth.posts.id,
+            target_id: this.userId,
             target_type: `Post`,
             text: `${this.Auth.auth.name} telah melakukan submit jawaban`,
           },
-          to: `/topics/user_${this.Auth.auth.id}_post_${this.Auth.auth.posts.id}_comment`
-          // `/topics/user_${this.userId}_assigment_${this.assigmentId}_quiz`
+          to: `/topics/user_${this.userId}_assigment_${this.assigmentId}_quiz`
+          // `/topics/user_${this.Auth.auth.id}_post_${this.Auth.auth.posts.id}_comment`
+          
         }
         this.$store.dispatch('Notif/send',payload).then(res=>{
           console.log(res)

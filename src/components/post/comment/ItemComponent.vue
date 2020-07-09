@@ -60,7 +60,7 @@ export default {
     like(commentId) {
       this.$store.dispatch("PostComment/index", commentId).then(res => {
         this.$store.dispatch("PostComment/likeComment", commentId).then(res => {
-          if(this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
+          if(this.Comment.user_id != this.Auth.auth.id) this.sendNotif();
           this.Comment = res.data
           this.$forceUpdate();
         });
@@ -80,7 +80,7 @@ export default {
         body: `Komentar anda disukai oleh ${this.Auth.auth.name}`,
         params:{
           sender_id: this.Auth.auth.id,
-          target_id: this.post.id,
+          target_id: this.Comment.id,
           target_type: `Post`,
           text: `Komentar anda disukai oleh ${this.Auth.auth.name}`,
         },
