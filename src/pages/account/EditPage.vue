@@ -7,9 +7,9 @@
             <q-toolbar-title>
               <div class="text-body1 text-bold">{{ "Kembali" }}</div>
             </q-toolbar-title>
-            <q-avatar square color="cyan-7">
-          <q-img src="~assets/Logo-Siswa-1.png"/>
-        </q-avatar>
+            <q-avatar square color="cyan-7" size="43px">
+              <q-img src="~assets/Logo-Siswa-1.png"/>
+            </q-avatar>
           </q-toolbar>
         </q-header>
         <q-page>
@@ -22,8 +22,6 @@
                   style="width:100%">
                     <div class="absolute-top text-subtitle2 flex flex-top">Edit Profil
                     </div>
-                    <!-- <q-btn class="float-right auto" outline color="red" 
-                    style="margin-top:10px; margin-right:10px" size:8px label="Logout" @click="onLogout()"/>  -->
               </q-img>
             </div>
             <div class="q-pa-md" style="padding-bottom:0px">

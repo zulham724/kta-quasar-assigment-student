@@ -11,7 +11,7 @@
             Waktu anda {{ this.dispMinutes}} menit {{ this.dispSeconds }} detik
             <!-- waktu {{ assigment.created_at | moment('LLLL') }} -->
           </div>
-          <q-avatar square color="cyan-7">
+          <q-avatar square color="cyan-7" size="43px">
             <q-img src="~assets/Logo-Siswa-1.png"/>
           </q-avatar>
         </q-toolbar>

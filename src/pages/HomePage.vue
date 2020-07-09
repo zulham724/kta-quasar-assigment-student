@@ -8,7 +8,7 @@
           <div class="text-body1 text-bold">Home</div>
         </q-toolbar-title>
         <q-space />
-        <q-avatar square color="cyan-7">
+        <q-avatar square color="cyan-7" size="43px">
           <q-img src="~assets/Logo-Siswa-1.png"/>
         </q-avatar>
       </q-toolbar>
