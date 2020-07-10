@@ -24,22 +24,22 @@
     >
       <q-carousel-slide
         :name="1"
-        img-src="~assets/AGPAII_Logo_edit5.jpg"
-        :ratio="4/1"
+        img-src="~assets/1.png"
+        
       />
-      <!-- <q-carousel-slide
+      <q-carousel-slide
         :name="2"
-        img-src="~assets/AGPAII_Logo_edit4.jpg"
+        img-src="~assets/3.png"
 
       />
       <q-carousel-slide
         :name="3"
-        img-src="https://serangkab.info/wp-content/uploads/2019/03/maxresdefault-1.jpg"
+        img-src="~assets/2.png"
       />
-      <q-carousel-slide
+      <!-- <q-carousel-slide
         :name="4"
         img-src="https://serangkab.info/wp-content/uploads/2019/03/maxresdefault-1.jpg"
-      /> --> -->
+      /> --> --> -->
     </q-carousel>
 
     <div class="q-pa-md">
@@ -88,7 +88,7 @@
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh" @click="search()">
+          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh">
             <q-icon name="mdi-timer" style="position:absolute;bottom:0;right:0" size="xl" />
             <q-card-section>
               Latihan mandiri
@@ -195,6 +195,7 @@ export default {
   },
   methods:{
     search(){
+      // console.log("cek : ", this.Auth.auth)
       if (this.Auth.auth != "") {
         this.$q.dialog({
         component: SearchComponent,

@@ -23,7 +23,7 @@
         >
         </q-img>
       </div>
-      <q-page-container style="padding-top:10px">
+      <q-page-container style="padding-top:0px">
         <div class=" q-gutter-md">
           <!-- <q-btn outline rounded color='teal' @click="onStart()" v-if="isStart == false">Mulai</q-btn> -->
           <q-card

@@ -39,7 +39,8 @@ export default {
         return {
             item: {},
             score: 0,
-            sumSelectOptions : 0,
+            sum_selectOptions : 0,
+            value_temp: null,
             isKeterangan: false
         }
     },
@@ -50,7 +51,7 @@ export default {
       this.item = {...this.assigment,color:null}
       this.item.question_lists.forEach(item => {
         if(item.pivot.assigment_type.description == "selectoptions") {
-          this.sumSelectOptions += 1
+          this.sum_selectOptions += 1
           if(item.answer.value == 100)
               this.score += 1;
         } else {
@@ -58,23 +59,31 @@ export default {
         }
         });
       
-      if (this.sumSelectOptions == 0) {
+      if (this.sum_selectOptions == 0) {
         this.score = 0
       } else {
-        this.score = (this.score / this.sumSelectOptions)*100
+        this.score = Math.floor((this.score / this.sum_selectOptions)*100)
       }
       assigment:this.assigment
-      const payload = {
-          ...this.assigment,
-          value:null,
-          questions: [
-            ...this.assigment.question_lists.map(item=>{
-              item.question_list_id = item.id
-              item.answer ? item.answer.answer_list_id = item.answer.id : null 
-              return item
-            })
-          ]
+      // console.log("sum selctoptions: ",this.sum_selectOptions)
+      // console.log("panjang soal: ",this.item.question_lists.length)
+      // console.log("score: ", this.score)
+      if (this.sum_selectOptions == this.item.question_lists.length) {
+        this.value_temp = this.score
+      } else {
+        this.value_temp = null
       }
+      const payload = {
+            ...this.assigment,
+            value: this.value_temp,
+            questions: [
+              ...this.assigment.question_lists.map(item=>{
+                item.question_list_id = item.id
+                item.answer ? item.answer.answer_list_id = item.answer.id : null 
+                return item
+              })
+            ]
+        }
       this.$store.dispatch('AssigmentSession/store',payload).then(res=>{
 
       });

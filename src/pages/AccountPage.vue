@@ -65,7 +65,7 @@
                 <div class="text-weight-medium" style="color:white;font-size:12px; margin-bottom:5px">
                   <b>Soal selesai</b>
                 </div>
-                <span class="material-icons" style="font-size:60px; color:#00cc88">
+                <span class="material-icons" style="font-size:60px; color:white">
                   assignment
                 </span>
                 <div style="color:white;margin-top:5px"><b>
@@ -85,7 +85,7 @@
                 <div class="text-weight-medium" style="color:white;font-size:12px; margin-bottom:5px">
                   <b>Jumlah Post</b>
                 </div>
-                <span class="material-icons md-light" style="font-size:60px; color:#00cc88">comment</span>
+                <span class="material-icons md-light" style="font-size:60px; color:white">comment</span>
                 <div style="color:white;margin-top:5px"><b>
                   {{ this.Achievement.achievements_account.total_post }}
                 </b></div>
