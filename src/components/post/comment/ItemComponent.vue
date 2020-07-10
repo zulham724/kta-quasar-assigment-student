@@ -1,25 +1,25 @@
 <template>
   <div>
-    <q-item clickable v-ripple v-if="this.Comment != null">
-      <q-item-section avatar @click="$router.push(`/user/profile/${Comment.user.id}`)">
+    <q-item clickable v-ripple v-if="this.item != null">
+      <q-item-section avatar @click="$router.push(`/user/profile/${item.user.id}`)">
         <q-avatar>
-          <q-img :src="`${Setting.storageUrl}/${Comment.user.avatar}`" no-default-spinner />
+          <q-img :src="`${Setting.storageUrl}/${item.user.avatar}`" no-default-spinner />
         </q-avatar>
       </q-item-section>
 
       <q-item-section>
         <q-item-label>
-          <div class="text-caption text-black text-bold" @click="$router.push(`/user/profile/${Comment.user.id}`)">{{ comment.user.name }}</div>
+          <div class="text-caption text-black text-bold" @click="$router.push(`/user/profile/${item.user.id}`)">{{ comment.user.name }}</div>
         </q-item-label>
         <q-item-label caption>
-          <div class="text-caption text-black">{{ Comment.value }}</div>
+          <div class="text-caption text-black">{{ item.value }}</div>
         </q-item-label>
         <q-item-label caption>
           <div class="row">
             <div class="text-caption text-grey q-pr-md">
-              {{Comment.created_at | moment('from','now')}}
+              {{item.created_at | moment('from','now')}}
             </div>
-            <div class="text-caption text-grey text-bold" v-show="Comment.likes_count" @click="$router.push(`/post/comment/like/${comment.id}`)">{{comment.likes_count}} suka</div>
+            <div class="text-caption text-grey text-bold" v-show="item.likes_count" @click="$router.push(`/post/comment/like/${comment.id}`)">{{comment.likes_count}} suka</div>
           </div>
         </q-item-label>
       </q-item-section>
@@ -30,9 +30,9 @@
           size="sm"
           class="q-pt-md"
           round
-          :color="Comment.liked_count ? 'red' : null"
-          :icon="Comment.liked_count ? 'favorite' : 'favorite_border'"
-          @click="Comment.liked_count ? dislike(Comment.id) : like(Comment.id)"
+          :color="item.liked_count ? 'red' : null"
+          :icon="item.liked_count ? 'favorite' : 'favorite_border'"
+          @click="item.liked_count ? dislike(item.id) : like(item.id)"
         />
       </q-item-section>
     </q-item>
@@ -47,21 +47,21 @@ export default {
   },
   data() {
     return {
-      Comment: null,
+      item: null,
     }
   },
   computed: {
     ...mapState(["Setting",'Auth'])
   },
   created() {
-    this.Comment = this.comment
+    this.item = this.comment
   },
   methods: {
     like(commentId) {
       this.$store.dispatch("PostComment/index", commentId).then(res => {
         this.$store.dispatch("PostComment/likeComment", commentId).then(res => {
-          if(this.Comment.user_id != this.Auth.auth.id) this.sendNotif();
-          this.Comment = res.data
+          if(this.item.user_id != this.Auth.auth.id) this.sendNotif();
+          this.item = res.data
           this.$forceUpdate();
         });
       });
@@ -69,7 +69,7 @@ export default {
     dislike(commentId) {
       this.$store.dispatch("PostComment/index", commentId).then(res => {
         this.$store.dispatch("PostComment/dislikeComment", commentId).then(res => {
-          this.Comment = res.data
+          this.item = res.data
           this.$forceUpdate();
         });
       });
@@ -80,11 +80,11 @@ export default {
         body: `Komentar anda disukai oleh ${this.Auth.auth.name}`,
         params:{
           sender_id: this.Auth.auth.id,
-          target_id: this.Comment.id,
+          target_id: this.item.id,
           target_type: `Post`,
           text: `Komentar anda disukai oleh ${this.Auth.auth.name}`,
         },
-        to: `/topics/user_${this.Comment.user_id}_post_${this.Comment.id}_like`
+        to: `/topics/user_${this.item.user_id}_post_${this.item.id}_like`
       }
       this.$store.dispatch('Notif/send',payload).then(res=>{
         console.log(res)

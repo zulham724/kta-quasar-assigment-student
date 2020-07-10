@@ -6,20 +6,19 @@
         <q-toolbar-title>
           <div class="text-body1 text-bold">Profil</div>
         </q-toolbar-title>
-        <q-avatar square color="cyan-7" size="43px">
-          <q-img src="~assets/Logo-Siswa-1.png"/>
-        </q-avatar>
+        <q-btn color="white" flat icon="exit_to_app" size="md" @click="onLogout()">
+          <span class="q-pl-sm">Logout</span>
+        </q-btn>
       </q-toolbar>
     </q-header>
     <q-page>
       <q-pull-to-refresh @refresh="onRefresh" color="teal">
-        <q-img src="https://s1.1zoom.me/b5050/230/School_Wood_planks_Notepad_Pencils_Ballpoint_pen_556945_3840x2400.jpg"
+        <q-img no-default-spinner src="https://s1.1zoom.me/b5050/230/School_Wood_planks_Notepad_Pencils_Ballpoint_pen_556945_3840x2400.jpg"
             :ratio="4/2"
             native-context-menu
             style="width:100%">
               <div class="row full-width justify-between">
                 <div class="row text-body1 items-center">{{Auth.auth.profile.school_place}}</div>
-                <q-btn color="red" flat icon="exit_to_app" size="md" @click="onLogout()"><span class="q-pl-sm">Logout</span></q-btn>
               </div>
         </q-img>
         <div class="q-pa-md">
@@ -43,86 +42,57 @@
                     <div> EDIT PROFIL</div>
                   </q-btn>
                 </div>
-                <!-- <q-btn
-                dense
-                size="sm"
-                color="teal"
-                flat
-                label="Ubah foto profil"
-                @click="$refs.inputFile.pickFiles()"
-                style="margin-top: -50px"
-              />
-              <q-file
-                v-show="false"
-                v-model="file"
-                ref="inputFile"
-                @input="
-                  file =>
-                    $router.push({
-                      name: 'accountchangeavatar',
-                      params: {
-                        file: file
-                      }
-                    })
-                "
-              ></q-file> -->
               </div>
             </div>
             <div class="col-3 text-center float-right">
             </div>  
           </div>
           <div class="q-mt-xl">
-            <div class="q-pa-md text-weight-light text-center" style="color:teal;font-size:27px">
+            <div class="q-pa-md text-weight-light text-center" style="color:teal;font-size:30px">
               {{ Auth.auth.name }}
+            </div>
+            <div class=" text-center">
+              <b>ID: {{ Auth.auth.id }}</b>
             </div>
           </div>
         </div>
         <div>
-          <div class="q-px-md">
-            <div class="row q-mt-xl">
+          <div class="q-px-md q-pt-lg" >
+            <div class="row q-my-xl q-pa-sm" 
+            style="background-color:#009999; border-radius:5px" 
+            :class="`shadow-5`">
               <div class="col-4 text-center" style="border-bottom:1">
-                <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px"><b>Soal selesai</b></div>
-                <span class="material-icons" style="font-size:60px; color:#006652">
+                <div class="text-weight-medium" style="color:white;font-size:12px; margin-bottom:5px">
+                  <b>Soal selesai</b>
+                </div>
+                <span class="material-icons" style="font-size:60px; color:#00cc88">
                   assignment
                 </span>
-                <div style="margin-top:10px"><b>
-                  {{ this.Achievement.Soal_selesai }}
+                <div style="color:white;margin-top:5px"><b>
+                  {{ this.Achievement.achievements_account.finished_question }}
                 </b></div>
               </div>
               <div class="col-4 text-center">
-               <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px"><b>Skor Sempurna</b></div>
+               <div class="text-weight-medium" style="color:white;font-size:12px; margin-bottom:5px">
+                 <b>Skor Sempurna</b>
+                </div>
                 <span class="material-icons" style="font-size:60px; color: #ffa31a">whatshot</span>
-                <div style="margin-top:10px"><b>
-                  {{ this.Achievement.Skor_sempurna }}
+                <div style="color:white;margin-top:5px"><b>
+                  {{ this.Achievement.achievements_account.perfect_score }}
                 </b></div>
               </div>
               <div class="col-4 text-center">
-                <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px"><b>Jumlah Post</b></div>
-                <span class="material-icons md-light" style="font-size:60px; color:#006652">comment</span>
-                <div style="margin-top:10px"><b>
-                  {{ this.Achievement.Jumlah_post }}
+                <div class="text-weight-medium" style="color:white;font-size:12px; margin-bottom:5px">
+                  <b>Jumlah Post</b>
+                </div>
+                <span class="material-icons md-light" style="font-size:60px; color:#00cc88">comment</span>
+                <div style="color:white;margin-top:5px"><b>
+                  {{ this.Achievement.achievements_account.total_post }}
                 </b></div>
               </div>
             </div>
           </div>
-          <!-- <div class="q-pa-md text-center">
-            <div class="text-weight-medium" style="font-size:12px; margin-bottom:5px">Jumlah Post</div>
-            <q-icon name="thumb_up" style="color:#006652;font-size:60px" />
-            <div style="margin-top:10px">
-                  30
-            </div>
-          </div> -->
         </div>
-        <!-- <div class="text-center q-my-lg">
-          <q-btn color="teal" push size="12px">
-            <div class="row items-center no-wrap" @click="search()">
-              <q-icon left name="map" />
-              <div class="text-center">
-              Kerjakan<br>Soal
-              </div>
-          </div>
-          </q-btn>
-        </div> -->
       </q-pull-to-refresh>
     </q-page>
   </div>
@@ -135,35 +105,28 @@ export default {
 
   data() {
     return {
-      SkorSempurna: null,
-      SoalSelesai: null,
-      TotalPost: null
+      // perfect_score: null,
+      // finished_question: null,
+      // total_post: null
     };
   },
   computed: {
     ...mapState(["Auth", "Setting", "Achievement"])
   },
   created() {
-    
-      this.$store.dispatch('Auth/getAuth').then(res=>{
-        this.$store.dispatch('Achievement/calculateAchievement').then(res=>{
-          // console.log("resdata nya amna: ", res)
-          // this.SkorSempurna = res.data.Skor_sempurna,
-          // this.TotalPost = res.data.Jumlah_post,
-          // this.SoalSelesai = res.data.Soal_selesai
-          // console.log("cek : ",this.SkorSempurna,this.TotalPost, this.SoalSelesai )
-        });
-      });
+    this.onRefresh()
   },
   methods: {
     onRefresh(done) {
       this.$store.dispatch('Auth/getAuth').then(res=>{
         this.$store.dispatch('Achievement/calculateAchievement').then(res=>{
-          this.SkorSempurna = res.data.Skor_sempurna,
-          this.TotalPost = res.data.Jumlah_post,
-          this.SoalSelesai = res.data.Soal_selesai
+          // this.perfect_score = res.data.achievements_account.perfect_score,
+          // this.total_post = res.data.achievements_account.total_post,
+          // this.finished_question = res.data.achievements_account.finished_question
+          if(done)done()
         });
       });
+      console.log()
     },
     onLogout(){
       this.$router.push("/login").then(() => {

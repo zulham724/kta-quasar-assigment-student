@@ -8,9 +8,6 @@
           <div class="text-body1 text-bold">Home</div>
         </q-toolbar-title>
         <q-space />
-        <q-avatar square color="cyan-7" size="43px">
-          <q-img src="~assets/Logo-Siswa-1.png"/>
-        </q-avatar>
       </q-toolbar>
     </q-header>
 
@@ -133,7 +130,7 @@
             <div v-for="(daily, e) in items" :key="e">
               <q-item clickable v-ripple>
                 <q-item-section avatar>
-                  <q-icon :style="daily.value == daily.limit ? 'color:#00ffff' : 'color:teal'" name="emoji_events" style="font-size:4em" />
+                  <q-icon :style="daily.value == daily.limit ? 'color:#ffcc00' : 'color:teal'" name="emoji_events" style="font-size:4em" />
                 </q-item-section>
                 <q-item-section>
                   <div class="row justify-between">
@@ -178,8 +175,6 @@ export default {
     ...mapState(['Auth','AssigmentSession','Achievement'])
   },
   mounted() {
-    // let hari= moment().format('LL')
-    // console.log("hari ini: ",hari)
     this.$store.dispatch('Auth/getAuth').then(res=>{
       this.$store.dispatch("Achievement/calculateDailyTask").then(res=>{
         this.items = this.Achievement.items
@@ -200,31 +195,36 @@ export default {
   },
   methods:{
     search(){
-      
-    this.$q.dialog({
-      component: SearchComponent,
+      if (this.Auth.auth != "") {
+        this.$q.dialog({
+        component: SearchComponent,
 
-      // optional if you want to have access to
-      // Router, Vuex store, and so on, in your
-      // custom component:
-      parent: this, // becomes child of this Vue node
-                    // ("this" points to your Vue component)
-                    // (prop was called "root" in < 1.1.0 and
-                    // still works, but recommending to switch
-                    // to the more appropriate "parent" name)
+        // optional if you want to have access to
+        // Router, Vuex store, and so on, in your
+        // custom component:
+        parent: this, // becomes child of this Vue node
+                      // ("this" points to your Vue component)
+                      // (prop was called "root" in < 1.1.0 and
+                      // still works, but recommending to switch
+                      // to the more appropriate "parent" name)
 
-      // props forwarded to component
-      // (everything except "component" and "parent" props above):
-      text: 'something',
-      // ...more.props...
-    }).onOk(() => {
-      console.log('OK')
-    }).onCancel(() => {
-      console.log('Cancel')
-    }).onDismiss(() => {
-      console.log('Called on OK or Cancel')
-    })
-    }
+        // props forwarded to component
+        // (everything except "component" and "parent" props above):
+        text: 'something',
+        // ...more.props...
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
+      }).onDismiss(() => {
+        console.log('Called on OK or Cancel')
+      })
+   } else {
+     this.$router.push({
+            path:`/login`
+          });
+   }
+  }
   }
 };
 </script>

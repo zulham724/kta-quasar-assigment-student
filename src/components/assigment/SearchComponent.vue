@@ -112,7 +112,7 @@ export default {
       // on OK, it is REQUIRED to
       // emit "ok" event (with optional payload)
       // before hiding the QDialog
-      this.$emit("ok");
+       this.$emit("ok");
       // or with payload: this.$emit('ok', { ... })
     //   like().then(o=>{
     //     like2().then(o=>{
@@ -130,8 +130,7 @@ export default {
       //     }
       //   });
       // });
-      this.loading = true;
-      if (this.Auth.auth) {
+        this.loading = true;
         this.$store
         .dispatch("Assigment/search", { code: this.code })
         .then(res => {
@@ -178,11 +177,6 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-      } else {
-        this.$router.push({
-            path:`/login`
-          });
-      }
     },
     
     verifikasiCode() {

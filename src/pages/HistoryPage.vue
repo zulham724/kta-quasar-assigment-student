@@ -6,9 +6,6 @@
         <q-toolbar-title>
           <div class="text-body1 text-bold">Kembali</div>
         </q-toolbar-title>
-        <q-avatar square color="cyan-7" size="43px">
-          <q-img src="~assets/Logo-Siswa-1.png"/>
-        </q-avatar>
       </q-toolbar>
     </q-header>
     <q-page>
@@ -18,7 +15,7 @@
         </div>
         <div style="background-color:#ebebe0">
             <q-infinite-scroll :offset="250">
-              <div class="q-pa-md">
+              <div class="">
                 <!-- <q-card flat style="width:100%" class="q-mt-md" v-show="!sessions.data" v-for="n in 4" :key="`loading-${n}`">
                   <q-card-section>
                     <q-skeleton type="text" class="text-subtitle1" />
@@ -29,7 +26,7 @@
                 <div v-for="(session, e) in sessions" :key="e">
                   <q-card flat style="width:100%" class="q-mt-md">
                   <div>
-                    <q-img src="https://greece.greekreporter.com/files/Safe-1.jpg"
+                    <q-img no-default-spinner loading="false" src="https://greece.greekreporter.com/files/Safe-1.jpg"
                       :ratio="5/2">
                     </q-img>
                   </div>
@@ -50,7 +47,7 @@
                               </div>
                               <div style="overflow-wrap:break-word; white-space:pre-line">
                               <div class="text-body2" v-linkified v-if="item.assigments[0]">{{ item.assigments[0].subject }}</div>
-                              <div class="q-pt-md"><b> Score: {{ item.value }} </b></div>
+                              <div class="q-pt-md"><b> Score: {{ item.value == null ? 'Belum dinilai' : item.value  }} </b></div>
                               </div>
                           </template>
                           </q-timeline-entry>

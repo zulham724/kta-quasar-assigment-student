@@ -35,15 +35,20 @@ const state = {
         },
         {
             id:5,
+            handle:()=>{
+
+            },
             name: "Daily Task 5",
             description: "Mendapatkan skor sempurna",
             value: 0,
             limit: 1
         }
     ],
-    Skor_sempurna: null,
-    Jumlah_post: null,
-    Soal_selesai: null
+    achievements_account:{
+        perfect_score: null,
+        total_post: null,
+        finished_question: null
+    }  
 }
 
 // Mutations
@@ -66,22 +71,22 @@ const mutations = {
         })
     },
     decreamentAchievement(state){
-       state.Soal_selesai = 0
-       state.Jumlah_post = 0
-       state.Skor_sempurna = 0
+       state.achievements_account.finished_question = 0
+       state.achievements_account.total_post = 0
+       state.achievements_account.perfect_score = 0
     },
     setValuetoLimit(state,payload){
         const index = state.items.findIndex(item=>item.id == payload.id)
         state.items[index].value = payload.limit
     },
-    increment_soal(state,payload) {
-        state.Soal_selesai += payload.questions.length
+    increment_question(state,payload) {
+        state.achievements_account.finished_question += payload.questions.length
     },
     increment_post(state,payload){
-        state.Jumlah_post = payload.posts.length
+        state.achievements_account.total_post = payload.posts.length
     },
     increment_score(state){
-        state.Skor_sempurna += 1
+        state.achievements_account.perfect_score += 1
     }    
 }
 
@@ -144,7 +149,7 @@ const actions = {
                 commit('decreamentAchievement')
                 commit('increment_post', auth)
                 auth.sessions.forEach(session => {
-                    commit('increment_soal', session)
+                    commit('increment_question', session)
                     if (session.value == 100){
                         commit('increment_score')
                     } else{

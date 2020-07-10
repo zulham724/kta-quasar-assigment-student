@@ -83,6 +83,14 @@ const routes = [{
                     import ("pages/account/EditPage.vue")
             },
             {
+            path: "/account/changeavatar",
+                beforeEnter: multiguard([auth]),
+                name: "accountchangeavatar",
+                component: () =>
+                    import ("pages/account/ChangeAvatarPage.vue"),
+                props: true
+            },
+            {
             path: "/history",
                 beforeEnter: multiguard([auth]),
                 component: () =>

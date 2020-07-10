@@ -6,9 +6,6 @@
             <q-toolbar-title>
               <div class="text-body1 text-bold">{{ "Hasil Score" }}</div>
             </q-toolbar-title>
-            <q-avatar square color="cyan-7" size="43px">
-              <q-img src="~assets/Logo-Siswa-1.png"/>
-            </q-avatar>
           </q-toolbar>
         </q-header>
       </div>
@@ -66,11 +63,10 @@ export default {
       } else {
         this.score = (this.score / this.sumSelectOptions)*100
       }
-      console.log("scofre: ", this.score)
       assigment:this.assigment
       const payload = {
           ...this.assigment,
-          value:0,
+          value:null,
           questions: [
             ...this.assigment.question_lists.map(item=>{
               item.question_list_id = item.id

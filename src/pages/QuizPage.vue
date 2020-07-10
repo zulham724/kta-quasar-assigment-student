@@ -11,18 +11,15 @@
             Waktu anda {{ this.dispMinutes}} menit {{ this.dispSeconds }} detik
             <!-- waktu {{ assigment.created_at | moment('LLLL') }} -->
           </div>
-          <q-avatar square color="cyan-7" size="43px">
-            <q-img src="~assets/Logo-Siswa-1.png"/>
-          </q-avatar>
         </q-toolbar>
       </q-header>
       <div class="">
-        <q-img
-          src="https://agaybarho.files.wordpress.com/2016/11
-/maxresdefault.jpg?w=1080"
+        <q-img 
+          src="https://agaybarho.files.wordpress.com/2016/11/maxresdefault.jpg?w=1080"
           :ratio="4 / 1.5"
           native-context-menu
           style="width:100%"
+          no-default-spinner
         >
         </q-img>
       </div>

@@ -7,15 +7,12 @@
             <q-toolbar-title>
               <div class="text-body1 text-bold">{{ "Kembali" }}</div>
             </q-toolbar-title>
-            <q-avatar square color="cyan-7" size="43px">
-              <q-img src="~assets/Logo-Siswa-1.png"/>
-            </q-avatar>
           </q-toolbar>
         </q-header>
         <q-page>
           <q-pull-to-refresh @refresh="onRefresh" color="teal">
             <div class="q-mt-xl">
-              <q-img src="https://images.unsplash.com/photo-1432821596592-e2c18b78144f?ixlib=rb-1.2.1
+              <q-img no-default-spinner src="https://images.unsplash.com/photo-1432821596592-e2c18b78144f?ixlib=rb-1.2.1
               &amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=750&amp;q=80 750w"
                   :ratio="4/3"
                   native-context-menu
@@ -34,7 +31,14 @@
                     />
                   </q-avatar>
                 </div>
-                <q-btn outline size="10px" 
+                <q-btn dense size="sm" color="teal" flat label="Ubah foto profil" @click="$refs.inputFile.pickFiles()"/>
+                <q-file v-show="false" v-model="file" ref="inputFile" @input="file=>$router.push({
+                  name:'accountchangeavatar',
+                  params:{
+                    file:file
+                  }
+                })"></q-file>
+                <!-- <q-btn outline size="10px" 
                 style="margin-top:10px" 
                 color="teal" 
                 label="ubah foto"
@@ -42,17 +46,10 @@
                 </q-btn>
                 <q-file
                 v-show="false"
-                v-model="file"
+                v-model="credential.avatar"
                 ref="inputFile"
-                @input="
-                  file =>
-                    $router.push({
-                      name: 'accountchangeavatar',
-                      params: {
-                        file: file
-                      }
-                    })">
-                </q-file>
+                >
+                </q-file> -->
               </div>       
             </div>
             <div class="q-px-md">
@@ -127,10 +124,8 @@ export default {
       credential: {
         profile:{
         },
-        role:{
-
-        }
       },
+      file: null,
       loading: false,
       educationallevels: [{
         "name": null,
@@ -146,7 +141,7 @@ export default {
     this.getEducationalLevels()
   },
   mounted() {
-this.credential = this.Auth.auth
+    this.onRefresh()
   },
   methods: {
     getEducationalLevels(){
@@ -154,7 +149,17 @@ this.credential = this.Auth.auth
         this.educationallevels = res.data
       })
     },
-    onRefresh() {},
+    onRefresh(done) {
+      this.$store.dispatch('Auth/getAuth').then(res=>{
+        this.credential = {
+          ...this.Auth.auth,
+          profile: {
+            ...this.Auth.auth.profile
+          }
+        }
+        if(done)done()
+      })
+    },
     onSubmit() {
       this.$refs.form.validate().then(success => {
         if (success) {

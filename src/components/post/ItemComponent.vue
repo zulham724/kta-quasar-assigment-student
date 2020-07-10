@@ -159,7 +159,6 @@ export default {
       isReadMore: false,
       dialog: false,
       file: null,
-      tes: null
     };
   },
   methods: {
