@@ -2,11 +2,14 @@
 import axios from 'axios'
 // State object
 const state = {
-	
+	grade: []
 }
 
 // Mutations
 const mutations = {
+    setGrade(state, payload) {
+        state.grade = payload;
+    }
 
 }
 
@@ -15,6 +18,17 @@ const actions = {
     index({commit}){
         return new Promise((resolve,reject)=>{
             axios.get(`${this.state.Setting.url}/api/v1/educationallevel`).then(res=>{
+                resolve(res)
+            }).catch(err=>{
+                reject(err)
+            })
+        })
+    },
+    show({commit}, id){
+        return new Promise((resolve,reject)=>{
+            axios.get(`${this.state.Setting.url}/api/v1/educationallevel/${id}`).then(res=>{
+                commit("setGrade",res.data.grades);
+                console.log("dalam module: ", this.state.EducationalLevel.grade)
                 resolve(res)
             }).catch(err=>{
                 reject(err)

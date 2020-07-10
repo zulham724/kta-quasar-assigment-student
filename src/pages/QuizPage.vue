@@ -36,7 +36,7 @@
             <q-item v-ripple class="row justify">
               <q-item-section avatar>
                 <q-avatar>
-                  <q-img src=""></q-img>
+                  <q-img :src="`${Setting.storageUrl}/${assigment.user.avatar}`"></q-img>
                 </q-avatar>
               </q-item-section>
               <q-item-section style="align-items:center">
@@ -50,7 +50,7 @@
                 <q-btn color="grey-7" round flat icon="more_vert">
                   <q-menu cover auto-close>
                     <q-list>
-                      <q-item clickable>
+                      <!-- <q-item clickable>
                         <q-item-section>gunting</q-item-section>
                       </q-item>
                       <q-item clickable>
@@ -58,7 +58,7 @@
                       </q-item>
                       <q-item clickable>
                         <q-item-section>kertas</q-item-section>
-                      </q-item>
+                      </q-item> -->
                     </q-list>
                   </q-menu>
                 </q-btn>
@@ -70,11 +70,11 @@
                   class="text-subtitle2 text-weight-regular"
                   style="font-size:12px"
                 >
-                  {{ assigment.description }}
+                  {{ assigment.note }}
                 </div>
               </q-item-section>
             </q-item>
-            <q-item clickable @click="onStart()" v-if="isStart == false">
+            <q-item v-if="isStart == false">
               <q-item-section class="text-center">
                 <div class="text-center no-wrap q-pa-xl">
                   <div class="q-pb-lg">
@@ -86,6 +86,9 @@
                     </div>
                   </div>
                 </div>
+                <q-btn @click="onStart()" style="color:white;background-color:#009999">
+                    Mulai
+                </q-btn>
               </q-item-section>
             </q-item>
           </q-card>
@@ -111,7 +114,7 @@
               icon="settings"
               :done="step > 1"
             >
-              <div class="text-body1">{{ question_list.name }}</div>
+              <div class="text-body2">{{ question_list.name }}</div>
 
               <div
                 v-if="
@@ -121,8 +124,7 @@
               >
                 <q-input
                   disable
-                  class="q-pa-sm"
-                  rounded
+                  class="q-pa-sm text-body2"
                   outlined
                   dense
                   autogrow
@@ -165,7 +167,6 @@
               >
                 <q-input
                   class="q-pa-sm"
-                  rounded
                   outlined
                   dense
                   
@@ -182,7 +183,6 @@
                 <q-input
                   class="q-pa-sm"
                   type="textarea"
-                  rounded
                   outlined
                   dense
         
@@ -278,6 +278,7 @@ export default {
           questions: this.assigment.question_lists
         };
       });
+      // console.log("cek assigment :",this.assigment)
     },
     onCountdown() {
       const time = moment().add(this.assigment.timer,'minutes')

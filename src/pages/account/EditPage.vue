@@ -31,25 +31,13 @@
                     />
                   </q-avatar>
                 </div>
-                <q-btn dense size="sm" color="teal" flat label="Ubah foto profil" @click="$refs.inputFile.pickFiles()"/>
+                <q-btn outline class="q-mt-md" size="md" color="teal" label="Ubah foto" @click="$refs.inputFile.pickFiles()"/>
                 <q-file v-show="false" v-model="file" ref="inputFile" @input="file=>$router.push({
                   name:'accountchangeavatar',
                   params:{
                     file:file
                   }
                 })"></q-file>
-                <!-- <q-btn outline size="10px" 
-                style="margin-top:10px" 
-                color="teal" 
-                label="ubah foto"
-                @click="$refs.inputFile.pickFiles()">
-                </q-btn>
-                <q-file
-                v-show="false"
-                v-model="credential.avatar"
-                ref="inputFile"
-                >
-                </q-file> -->
               </div>       
             </div>
             <div class="q-px-md">
@@ -65,8 +53,22 @@
                   label="Jenjang" 
                   option-label="name"
                   option-value="id"
-                  @input="item=>credential.profile.educational_level_id = item.id"
+                  @input="item=>{
+                    credential.profile.educational_level_id = item.id
+                    getGrades(credential.profile.educational_level_id)
+                  }"
                 />
+                <q-select
+                v-model="credential.profile.grade_id"
+                :options="grades"
+                label="Kelas"
+                map-options
+                option-label="description"
+                option-value="id"
+                @input="grade => (credential.profile.grade_id = grade.id)"
+                >
+                  
+                </q-select>
                 <q-input
                   v-model="credential.email"
                   :disable="true"
@@ -130,14 +132,17 @@ export default {
       educationallevels: [{
         "name": null,
         "id": null
-      }]
+      }],
+      grades: [{
+        "name": null,
+        "id": null
+      }],
     };
   },
   computed: {
     ...mapState(["Auth","Setting",'EducationalLevel'])
   },
   created(){
-    // this.$store.commit('Auth/merubah_token',{asd:'asd'})
     this.getEducationalLevels()
   },
   mounted() {
@@ -147,6 +152,11 @@ export default {
     getEducationalLevels(){
       this.$store.dispatch('EducationalLevel/index').then(res=>{
         this.educationallevels = res.data
+      })
+    },
+    getGrades(educationallevelsId){
+      this.$store.dispatch('EducationalLevel/show',educationallevelsId).then(res=>{
+        this.grades = res.data.grades
       })
     },
     onRefresh(done) {
