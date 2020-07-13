@@ -42,14 +42,14 @@
          </div>
       </q-card-section>
       <!-- buttons example -->
-      <q-card-actions v-if="isMasuk" align="center">
+      <q-card-actions v-if="isMasuk2" align="center">
         <q-btn
           color="teal"
           label="Masuk"
           @click="onMasukClick"
         />
       </q-card-actions>
-      <q-card-actions v-if="!isMasuk" align="right">
+      <q-card-actions v-if="!isMasuk2" align="right">
         <q-btn flat label="Batal" @click="onCancelClick" />
         <q-btn
           color="teal"
@@ -87,7 +87,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(["Auth","Setting",'EducationalLevel'])
+    ...mapState(["Auth","Setting",'EducationalLevel']),
+    isMasuk2:function(){
+        if(this.assigment.code && this.code!=null){
+          return this.assigment.code==this.code && this.user.id!=null;
+        }
+        return false;
+    }
   },
   methods: {
     // following method is REQUIRED
@@ -132,7 +138,7 @@ export default {
       // });
         this.loading = true;
         this.$store
-        .dispatch("Assigment/search", { code: this.code })
+        .dispatch("Assigment/search", { code: this.code})
         .then(res => {
           if(res.data.id){
             this.code1 = true
@@ -221,10 +227,22 @@ export default {
     },
 
     onMasukClick() {
+       this.$router.push({name:'quizpage', params:{assigmentId:this.assigment.id, userId:this.user.id,user:this.user}});
       // this.$router.push(`/quiz/${this.assigment.id}`);
-      this.$router.push({
-            path:`/quiz/${this.assigment.id}/${this.user.id}`
-          });
+      // this.loading = true;
+      // this.$store
+      //   .dispatch("Assigment/checkAssigment", {assigment_id: this.assigment.id, teacher_id: this.assigment.teacher_id})
+      //   .then(res=>{
+      //     console.log(res.data);
+      //     return;
+      //     const assigmentId = res.data.assigment_id;
+      //     const userId = res.data.teacher_id;
+      //     // this.$router.push({
+      //     //   path:`/quiz/${assigmentId}/${userId}`
+      //     // });
+      //     this.loading = false;
+      //   });
+      
     },
 
     onCancelClick() {

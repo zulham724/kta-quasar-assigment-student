@@ -36,14 +36,14 @@
             <q-item v-ripple class="row justify">
               <q-item-section avatar>
                 <q-avatar>
-                  <q-img :src="`${Setting.storageUrl}/${assigment.user.avatar}`"></q-img>
+                  <q-img :src="`${Setting.storageUrl}/${user.avatar}`"></q-img>
                 </q-avatar>
               </q-item-section>
               <q-item-section style="align-items:center">
                 <q-item-label
                   class="text-weight-regular text-subtitle2"
                   style="font-size:12px"
-                  >{{ assigment.user.name }}</q-item-label
+                  >{{ user.name }}</q-item-label
                 >
               </q-item-section>
               <q-item-section side>
@@ -233,7 +233,8 @@ import moment from "moment";
 export default {
   props: {
     assigmentId: null,
-    userId: null
+    userId: null,
+    user:null
   },
   data() {
     return {
@@ -258,15 +259,18 @@ export default {
     ...mapState(["Setting","AssigmentSession","Auth"])
   },
   created() {
+    this.teacher=this.user;
     if (this.assigmentId) this.init();
     // user:this.user
+    //console.log(this.user);
+    console.log(this.assigmentId+' '+this.userId)
   },
   methods: {
     init() {
-      this.$store.dispatch("Assigment/show", this.assigmentId).then(res => {
+      this.$store.dispatch("Assigment/show", {assignmentId:this.assigmentId }).then(res => {
         this.assigment = {
           ...res.data,
-          teacher_id: this.userId,
+          teacher_id: this.teacher.id,
           question_lists: [
             ...res.data.question_lists.map(item => {
               item.answer = {};
@@ -274,6 +278,7 @@ export default {
             })
           ]
         };
+       // console.log(this.assigment);
         this.session = {
           questions: this.assigment.question_lists
         };
@@ -343,7 +348,7 @@ export default {
           this.$router.push({
             name: "result",
             params: {
-              assigment: this.assigment
+              assigment: this.assigment,
             }
           });
         } else {

@@ -59,7 +59,9 @@ const routes = [{
                     import ("pages/AccountPage.vue")
             },
             {
-                path: "/quiz/:assigmentId/:userId",
+                // path: "/quiz/:assigmentId/:userId",
+                path: "/quiz",
+                name: "quizpage",
                 beforeEnter: multiguard([auth]),
                 component: () =>
                     import ("pages/QuizPage.vue"),

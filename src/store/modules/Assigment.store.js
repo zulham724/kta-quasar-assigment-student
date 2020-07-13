@@ -63,9 +63,9 @@ const actions = {
                 });
         });
     },
-    show({ commit }, id) {
+    show({ commit }, payload) {
         return new Promise((resolve, reject) => {
-            axios.get(`${this.state.Setting.url}/api/v1/assigment/${id}`).then(res => {
+            axios.get(`${this.state.Setting.url}/api/v1/assigment/${payload.assignmentId}`).then(res => {
                 resolve(res)
             }).catch(err => {
                 reject(err)
@@ -149,6 +149,15 @@ const actions = {
             axios.get(`${this.state.Setting.url}/api/v1/assigments/search/${payload.code}`).then(res => {
                 resolve(res)
             }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+    checkAssigment({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.state.Setting.url}/api/v1/assigments/check/`, { assigment_id:payload.assigment_id, teacher_id:payload.teacher_id}).then(res=>{
+                resolve(res);
+              }).catch(err => {
                 reject(err)
             })
         })

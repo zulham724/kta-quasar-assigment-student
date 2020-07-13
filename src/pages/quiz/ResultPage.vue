@@ -48,6 +48,7 @@ export default {
       // ...mapState(["Auth"])
     },
     mounted(){
+      //console.log(this.assigment);
       this.item = {...this.assigment,color:null}
       this.item.question_lists.forEach(item => {
         if(item.pivot.assigment_type.description == "selectoptions") {
@@ -64,7 +65,7 @@ export default {
       } else {
         this.score = Math.floor((this.score / this.sum_selectOptions)*100)
       }
-      assigment:this.assigment
+      //assigment:this.assigment
       // console.log("sum selctoptions: ",this.sum_selectOptions)
       // console.log("panjang soal: ",this.item.question_lists.length)
       // console.log("score: ", this.score)
@@ -73,7 +74,13 @@ export default {
       } else {
         this.value_temp = null
       }
-      const payload = {
+     
+      this.$store.dispatch('Assigment/checkAssigment',{assigment_id: this.assigment.id, teacher_id: this.assigment.teacher_id}).then(res=>{ //cek apakah pakai soal sendiri atau orang lain
+        //  console.log(res.data);
+        //  return;
+         this.assigment.id=res.data.id;
+       
+         const payload = {
             ...this.assigment,
             value: this.value_temp,
             questions: [
@@ -84,9 +91,12 @@ export default {
               })
             ]
         }
-      this.$store.dispatch('AssigmentSession/store',payload).then(res=>{
 
+         this.$store.dispatch('AssigmentSession/store',payload).then(res2=>{
+
+        });
       });
+     
         // console.log(this.score)
       if(this.score > 60){
           this.item.color = "green"
