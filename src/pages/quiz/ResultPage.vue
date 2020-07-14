@@ -74,13 +74,8 @@ export default {
       } else {
         this.value_temp = null
       }
-     
-      this.$store.dispatch('Assigment/checkAssigment',{assigment_id: this.assigment.id, teacher_id: this.assigment.teacher_id}).then(res=>{ //cek apakah pakai soal sendiri atau orang lain
-        //  console.log(res.data);
-        //  return;
-         this.assigment.id=res.data.id;
-       
-         const payload = {
+
+      const payload = {
             ...this.assigment,
             value: this.value_temp,
             questions: [
@@ -90,14 +85,32 @@ export default {
                 return item
               })
             ]
-        }
-
-         this.$store.dispatch('AssigmentSession/store',payload).then(res2=>{
-
-        });
+      }
+      this.$store.dispatch('AssigmentSession/store',payload).then(res2=>{
+        
       });
+      
+      // this.$store.dispatch('Assigment/checkAssigment',{assigment_id: this.assigment.id, teacher_id: this.assigment.teacher_id}).then(res=>{ //cek apakah pakai soal sendiri atau orang lain
+      //   //  console.log(res.data);
+      //   //  return;
+      //    onst payload = {
+      //      this.assigment.id=res.data.id;
+       
+      //    c ...this.assigment,
+      //       value: this.value_temp,
+      //       questions: [
+      //         ...this.assigment.question_lists.map(item=>{
+      //           item.question_list_id = item.id
+      //           item.answer ? item.answer.answer_list_id = item.answer.id : null 
+      //           return item
+      //         })
+      //       ]
+      //   }
+      //    this.$store.dispatch('AssigmentSession/store',payload).then(res2=>{
+
+      //   });
+      // });
      
-        // console.log(this.score)
       if(this.score > 60){
           this.item.color = "green"
       } else {

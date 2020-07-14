@@ -8,24 +8,16 @@
       <q-card-section>
         <q-form>
           <q-item style="padding-left:0px; padding-right:0px">
-            <q-item-section>
+             <q-item-section>
               <q-input color="teal" type="text" v-model="code" label="Masukan kode soal" />
             </q-item-section>
             <q-item-section :style="`${this.code1 == true? 'visibility:visible' : 'visibility:hidden'}`" side>
               <span class="material-icons" style="color:teal; font-size:22px">done</span>
             </q-item-section>
           </q-item>
-          <q-item style="padding-left:0px; padding-right:0px">
-            <q-item-section>
-              <q-input color="teal" type="text" v-model="KTAID" label="Masukan KTA ID guru" />
-            </q-item-section>
-            <q-item-section :style="`${this.code2 == true? 'visibility:visible' : 'visibility:hidden'}`" side>
-              <span class="material-icons" style="color:teal; font-size:20px">done</span>
-            </q-item-section>
-          </q-item> 
         </q-form>
       </q-card-section>
-      <q-card-section style="" align="center" v-if="isBiodata">
+      <q-card-section style="" align="center" v-if="user.avatar">
          <div style="padding-top:10px">
             <q-avatar size="30vw">
               <q-img
@@ -142,16 +134,13 @@ export default {
         .then(res => {
           if(res.data.id){
             this.code1 = true
+            this.assigment = res.data
+            this.user = res.data.teacher
             this.$q.notify("Kode Soal Ditemukan");
           } else {
             this.$q.notify("Kode soal tidak ditemukan")
           }
-          this.assigment = res.data
-          if ((this.code1 == true) && (this.code2 == true)){
-            this.isMasuk = true;
-          } else {
-            null;
-          }
+        
         })
         .catch(err => {
           this.$q.notify(err.response.message);
@@ -160,29 +149,29 @@ export default {
           this.loading = false;
         });
 
-        this.$store
-        .dispatch("User/searchUserAssigment", { code: this.KTAID })
-        .then(res => {
-          if(res.data.id){
-            this.code2 = true;
-            this.user = res.data
-            this.isBiodata = true;
-            this.$q.notify("KTA ID Ditemukan");
-          } else {
-            this.$q.notify("KTA ID Tidak ditemukan")
-          }
-          if ((this.code1 == true) && (this.code2 == true)){
-            this.isMasuk = true;
-          } else {
-            null;
-        }
-        })
-        .catch(err => {
-          this.$q.notify(err.response.message);
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+        // this.$store
+        // .dispatch("User/searchUserAssigment", { code: this.KTAID })
+        // .then(res => {
+        //   if(res.data.id){
+        //     this.code2 = true;
+        //     this.user = res.data
+        //     this.isBiodata = true;
+        //     this.$q.notify("KTA ID Ditemukan");
+        //   } else {
+        //     this.$q.notify("KTA ID Tidak ditemukan")
+        //   }
+        //   if ((this.code1 == true) && (this.code2 == true)){
+        //     this.isMasuk = true;
+        //   } else {
+        //     null;
+        // }
+        // })
+        // .catch(err => {
+        //   this.$q.notify(err.response.message);
+        // })
+        // .finally(() => {
+        //   this.loading = false;
+        // });
     },
     
     verifikasiCode() {
@@ -205,26 +194,26 @@ export default {
         });
     },
 
-    verfikasiKTAID() {
-      this.$store
-        .dispatch("User/searchUserAssigment", { code: this.KTAID })
-        .then(res => {
-          if(res.data.id){
-            this.code2 = true;
-            this.user = res.data
-            this.isBiodata = true;
-            this.$q.notify("KTA ID Ditemukan");
-          } else {
-            this.$q.notify("KTA ID Tidak ditemukan")
-          }
-        })
-        .catch(err => {
-          this.$q.notify(err.response.message);
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
+    // verfikasiKTAID() {
+    //   this.$store
+    //     .dispatch("User/searchUserAssigment", { code: this.KTAID })
+    //     .then(res => {
+    //       if(res.data.id){
+    //         this.code2 = true;
+    //         this.user = res.data
+    //         this.isBiodata = true;
+    //         this.$q.notify("KTA ID Ditemukan");
+    //       } else {
+    //         this.$q.notify("KTA ID Tidak ditemukan")
+    //       }
+    //     })
+    //     .catch(err => {
+    //       this.$q.notify(err.response.message);
+    //     })
+    //     .finally(() => {
+    //       this.loading = false;
+    //     });
+    // },
 
     onMasukClick() {
        this.$router.push({name:'quizpage', params:{assigmentId:this.assigment.id, userId:this.user.id,user:this.user}});
