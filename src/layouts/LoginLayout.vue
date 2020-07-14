@@ -1,18 +1,22 @@
 <template>
   <div
-    style="height:100vh;background-image:url('statics/bg-login.jpg');background-size:cover"
+    style="height:100vh;background-color:#009688;background-image:url('statics/bg-login.png');background-repeat: no-repeat;background-position: center;background-size:cover"
   >
-    <div class="q-pa-md full-height">
+    <div class="full-height" >
       <div
-        class="row justify-center align-center content-center full-height full-width"
+        class="row full-width" style="position:absolute;top:48vh;height:52vh" id="rcorners1" 
       >
         <div class="col-12">
-          <q-form @submit="onSubmit" ref="form" class="q-gutter-md">
+        
+          <div class="row q-pb-xs">
+            <div class="col-12 text-center text-h5 text-weight-bold">
+            Hello!
+            </div>
+          </div>
+          
+          <q-form @submit="onSubmit" ref="form" class="justify-center" style="margin-left: 20px;margin-right: 20px;" >
             <q-input
-              style="opacity:0.8"
-              bg-color="white"
-              rounded
-              outlined
+              dense
               label="Email anda"
               v-model="credential.username"
               lazy-rules
@@ -21,10 +25,7 @@
               ]"
             />
             <q-input
-              style="opacity:0.8"
-              bg-color="white"
-              rounded
-              outlined
+              dense
               label="Password"
               v-model="credential.password"
               type="password"
@@ -32,26 +33,39 @@
               :rules="[val => (val && val.length > 0) || 'Please type something']"
             />
           </q-form>
+
+          <div class="row">
+            <div class="col-12 text-center text-h5 text-weight-bold">
+              <q-btn
+                @click="onSubmit()"
+                rounded
+                type="submit"
+                color="primary"
+                :loading="loading"
+                :disable="loading"
+              ><div style="margin-right:20px;margin-left:20px">Masuk</div></q-btn>
+              
+            </div>
+          </div>
+
         </div>
-        <div class="q-pa-sm text-center" style="background-color:#e0ebeb;
-         opacity:80%; border-radius:5px">
-          <label>Belum pernah mendaftar? Ayo </label>
-          <q-btn class="" @click="$router.push('/register')">Daftar</q-btn>
-          <label> sekarang!</label>
+
+        <div class="col-12">
+        <div class="row q-pt-lg">
+             <div class="col-4">
+               <q-btn flat color="primary" @click="$router.push('/register')" label="Buat Akun" />
+
+           </div>
+            <div class="col-6 offset-2">
+              <q-btn flat color="primary" label=" Lupa Kata Sandi" />
+              
+            </div>
+          </div>
         </div>
+        
       </div>
 
-      <q-btn
-        style="position:absolute;bottom:15vh;right:5vw"
-        label="Submit"
-        @click="onSubmit()"
-        rounded
-        outline
-        type="submit"
-        color="primary"
-        :loading="loading"
-        :disable="loading"
-      />
+      
     </div>
   </div>
 </template>
@@ -88,4 +102,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#rcorners1 {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  background: #fff;
+  padding: 20px;
+
+}
+</style>
