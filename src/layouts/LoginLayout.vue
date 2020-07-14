@@ -35,7 +35,7 @@
           </q-form>
 
           <div class="row">
-            <div class="col-12 text-center text-h5 text-weight-bold">
+            <div class="col-12 text-center text-weight-bold">
               <q-btn
                 @click="onSubmit()"
                 rounded
@@ -48,21 +48,19 @@
             </div>
           </div>
 
-        </div>
-
-        <div class="col-12">
-        <div class="row q-pt-lg">
-             <div class="col-4">
-               <q-btn flat color="primary" @click="$router.push('/register')" label="Buat Akun" />
-
-           </div>
-            <div class="col-6 offset-2">
-              <q-btn flat color="primary" label=" Lupa Kata Sandi" />
+           <div class="row q-pt-lg">
+            <div class="col-6">
+                <q-btn flat color="primary" @click="$router.push('/register')" label="Buat Akun" />
+              
+            </div>
+             <div class="col-6 text-right">
+                <q-btn flat color="primary" label=" Lupa Kata Sandi" />
               
             </div>
           </div>
+
         </div>
-        
+
       </div>
 
       
