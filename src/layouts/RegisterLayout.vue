@@ -1,21 +1,34 @@
 <template>
-  <q-layout
-    view="hHh lpR fFf"
+  <div
     style="height:100vh;background-color:#009688;background-image:url('statics/bg-login.png');background-repeat: no-repeat;background-position: center;background-size:cover"
   >
-    <q-page-container>
-      <div class="q-pa-md">
+
+   <q-toolbar class="text-primary">
+      <q-btn color="white" flat round dense icon="arrow_back" @click="$router.back()" />
+      <q-toolbar-title>
+        <div class="text-body1 text-bold text-white">Registrasi</div>
+      </q-toolbar-title>
+    </q-toolbar>
+
+    <div class="full-width" style="position:absolute;top:48vh;height:52vh" id="rcorners1" 
+      >
+      <div class="row q-pb-xs">
+          <div class="col-12 text-center text-h4">
+            Registrasi
+          </div>
+      </div>
+      
         <!-- <div style="background-color:gray;opacity:0.5"></div> -->
-        <div class="q-pa-md full-height">
-          <h2 class="text-center">Registrasi</h2>
+        <div class="full-height row">
           <div class="align-center content-center full-height full-width">
             <!-- <q-form @submit="onSubmit" ref="form" class="q-gutter-md"> -->
-            <q-form @submit="onSubmit" ref="form">
+            <q-form @submit="onSubmit" ref="form" style="margin-left: 20px;margin-right: 20px;" >
               <q-input
                 v-model="credential.name"
                 style="opacity:0.9"
                 label="Nama lengkap anda"
                 lazy-rules
+                dense
                 :rules="[val => (!!val && val.length > 0) || 'Data harus diisi']"
               />
               <q-input
@@ -23,6 +36,7 @@
                 style="opacity:0.9"
                 label="Email anda"
                 lazy-rules
+                dense
                 :rules="[val => !!val || 'Data harus diisi']"
               />
               <q-input
@@ -31,6 +45,7 @@
                 label="Password"
                 type="password"
                 lazy-rules
+                dense
                 :rules="[
                   val => !!val || 'Password tidak boleh kosong'
                 ]"
@@ -40,47 +55,34 @@
                 style="opacity:0.9"
                 label="Con Password"
                 type="password"
+                dense
                 lazy-rules
                 :rules="[
                   val => (!!val && val == credential.password) || 'Password tidak sama',
                 ]"
               />
-              <!-- <div class="q-py-md">
-                                <q-radio v-model="shape" val="Laki-Laki" label="Laki-Laki" />
-                                <q-radio v-model="shape" val="Perempuan" label="Perempuan" />
-                            </div>
-                            <p style="color:blue; margin-bottom: 0px; margin-top:16px">Tanggal lahir:</p>
-                            <q-input v-model="date" filled type="date" style="opacity:0.8" @click="showing = true">
-                                <q-tooltip v-model="showing" offset="[10,10]">
-                                    Tanggal lahir
-                                </q-tooltip>
-                            </q-input>
-                            <q-input style="opacity:0.8" label="Sekolah"/>
-                            <q-input style="opacity:0.8" label="District id"/>
-                            <q-input style="opacity:0.8" label="Provinsi"/>
-                            <q-input v-model ="credential.name" filled type="tel" label="Nomor Telepon" />
-                            <q-input v-model="text" filled autogrow label="Alamat"/>
-                            <q-input style="opacity:0.8" label="NIK"/>
-                            <q-input style="opacity:0.8" label="Display name"/> -->
-                             <!-- <q-btn color="white" text-color="black" label="Standard" type="submit" /> -->
                             
             </q-form>
+
+             <div class="row">
+              <div class="col-12 text-center text-weight-bold">
+                <q-btn
+                  @click="onSubmit()"
+                  rounded
+                  type="submit"
+                  color="primary"
+                  :loading="loading"
+                  :disable="loading"
+                ><div style="margin-right:20px;margin-left:20px">Submit</div></q-btn>
+                
+              </div>
+            </div>
+
           </div>
-          <q-btn
-            style="position:absolute;bottom:15vh;right:5vw"
-            label="Submit"
-            @click="onSubmit()"
-            rounded
-            outline
-            type="submit"
-            color="primary"
-            :loading="loading"
-            :disable="loading"
-          />
+        
         </div>
-      </div>
-    </q-page-container>
-  </q-layout>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -122,4 +124,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#rcorners1 {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  background: #fff;
+  padding: 20px;
+
+}
+</style>
