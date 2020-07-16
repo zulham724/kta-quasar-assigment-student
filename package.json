@@ -1,8 +1,8 @@
 {
   "name": "SISWA PAI",
   "version": "0.0.1",
-  "description": "PENILAIAN DIGITAL UNTUK SISWA AGPAII",
-  "productName": "PENILAIAN DIGITAL UNTUK SISWA AGPAII",
+  "description": "SISWA PAI",
+  "productName": "SISWA PAI",
   "cordovaId": "org.agpaiidigital.assigment.student.app",
   "capacitorId": "",
   "author": "CV ARDATA MEDIA",

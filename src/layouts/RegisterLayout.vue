@@ -1,7 +1,7 @@
 <template>
   <q-layout
     view="hHh lpR fFf"
-    style="background-image:url('statics/bg-login.jpg');background-size:cover"
+    style="height:100vh;background-color:#009688;background-image:url('statics/bg-login.png');background-repeat: no-repeat;background-position: center;background-size:cover"
   >
     <q-page-container>
       <div class="q-pa-md">

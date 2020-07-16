@@ -1,6 +1,6 @@
 {
   "name": "org.agpaiidigital.assigment.student.app",
-  "displayName": "PENILAIAN DIGITAL UNTUK SISWA AGPAII",
+  "displayName": "SISWA PAI",
   "version": "1.0.0",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
@@ -22,7 +22,12 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-fcm-with-dependecy-updated": {}
+      "cordova-plugin-fcm-with-dependecy-updated": {
+        "ANDROID_FCM_VERSION": "19.0.0",
+        "ANDROID_GRADLE_TOOLS_VERSION": "3.5.3",
+        "ANDROID_GOOGLE_SERVICES_VERSION": "4.3.3",
+        "ANDROID_DEFAULT_NOTIFICATION_ICON": "@mipmap/ic_launcher"
+      }
     },
     "platforms": [
       "android"
