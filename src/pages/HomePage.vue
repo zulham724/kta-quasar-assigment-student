@@ -88,7 +88,7 @@
           </q-card>
         </div>
         <div class="col-4">
-          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh">
+          <q-card class="my-card q-ma-sm bg-teal text-white text-bold" style="height:15vh" @click="$router.push({name:'traininglist'})">
             <q-icon name="mdi-timer" style="position:absolute;bottom:0;right:0" size="xl" />
             <q-card-section>
               Latihan mandiri

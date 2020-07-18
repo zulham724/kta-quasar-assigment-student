@@ -67,6 +67,24 @@ const routes = [{
                     import ("pages/QuizPage.vue"),
                 props: true
             },
+            ,
+            {
+                path: "/trainingquizpage",
+                name: "trainingquizpage",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/TrainingQuizPage.vue"),
+                props: true
+            },
+            {
+                // path: "/quiz/:assigmentId/:userId",
+                path: "/traininglist",
+                name: "traininglist",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/TrainingListPage.vue"),
+                props: true
+            },
             {
                 path: "/task/:assigmentId",
                 beforeEnter: multiguard([auth]),
@@ -110,6 +128,12 @@ const routes = [{
         path: '/result',
         name: 'result',
         component: ()=> import('pages/quiz/ResultPage.vue'),
+        props: true
+    },
+    {
+        path: '/trainingresult',
+        name: 'trainingresult',
+        component: ()=> import('pages/quiz/TrainingResultPage.vue'),
         props: true
     }
 ];

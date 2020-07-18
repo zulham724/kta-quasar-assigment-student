@@ -72,6 +72,15 @@ const actions = {
             })
         })
     },
+    showSelectOptionsOnly({commiy}, payload){
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.state.Setting.url}/api/v1/assigment/selectoptionsonly/${payload.assignmentId}`).then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
     next({ commit, state }) {
         return new Promise((resolve, reject) => {
             console.log(state.assigments.next_page_url)
@@ -161,6 +170,34 @@ const actions = {
                 reject(err)
             })
         })
+    },
+    getMasterPublish({commit}, subject=''){
+        return new Promise((resolve, reject) => {
+            axios
+                .get(`${this.state.Setting.url}/api/v1/assigments/getmasterpublish/${subject}`)
+                .then(res => {
+                    // commit("add", { assigment: res.data });
+                    resolve(res);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    },
+    nextMasterPublish({ commit }, next_page_url){
+        // console.log("tes");
+        // console.log(next_page_url);
+        return new Promise((resolve, reject) => {
+            axios
+                .get(`${next_page_url}`)
+                .then(res => {
+                    //commit("next", { assigments: res.data });
+                    resolve(res);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
     }
 };
 
