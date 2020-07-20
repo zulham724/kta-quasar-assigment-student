@@ -10,18 +10,22 @@
         </q-header>
       </div>
       <q-page-container>
-        <div class="q-pa-md text-center text-weight-light" style="font-size:30px" v-if="isKeterangan">
-          Skor Sementara: 
-        </div>
-         <div class="q-pa-md text-center text-weight-light" style="font-size:30px" v-if="!isKeterangan">
+         <div class="q-pa-md text-center text-weight-light" style="font-size:30px">
           Skor Anda: 
         </div>
-        <div class="row justify-center full-height full-width text-center q-pt-sm">
-            <q-btn round outline bold size="60px" :color="item.color ? item.color : null">{{score}} </q-btn>
+        
+        <q-inner-loading :showing="!session">
+        <q-spinner
+        color="primary"
+        size="3em"
+        :thickness="10"
+      />
+      </q-inner-loading>
+
+        <div class="row justify-center full-height full-width text-center q-pt-sm" v-if="session">
+            <q-btn round outline bold size="60px" :color="session.assigments[0].pivot.total_score>60 ? 'green' : 'red'">{{session.assigments[0].pivot.total_score}}</q-btn>
         </div>
-        <div class="q-pa-md text-center text-weight-light" v-if="isKeterangan">
-          Skor akhir dapat dilihat melalui menu <span style="color:#00b377"><b>riwayat</b></span> setelah tugas sudah dinilai oleh guru penilai 
-        </div>
+      
         <div class="q-pt-lg row justify-center">
             <q-btn outline color="teal" size:6px @click="$router.push('/') && sendNotif()"> KEMBALI</q-btn>
         </div>
@@ -37,11 +41,7 @@ export default {
     },
     data(){
         return {
-            item: {},
-            score: 0,
-            sum_selectOptions : 0,
-            value_temp: null,
-            isKeterangan: false
+            session:null
         }
     },
     computed: {
@@ -49,77 +49,11 @@ export default {
     },
     mounted(){
       //console.log(this.assigment);
-    this.$store.dispatch('AssigmentSession/checkAndStore',this.assigment).then(res2=>{
-        console.log(res2);
-      });
-      return;
-      this.item = {...this.assigment,color:null}
-      this.item.question_lists.forEach(item => {
-        if(item.pivot.assigment_type.description == "selectoptions") {
-          this.sum_selectOptions += 1
-          if(item.answer.value == 100)
-              this.score += 1;
-        } else {
-          this.isKeterangan = true
-        }
-        });
-      
-      if (this.sum_selectOptions == 0) {
-        this.score = 0
-      } else {
-        this.score = Math.floor((this.score / this.sum_selectOptions)*100)
-      }
-      //assigment:this.assigment
-      // console.log("sum selctoptions: ",this.sum_selectOptions)
-      // console.log("panjang soal: ",this.item.question_lists.length)
-      // console.log("score: ", this.score)
-      if (this.sum_selectOptions == this.item.question_lists.length) {
-        this.value_temp = this.score
-      } else {
-        this.value_temp = null
-      }
-
-      const payload = {
-            ...this.assigment,
-            value: this.value_temp,
-            questions: [
-              ...this.assigment.question_lists.map(item=>{
-                item.question_list_id = item.id
-                item.answer ? item.answer.answer_list_id = item.answer.id : null 
-                return item
-              })
-            ]
-      }
-    //   this.$store.dispatch('AssigmentSession/store',payload).then(res2=>{
+    this.$store.dispatch('AssigmentSession/checkAndStore',this.assigment).then(res=>{
         
-    //   });
-      
-      // this.$store.dispatch('Assigment/checkAssigment',{assigment_id: this.assigment.id, teacher_id: this.assigment.teacher_id}).then(res=>{ //cek apakah pakai soal sendiri atau orang lain
-      //   //  console.log(res.data);
-      //   //  return;
-      //    onst payload = {
-      //      this.assigment.id=res.data.id;
-       
-      //    c ...this.assigment,
-      //       value: this.value_temp,
-      //       questions: [
-      //         ...this.assigment.question_lists.map(item=>{
-      //           item.question_list_id = item.id
-      //           item.answer ? item.answer.answer_list_id = item.answer.id : null 
-      //           return item
-      //         })
-      //       ]
-      //   }
-      //    this.$store.dispatch('AssigmentSession/store',payload).then(res2=>{
-
-      //   });
-      // });
+        this.session=res.data;
+      });
      
-      if(this.score > 60){
-          this.item.color = "green"
-      } else {
-          this.item.color = "red"
-      }
     },
     created(){
         this.$store.dispatch('Auth/getAuth').then(res=>{

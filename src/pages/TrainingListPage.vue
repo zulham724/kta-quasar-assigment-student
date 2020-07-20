@@ -27,12 +27,18 @@
           <q-card-section>
             <div class="row">
               <div class="col-3 text-center">
-                <div v-if="assigment.auth_sessions.length==0">
+                <div v-if="assigment.assigment_session==null">
                     <q-icon name="warning" class="text-red" style="font-size: 3rem;" />
                     <div class="text-caption">Belum dikerjakan</div>
                 </div>
                 <div v-else>
-                ss
+                  <div class="row">
+                      <div class="col-12 text-caption">Nilai</div>
+                  </div>
+                  <div class="row">
+                      <div class="col-12 text-h5">{{assigment.assigment_session.total_score}}</div>
+                  </div>
+             
                 </div>
               </div>
               <div class="col-9">
@@ -89,6 +95,7 @@ export default {
       assigments: {
         data:[]
       },
+      sessions:[],
       loading: false,
       step: 1,
       isTime: false,
@@ -106,11 +113,17 @@ export default {
     };
   },
   computed: {
-    ...mapState(["Setting","AssigmentSession","Auth"])
+    ...mapState(["Setting","AssigmentSession","Auth"]),
+  },
+  watch:{
+    'assigments.data':function (val, oldVal) {
+      console.log(val)
+    }
   },
   created() {
    this.onSearch = debounce(this.onSearch, 1000);
     this.init();
+   
   },
   methods: {
     init(){
@@ -118,7 +131,8 @@ export default {
       this.$store
           .dispatch("Assigment/getMasterPublish", this.search)
           .then(res => {
-            this.assigments = res.data;
+            this.assigments = res.data
+            
           })
           .finally(() => {
             this.loading = false;

@@ -26,7 +26,7 @@ const actions = {
     },
     checkAndStore({commit}, payload){
         return new Promise((resolve, reject) => {
-            axios.post(`${this.state.Setting.url}/api/v1/assigment/checkandstore`,payload).then(res => {
+            axios.post(`${this.state.Setting.url}/api/v1/assigmentsession/checkandstore`,payload).then(res => {
                 resolve(res)
             }).catch(err => {
                 reject(err)
