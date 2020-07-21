@@ -8,7 +8,7 @@
     </q-toolbar>
 
      <div class="bg-teal q-pa-md" style=" border-bottom-left-radius:25px; border-bottom-right-radius:25px">
-          <q-input dark standout="bg-teal text-white" rounded outlined v-model="search" label="Cari Soal" @input="onSearch">
+          <q-input dense dark standout="bg-teal text-white" rounded outlined v-model="search" label="Cari Soal" @input="onSearch">
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -27,7 +27,7 @@
           <q-card-section>
             <div class="row">
               <div class="col-3 text-center">
-                <div v-if="assigment.assigment_session==null">
+                <div v-if="assigment.latest_auth_session.length==0">
                     <q-icon name="warning" class="text-red" style="font-size: 3rem;" />
                     <div class="text-caption">Belum dikerjakan</div>
                 </div>
@@ -36,7 +36,7 @@
                       <div class="col-12 text-caption">Nilai</div>
                   </div>
                   <div class="row">
-                      <div class="col-12 text-h5">{{assigment.assigment_session.total_score}}</div>
+                      <div class="col-12 text-h5">{{assigment.latest_auth_session[0].pivot.total_score}}</div>
                   </div>
              
                 </div>

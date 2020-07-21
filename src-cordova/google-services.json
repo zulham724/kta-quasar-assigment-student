@@ -8,9 +8,96 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:488917299279:android:c1bdcf9bbddfff4d533a3a",
+        "android_client_info": {
+          "package_name": "org.agpaiidigital.assigment.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488917299279-iqc2r72f8im0dvskf8bgbm55c83qvk3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbvS_g0KWWHxWHIDs1eUci8WOyb2hU1w8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488917299279-iqc2r72f8im0dvskf8bgbm55c83qvk3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488917299279:android:4e6f856e5e624e8f533a3a",
+        "android_client_info": {
+          "package_name": "org.agpaiidigital.assigment.student"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488917299279-iqc2r72f8im0dvskf8bgbm55c83qvk3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbvS_g0KWWHxWHIDs1eUci8WOyb2hU1w8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488917299279-iqc2r72f8im0dvskf8bgbm55c83qvk3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:488917299279:android:b95610bdab8bff7e533a3a",
         "android_client_info": {
           "package_name": "org.agpaiidigital.assigment.student.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488917299279-iqc2r72f8im0dvskf8bgbm55c83qvk3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbvS_g0KWWHxWHIDs1eUci8WOyb2hU1w8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488917299279-iqc2r72f8im0dvskf8bgbm55c83qvk3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488917299279:android:b2fb56eafa89665f533a3a",
+        "android_client_info": {
+          "package_name": "org.agpaiidigital.kemenag.app"
         }
       },
       "oauth_client": [

@@ -1,9 +1,9 @@
 {
   "name": "SISWA PAI",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "SISWA PAI",
   "productName": "SISWA PAI",
-  "cordovaId": "org.agpaiidigital.assigment.student.app",
+  "cordovaId": "org.agpaiidigital.assigment.student",
   "capacitorId": "",
   "author": "CV ARDATA MEDIA",
   "private": true,
