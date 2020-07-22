@@ -9,7 +9,7 @@
           </q-toolbar>
         </q-header>
       </div>
-      <q-page-container>
+      <q-page-container v-if="score>=0">
         <div class="q-pa-md text-center text-weight-light" style="font-size:30px" v-if="isKeterangan">
           Skor Sementara: 
         </div>
@@ -37,8 +37,9 @@ export default {
     },
     data(){
         return {
+            loading:false,
             item: {},
-            score: 0,
+            score: null,
             sum_selectOptions : 0,
             value_temp: null,
             isKeterangan: false
@@ -48,68 +49,14 @@ export default {
       // ...mapState(["Auth"])
     },
     mounted(){
-      //console.log(this.assigment);
-      this.item = {...this.assigment,color:null}
-      this.item.question_lists.forEach(item => {
-        if(item.pivot.assigment_type.description == "selectoptions") {
-          this.sum_selectOptions += 1
-          if(item.answer.value == 100)
-              this.score += 1;
-        } else {
-          this.isKeterangan = true
-        }
-        });
-      
-      if (this.sum_selectOptions == 0) {
-        this.score = 0
-      } else {
-        this.score = Math.floor((this.score / this.sum_selectOptions)*100)
-      }
-      //assigment:this.assigment
-      // console.log("sum selctoptions: ",this.sum_selectOptions)
-      // console.log("panjang soal: ",this.item.question_lists.length)
-      // console.log("score: ", this.score)
-      if (this.sum_selectOptions == this.item.question_lists.length) {
-        this.value_temp = this.score
-      } else {
-        this.value_temp = null
-      }
-
-      const payload = {
-            ...this.assigment,
-            value: this.value_temp,
-            questions: [
-              ...this.assigment.question_lists.map(item=>{
-                item.question_list_id = item.id
-                item.answer ? item.answer.answer_list_id = item.answer.id : null 
-                return item
-              })
-            ]
-      }
-      this.$store.dispatch('AssigmentSession/store',payload).then(res2=>{
-        
+      this.loading=true;
+      this.$store.dispatch('AssigmentSession/store',this.assigment).then(res=>{
+          this.score=res.data.score.value;
+          this.isKeterangan=res.data.score.isTemporary;
+      }).finally(err=>{
+          this.loading=false;
       });
       
-      // this.$store.dispatch('Assigment/checkAssigment',{assigment_id: this.assigment.id, teacher_id: this.assigment.teacher_id}).then(res=>{ //cek apakah pakai soal sendiri atau orang lain
-      //   //  console.log(res.data);
-      //   //  return;
-      //    onst payload = {
-      //      this.assigment.id=res.data.id;
-       
-      //    c ...this.assigment,
-      //       value: this.value_temp,
-      //       questions: [
-      //         ...this.assigment.question_lists.map(item=>{
-      //           item.question_list_id = item.id
-      //           item.answer ? item.answer.answer_list_id = item.answer.id : null 
-      //           return item
-      //         })
-      //       ]
-      //   }
-      //    this.$store.dispatch('AssigmentSession/store',payload).then(res2=>{
-
-      //   });
-      // });
      
       if(this.score > 60){
           this.item.color = "green"

@@ -100,6 +100,8 @@
           v-if="isStart"
         >
           <q-stepper
+          active-color="purple"
+            header-nav
             v-model="step"
             vertical
             color="primary"
@@ -112,7 +114,8 @@
               :name="ql + 1"
               :title="`Soal nomor ${ql + 1}`"
               icon="settings"
-              :done="step > 1"
+
+              :done="question_list.answer.name?true:false "
             >
               <div class="text-body2">{{ question_list.name }}</div>
 
@@ -151,7 +154,7 @@
                         @click="
                           () => {
                             question_list.answer = answer_list;
-                            $forceUpdate();
+                            //$forceUpdate();
                           }
                         "
                       /> 
@@ -170,7 +173,7 @@
                   outlined
                   dense
                   
-                  v-model="question_list.answer_lists.name"
+                  v-model="question_list.answer.name"
                   :rules="[val => !!val || 'Harus diisi']"
                 />
               </div>
@@ -186,7 +189,7 @@
                   outlined
                   dense
         
-                  v-model="question_list.answer_lists.name"
+                  v-model="question_list.answer.name"
                   :rules="[val => !!val || 'Harus diisi']"
                 />
               </div>
@@ -204,7 +207,7 @@
                   v-if="ql + 1 != assigment.question_lists.length"
                   outline
                   rounded
-                  @click="[step++,onTextarea(question_list),onTextfield(question_list)]"
+                  @click="[step++]"
                   color="primary"
                   label="Lanjut"
                 />
@@ -212,7 +215,7 @@
                   v-if="ql + 1 == assigment.question_lists.length"
                   outline
                   rounded
-                  @click="[onTextarea(question_list),onTextfield(question_list),onSubmit()]"  
+                  @click="[onSubmit()]"  
                   color="primary"
                   label="Selesai"
                   :loading="loading"
@@ -273,7 +276,8 @@ export default {
           teacher_id: this.teacher.id,
           question_lists: [
             ...res.data.question_lists.map(item => {
-              item.answer = {};
+              if(item.pivot.assigment_type.description=="textfield" || item.pivot.assigment_type.description=="textarea")item.answer = {id:item.answer_lists[0].id,name:null};
+              else item.answer = {}
               return item;
             })
           ]
@@ -315,7 +319,7 @@ export default {
         payload.answer_lists[0].name = payload.answer_lists.name
         payload.answer = payload.answer_lists[0];
         payload.answer.value = null
-        this.$forceUpdate();
+        //this.$forceUpdate();
       }
     },
     onTextfield(payload){
@@ -323,7 +327,7 @@ export default {
         payload.answer_lists[0].name = payload.answer_lists.name
         payload.answer = payload.answer_lists[0];
         payload.answer.value = null
-        this.$forceUpdate();
+        //this.$forceUpdate();
       }
     },
     onStart() {

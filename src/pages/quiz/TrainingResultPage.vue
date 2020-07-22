@@ -49,7 +49,7 @@ export default {
     },
     mounted(){
       //console.log(this.assigment);
-    this.$store.dispatch('AssigmentSession/checkAndStore',this.assigment).then(res=>{
+      this.$store.dispatch('AssigmentSession/checkAndStore',this.assigment).then(res=>{
         
         this.session=res.data;
       });
