@@ -13,6 +13,7 @@ module.exports = function(ctx) {
             'vue-linkify', 
             'vue-zoomer',
             'Notifications',
+            'apexchart',
             
         ],
 

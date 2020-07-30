@@ -1,6 +1,37 @@
 <template>
   <div>
-    <q-item clickable v-ripple v-if="this.item != null">
+    <q-item class="q-pa-none">
+      <q-item-section avatar top>
+        <q-avatar size="2.5rem">
+          <q-img no-default-spinner src="~assets/man.png"></q-img>
+        </q-avatar>
+      </q-item-section>
+      <q-item-section top>
+        <q-item-label>
+          <div class="text-weight-bold">John nono</div>
+        </q-item-label>
+        <q-item-label>
+          <div class="q-pa-sm" style="background-color:#E0F2F1;border-radius:5px;word-wrap-break-word">
+            Keistimewaan yang dimiliki nabi Isa diantaranya 
+            adalah dapat berbicara sewaktu lahir, 
+            menyembuhkan orang buta, menghidupkan kembali orang mati.
+          </div>
+        </q-item-label>
+        <q-item-label caption style="height:21px">
+          <div class="row full-width justify-between">
+            <div class="col-4">
+              <span class="material-icons" style="font-size:20px;color:#BDBDBD" clickable>
+                favorite_border
+              </span>
+            </div>
+            <div class="col-4 text-right text-caption">
+              2 jam yang lalu
+            </div>
+          </div>
+        </q-item-label>
+      </q-item-section>
+    </q-item>
+    <!-- <q-item clickable v-ripple v-if="this.item != null">
       <q-item-section avatar @click="$router.push(`/user/profile/${item.user.id}`)">
         <q-avatar>
           <q-img :src="`${Setting.storageUrl}/${item.user.avatar}`" no-default-spinner />
@@ -35,7 +66,7 @@
           @click="item.liked_count ? dislike(item.id) : like(item.id)"
         />
       </q-item-section>
-    </q-item>
+    </q-item> -->
   </div>
 </template>
 

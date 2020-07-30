@@ -73,7 +73,7 @@
                   color="primary"
                   :loading="loading"
                   :disable="loading"
-                ><div style="margin-right:20px;margin-left:20px">Submit</div></q-btn>
+                ><div style="margin-right:20px;margin-left:20px">Register</div></q-btn>
                 
               </div>
             </div>

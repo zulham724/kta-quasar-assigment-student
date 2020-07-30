@@ -1,6 +1,92 @@
 <template>
   <div style="width:100%">
-    <q-card
+    <q-card style="border-radius:10px;background-color:#fafafa" >
+      <q-card-section class="q-pa-none">
+        <q-item class="q-px-none">
+          <q-item-section avatar top class="q-pl-md">
+            <q-avatar sixe="3rem">
+              <q-img no-default-spinner src="~assets/man.png"></q-img>
+            </q-avatar>
+          </q-item-section>
+          <q-item-section top>
+            <q-item-label>
+              <div class="text-weight-bold" style="font-size:14px">John nono</div>
+            </q-item-label>
+            <q-item-label caption>
+              <div>Besok besok aja</div>
+            </q-item-label>
+          </q-item-section>
+          <q-item-section top side class="text-right">
+            <q-btn v-if="tab == 'discuss'" color="grey-7" round flat icon="more_vert">
+              <q-menu 
+                anchor="bottom right"
+                self="top right"
+                auto-close 
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-list>
+                  <q-item clickable style="background-color:#E0E0E0;border: 0.5px solid #BDBDBD;">
+                    <q-item-section @click="$router.push('/create')">
+                      <div>
+                        <span class="material-icons" style="padding-right:6px">
+                          edit
+                        </span> 
+                        Sunting
+                      </div>
+                    </q-item-section >
+                  </q-item>
+                  <q-item clickable style="background-color:#E0E0E0;border: 0.5px solid #BDBDBD;">
+                    <q-item-section @click="$router.push('/create')">
+                      <div>
+                        <span class="material-icons" style="padding-right:6px">
+                          delete
+                        </span> 
+                        Hapus
+                      </div>
+                    </q-item-section >
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </q-item-section>
+        </q-item>
+      </q-card-section>
+      <q-card-section class="q-pa-none">
+        <div class="q-px-md q-pb-sm">
+          Jadi guys.. jadi jajadi jadi ga jadi ya jadiin jadi sd sadssadas dsdasdas
+        </div>
+      </q-card-section>
+      <q-card-section class="q-pa-none">
+        <div class="row q-px-md q-pb-sm items-start" style="color:rgba(0, 0, 0, 0.54)">
+          <div class="col-4" style="">
+            <span
+              class="material-icons"
+              color="white"
+              style="font-size:18px"
+            >
+              favorite_border
+            </span>
+            10 Suka
+          </div>
+          <div class="col-4 text-left">
+            <div 
+              class="" 
+              clickable
+              @click="$router.push(`/post/comment`)"
+            >
+              <span 
+                class="material-icons" 
+                style="font-size:18px"
+              >
+                comment
+              </span> 10 Komentar
+            </div>
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
+    <!-- <q-card
       v-if="post != null"
       :style="`${post.files.length ? 'min-height:80vh' : 'min-height:30vh'}`"
     >
@@ -137,7 +223,7 @@
           </div>
         </div>
       </q-card-section>
-    </q-card>
+    </q-card> -->
   </div>
 </template>
 
@@ -159,6 +245,7 @@ export default {
       isReadMore: false,
       dialog: false,
       file: null,
+      tab:null
     };
   },
   methods: {

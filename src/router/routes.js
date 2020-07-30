@@ -39,7 +39,8 @@ const routes = [{
                 props: true
             },
             {
-                path: "/post/comment/:postId",
+                // path: "/post/comment/:postId",
+                path: "/post/comment",
                 name: "postcomment",
                 component: () =>
                     import ("pages/post/CommentPage.vue"),
@@ -53,10 +54,94 @@ const routes = [{
                 props: true
             },
             {
+                path: "/announcement",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/AnnouncementPage.vue")
+            },
+            {
+                path: "/ranking",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/RankingPage.vue")
+            },
+            {
+                path: "/statistic",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/StatisticPage.vue")
+            },
+            {
+                path: "/dailytask",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/DailyTaskPage.vue")
+            },
+            {
                 path: "/account",
                 beforeEnter: multiguard([auth]),
                 component: () =>
                     import ("pages/AccountPage.vue")
+            },
+            {
+                path: "/setting",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/Account/SettingsAccountPage.vue")
+            },
+            {
+                path: "/theory",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/TheoryPage.vue")
+            },
+            {
+                path: "/theory/modul",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/theory/ModulListPage.vue")
+            },
+            {
+                path: "/theory/modul/save",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/theory/save/ModulItemSavePage.vue")
+            },
+            {
+                path: "/theory/modul/comment",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/theory/comment/ModulItemCommentPage.vue")
+            },
+            {
+                path: "/modul",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/ModulPage.vue")
+            },
+            {
+                path: "/theory/media",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/theory/MediaListPage.vue")
+            },
+            {
+                path: "/theory/media/save",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/theory/save/MediaItemSavePage.vue")
+            },
+            {
+                path: "/theory/media/comment",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/theory/comment/MediaItemCommentPage.vue")
+            },
+            {
+                path: "/assigment",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/AssigmentListPage.vue")
             },
             {
                 // path: "/quiz/:assigmentId/:userId",
@@ -64,10 +149,15 @@ const routes = [{
                 name: "quizpage",
                 beforeEnter: multiguard([auth]),
                 component: () =>
-                    import ("pages/QuizPage.vue"),
+                    import ("pages/quizzPage.vue"),
                 props: true
             },
-            ,
+            {
+                path: "/review",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/quiz/QuizReviewPage.vue")
+            },
             {
                 path: "/trainingquizpage",
                 name: "trainingquizpage",

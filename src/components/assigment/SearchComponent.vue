@@ -1,13 +1,39 @@
 <template>
   <q-dialog ref="dialog" @hide="onDialogHide">
-    <q-card class="q-dialog-plugin">
+    <q-card class="q-dialog-plugin" style="border-radius:15px;background-image:url('statics/search-background.png')">
       <!--
         ...content
         ... use q-card-section for it?
       -->
-      <q-card-section>
+      <q-card-section class="text-center q-py-md">
+        <div class="text-body1 text-weight-bold">
+          Masukkan Kode Paket Soal
+        </div>
+      </q-card-section>
+      <q-card-section class="text-center">
+        <q-input 
+          outlined 
+          no-caps 
+          color="teal" 
+          label="Kode Soal" 
+          style=""
+        >
+        </q-input>
+      </q-card-section>
+      <q-card-section class="text-center q-pb-lg">
+        <q-btn
+          class="text-weight-light q-px-md q-py-xs"
+          flat
+          no-caps
+          rounded
+          style="background-color:#009688;color:white"
+          >
+          Kerjakan
+        </q-btn>
+      </q-card-section>
+      <!-- <q-card-section>
         <q-form>
-          <q-item style="padding-left:0px; padding-right:0px">
+          <q-item style="padding-left:0px; padding-right:0px;">
              <q-item-section>
               <q-input color="teal" type="text" v-model="code" label="Masukan kode soal" />
             </q-item-section>
@@ -16,8 +42,8 @@
             </q-item-section>
           </q-item>
         </q-form>
-      </q-card-section>
-      <q-card-section style="" align="center" v-if="user.avatar">
+      </q-card-section> -->
+      <!-- <q-card-section style="" align="center" v-if="user.avatar">
          <div style="padding-top:10px">
             <q-avatar size="30vw">
               <q-img
@@ -32,9 +58,11 @@
          <div class="" style="background-color:#ffffe6">
            {{ user.kta_id }}
          </div>
-      </q-card-section>
+      </q-card-section> -->
+
       <!-- buttons example -->
-      <q-card-actions v-if="isMasuk2" align="center">
+
+      <!-- <q-card-actions v-if="isMasuk2" align="center">
         <q-btn
           color="teal"
           label="Masuk"
@@ -50,7 +78,7 @@
           :loading="loading"
           :disable="loading"
         />
-      </q-card-actions>
+      </q-card-actions> -->
     </q-card>
   </q-dialog>
 </template>

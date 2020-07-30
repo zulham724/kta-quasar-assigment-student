@@ -1,5 +1,82 @@
 <template>
-  <q-layout view="hHh Lpr fFf">
+  <div>
+    <q-header>
+      <q-toolbar style="background-color:#009688">
+        <q-btn flat dense icon="arrow_back" style="font-size:20px" @click="$router.back()" />
+      <q-toolbar-title>
+        <div class="text-body2 text-weight-light" style="font-size:20px">Komentar</div>
+      </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
+    <q-page class="">
+      <div style="background-color:white;min-height:inherit">
+        <div class="column" style="min-height:0px">
+          <div class="col-4 q-pa-md" style="background-color:#009688;border-radius: 0px 0px 20px 20px;">
+            <q-item>
+              <q-item-section avatar top>
+                <q-avatar size="3.5rem">
+                  <q-img no-default-spinner src="~assets/man.png"></q-img>
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <div class="text-weight-medium" style="color:white;font-size:16px">
+                  John nono
+                </div>
+              </q-item-section>
+            </q-item>
+            <div class="q-px-md" style="font-size:16px;color:white">tes kata pang kampang aha aysaa</div>
+            <div class="q-px-md items-end row full-width">
+              <div class="col-4 q-pt-xs" style="color:#F2F2F2" clickable>
+                <span class="material-icons" style="font-size:16px;color:#80CBC4">
+                  favorite_border
+                </span>
+                Like
+              </div>
+            </div>
+          </div>
+          <div class="q-py-md q-px-lg col">
+            <q-item class="q-pa-none">
+              <q-item-section top avatar>
+                <q-avatar size="2.5rem">
+                  <q-img no-default-spinner src="~assets/man.png"></q-img>
+                </q-avatar>
+              </q-item-section>
+              <q-item-section top style="width:100">
+                <q-item-label>
+                  <q-input
+                    v-model="random"
+                    outlined
+                    clearable
+                    dense
+                    autogrow
+                    style="max-width:100%"
+                    color="teal"
+                    label="Jawaban"
+                  />
+                </q-item-label>
+                <q-item-label class="q-pt-xs text-right">
+                  <q-btn
+                    class="q-px-lg text-center"
+                    dense
+                    no-caps
+                    flat
+                    rounded
+                    style="color:white;font-size:14px;background-color:#009688"
+                  >
+                    Kirim
+                  </q-btn>
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+            <div class="q-py-xs" v-for="n in 3" :key="n">
+              <item-component></item-component>
+            </div>
+          </div>
+        </div>
+      </div>
+    </q-page>
+  </div>
+  <!-- <q-layout view="hHh Lpr fFf">
     <q-header elevated>
       <q-toolbar class="bg-white">
         <q-btn color="teal" flat dense icon="arrow_back" @click="$router.back()" />
@@ -74,14 +151,14 @@
         </template>
       </q-input>
     </q-footer>
-  </q-layout>
+  </q-layout> -->
 </template>
 
 <script>
 import { mapState } from "vuex";
 export default {
   components:{
-    ItemComponent: ()=> import('components/post/comment/ItemComponent')
+    ItemComponent: ()=> import('components/post/comment/ItemComponent.vue')
   },
   props: {
     postId: null

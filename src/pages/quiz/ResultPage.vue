@@ -1,5 +1,214 @@
 <template>
-    <q-layout>
+  <div>
+    <div style="background-size: cover;background-image:url('statics/star-background.png');min-height:inherit">
+        <div class="column" style="min-height:0px; height: -webkit-fill-available;">
+          <div class="col-4">
+            <q-card 
+              class="shadow-10 q-mb-xl"
+              style="border-bottom-left-radius:30px;
+              border-bottom-right-radius:30px;
+              background-color:#005951"
+            >
+              <q-card-section class="q-px-xl q-py-xl text-center" style="font-size:18px">
+                <div class="text-weight-medium" style="color:#B2DFDB">Soal Penilaian Semester Ganjil</div>
+                <div class="text-weight-light" style="color:white">Oleh: bambabng</div>
+                <div class="text-weight-light" style="color:white">Kelas 10 SMA</div>
+              </q-card-section>
+            </q-card>
+          </div>
+          <div v-if="scoretest > 75" class="col-8" style=" height:-webkit-fill-available">
+            <div style="background-color:transparent;" class="q-pa-lg text-center">
+                <q-item>
+                  <q-item-section>
+                    <div class="text-h6 text-weight-medium" style="color:#E2E2E2">
+                      Selamat kamu sudah menyelesaikan soal ini. Good Job!
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-item class="q-py-lg">
+                  <q-item-section>
+                    <q-item-label>
+                      <div class="text-subtitle text-weight-regular" style="font-size:18px;color:#80CBC4">
+                        Nilai
+                      </div>
+                    </q-item-label>
+                    <q-item-label class="q-pa-sm text-center">
+                      <q-btn
+                        flat
+                        round
+                        size="64px"
+                        style="background-color:#ABDDD8;border:2px solid white"
+                      >
+                        90
+                      </q-btn>
+                    </q-item-label>
+                    <q-item-label>
+                      <div class="text-subtitle text-weight-regular" style="font-size:16px;color:#80CBC4">
+                        Keren!!
+                      </div>
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item class="q-px-lg q-py-lg">
+                  <q-item-section class="q-px-sm">
+                    <q-btn 
+                      class="q-py-xs text-weight-regular"
+                      rounded 
+                      flat
+                      no-caps
+                      color="black"
+                      style="background-color:#E0E0E0; font-size:16px"
+                      @click="$router.push('/')"
+                    >
+                      Beranda 
+                    </q-btn>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-btn 
+                      class="q-py-xs text-weight-regular"
+                      rounded 
+                      flat
+                      no-caps
+                      color="white"
+                      style="background-color:#F2994A; font-size:16px"
+                      @click="$router.push('/review')"
+                    >
+                      Review Nilai 
+                    </q-btn>
+                  </q-item-section>
+                </q-item>
+            </div>
+          </div>
+          <div v-if="scoretest < 75 && scoretest > 0" class="col-8" style=" height:-webkit-fill-available">
+            <div style="background-color:transparent;" class="q-pa-lg text-center">
+                <q-item>
+                  <q-item-section>
+                    <div class="text-h6 text-weight-medium" style="color:#E2E2E2">
+                      Selamat kamu sudah menyelesaikan soal ini. Good Job!
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-item class="q-py-lg">
+                  <q-item-section>
+                    <q-item-label>
+                      <div class="text-subtitle text-weight-regular" style="font-size:18px;color:#80CBC4">
+                        Nilai
+                      </div>
+                    </q-item-label>
+                    <q-item-label class="q-pa-sm text-center">
+                      <q-btn
+                        flat
+                        round
+                        size="64px"
+                        style="background-color:#EF9A9A;border:2px solid white"
+                      >
+                        40
+                      </q-btn>
+                    </q-item-label>
+                    <q-item-label>
+                      <div class="text-subtitle text-weight-regular" style="font-size:16px;color:#80CBC4">
+                        Jangan menyerah. Belajar lebih rajin lagi yaa, semangat!
+                      </div>
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item class="q-px-lg q-py-lg">
+                  <q-item-section class="q-px-sm">
+                    <q-btn 
+                      class="q-py-xs text-weight-regular"
+                      rounded 
+                      flat
+                      no-caps
+                      color="black"
+                      style="background-color:#E0E0E0; font-size:16px"
+                      @click="$router.push('/')"
+                    >
+                      Beranda 
+                    </q-btn>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-btn 
+                      class="q-py-xs text-weight-regular"
+                      rounded 
+                      flat
+                      no-caps
+                      color="white"
+                      style="background-color:#F2994A; font-size:16px"
+                      @click="$router.push('/review')"
+                    >
+                      Review Nilai 
+                    </q-btn>
+                  </q-item-section>
+                </q-item>
+            </div>
+          </div>
+          <div v-if="scoretest < 1" class="col-8" style=" height:-webkit-fill-available">
+            <div style="background-color:transparent;" class="q-pa-lg text-center">
+                <q-item>
+                  <q-item-section>
+                    <div class="text-h6 text-weight-medium" style="color:#E2E2E2">
+                      Selamat kamu sudah menyelesaikan soal ini. Good Job!
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-item class="q-py-lg">
+                  <q-item-section>
+                    <q-item-label>
+                      <div class="text-subtitle text-weight-regular" style="font-size:18px;color:#80CBC4">
+                        Nilai
+                      </div>
+                    </q-item-label>
+                    <q-item-label class="q-pa-sm text-center">
+                      <q-btn
+                        flat
+                        round
+                        size="64px"
+                        style="background-color:#F2C94C;border:2px solid white"
+                      >
+                        <div style="font-size:20px">Belum Dinilai</div>
+                      </q-btn>
+                    </q-item-label>
+                    <q-item-label>
+                      <div class="text-subtitle text-weight-regular" style="font-size:16px;color:#80CBC4">
+                        Yah nilai kamu belum dinilai sama guru kamu. Tunggu sebentar ya~
+                      </div>
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item class="q-px-lg q-py-lg">
+                  <q-item-section class="q-px-sm">
+                    <q-btn 
+                      class="q-py-xs text-weight-regular"
+                      rounded 
+                      flat
+                      no-caps
+                      color="black"
+                      style="background-color:#E0E0E0; font-size:16px"
+                      @click="$router.push('/')"
+                    >
+                      Beranda 
+                    </q-btn>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-btn 
+                      class="q-py-xs text-weight-regular"
+                      rounded 
+                      flat
+                      no-caps
+                      color="white"
+                      style="background-color:#F2994A; font-size:16px"
+                      @click="$router.push('/review')"
+                    >
+                      Review Nilai 
+                    </q-btn>
+                  </q-item-section>
+                </q-item>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+    <!-- <q-layout>
       <div style="background-color:#ebebe0">
         <q-header elevated>
           <q-toolbar style="background-color:teal">
@@ -26,7 +235,7 @@
             <q-btn outline color="teal" size:6px @click="$router.push('/') && sendNotif()"> KEMBALI</q-btn>
         </div>
       </q-page-container>
-    </q-layout>
+    </q-layout> -->
 </template>
 
 <script>
@@ -42,7 +251,8 @@ export default {
             score: null,
             sum_selectOptions : 0,
             value_temp: null,
-            isKeterangan: false
+            isKeterangan: false,
+            scoretest:0
         }
     },
     computed: {

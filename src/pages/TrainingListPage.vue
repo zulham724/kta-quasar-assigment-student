@@ -1,6 +1,289 @@
 <template>
-    <div>
-    <q-toolbar class="text-primary bg-teal">
+  <div>
+    <q-header>
+      <q-toolbar style="background-color:#7A6180">
+        <div class="q-pa-sm" style="color:#E0E0E0;font-size:26px" clickable @click="navigation = !navigation">
+          <span class="material-icons">
+            menu
+          </span>
+        </div>
+        <q-toolbar-title>
+        </q-toolbar-title>
+        <q-space />
+          <div class="q-pa-sm" style="color:#E0E0E0;font-size:26px " clickable>
+            <span class="material-icons">
+              notifications
+            </span>
+            <q-menu 
+              anchor="bottom right"
+              self="top right"
+              auto-close 
+              transition-show="scale"
+              transition-hide="scale"
+            >
+              <q-list style="width:250px;border:2px solid #80CBC4; border-radius:5px">
+                <q-item>
+                  <q-item-section class="text-center">
+                    <div 
+                      class="text-weight-bold" 
+                      style="font-size:15px"
+                    >
+                      Pemberitahuan
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <div v-for="n in 3" :key="n" class="q-py-xs" style="background-color:#E0F2F1">
+                  <announcement-list></announcement-list>
+                </div>
+                <q-item>
+                  <q-item-section class="text-center">
+                    <div 
+                      class="text-weight-bold" 
+                      style="color:#009688;font-size:13px"
+                      clickable
+                      @click="$router.push('/announcement')"
+                    >
+                      Lihat Semua
+                    </div>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </div>
+      </q-toolbar>
+      <q-toolbar class="q-pa-none q-pb-md" style="height:85px;background-color:#7A6180" inset>
+        <q-img no-default-spinner src="~assets/latihan-mandiri.png" style="width:100%"></q-img>
+      </q-toolbar>
+      <q-toolbar class="q-px-none" style="background-color:white;min-height:0px;align-items:none">
+        <div class="full-width" style="height:100%">
+        <q-tabs
+          v-model="tab"
+          dense
+          switch-indicator
+          class=""
+          active-color="white"
+          indicator-color="transparent"
+          align="justify"
+        >
+          <div class="row full-width text-weight-medium">
+            <div
+              class="col-6"
+              style=""
+              :style="`${tab == 'assigmentpacket'? 
+                        'background-color:#7A6180;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white': 
+                        'background-color:white;color:#7A6180'}`"
+            >
+              <q-tab
+                class="q-px-sm q-py-sm"
+                no-caps
+                name="assigmentpacket"
+                label="Paket Soal"
+              />
+            </div>
+            <div
+              class="col-6"
+              style=""
+              :style="`${tab == 'finishedpacket'? 
+                        'background-color:#7A6180;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white': 
+                        'background-color:white;color:#7A6180'}`"
+            >
+              <q-tab
+                class="q-px-sm q-py-sm"
+                no-caps
+                name="finishedpacket"
+                label="Dikerjakan"
+              />
+            </div>
+          </div>
+        </q-tabs>
+        </div>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer
+      v-model="navigation"
+      :width="270"
+      :breakpoint="500"
+      overlay
+      bordered
+      content-class="bg-white"
+    >
+      <q-scroll-area class="fit">
+        <q-list>
+          <q-item class="q-pa-md">
+            <q-item-section avatar top>
+              <q-avatar size="3.6rem">
+                <q-img no-default-spinner src="~assets/grass-pattern.jpg"></q-img>
+              </q-avatar>
+            </q-item-section>
+            <q-item-section top>
+              <q-item-label>
+                <div class="text-weight-medium" style="font-size:14px">
+                  John nono
+                </div>
+              </q-item-label>
+              <q-item-label style=" color:#F2C94C">
+                <span class="material-icons" style="font-size:18px">
+                  emoji_events
+                </span> 100 points
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/')">
+            <q-item-section avatar>
+              <span class="material-icons" style="font-size:30px;color:#009688">
+                home
+              </span>
+            </q-item-section>
+            <q-item-section>
+              <div style="font-size:15px">Beranda</div>
+            </q-item-section>
+          </q-item>
+          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/account')">
+            <q-item-section avatar>
+              <span class="material-icons" style="font-size:30px;color:#009688">
+                person
+              </span>
+            </q-item-section>
+            <q-item-section>
+              <div style="font-size:15px">Profil</div>
+            </q-item-section>
+          </q-item>
+          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/assigment')">
+            <q-item-section avatar>
+              <span class="material-icons" style="font-size:30px;color:#009688">
+                assignment
+              </span>
+            </q-item-section>
+            <q-item-section>
+              <div style="font-size:15px">Kerjakan Soal</div>
+            </q-item-section>
+          </q-item>
+          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/traininglist')">
+            <q-item-section avatar>
+              <span class="material-icons" style="font-size:30px;color:#009688">
+                edit
+              </span>
+            </q-item-section>
+            <q-item-section>
+              <div style="font-size:15px">Latihan Mandiri</div>
+            </q-item-section>
+          </q-item>
+          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/theory')">
+            <q-item-section avatar>
+              <span class="material-icons" style="font-size:30px;color:#009688">
+                class
+              </span>
+            </q-item-section>
+            <q-item-section>
+              <div style="font-size:15px">Materi</div>
+            </q-item-section>
+          </q-item>
+          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/post')">
+            <q-item-section avatar>
+              <span class="material-icons" style="font-size:30px;color:#009688">
+                forum
+              </span>
+            </q-item-section>
+            <q-item-section>
+              <div style="font-size:15px">Diskusi</div>
+            </q-item-section>
+          </q-item>
+          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/setting')">
+            <q-item-section avatar>
+              <span class="material-icons" style="font-size:30px;color:#009688">
+                settings
+              </span>
+            </q-item-section>
+            <q-item-section>
+              <div style="font-size:15px">Pengaturan Akun</div>
+            </q-item-section>
+          </q-item>
+          <div class="q-pa-lg text-center">
+            <q-btn 
+              class="text-weight-regular"
+              flat
+              rounded
+              no-caps
+              style="width:90%;font-size:18px;background-color:#4DB6AC;color:white"
+              @click="onLogout()"
+            >
+              <span class="material-icons" style="font-size:30px;color:white;padding-right:5px">
+                exit_to_app
+              </span> Keluar
+            </q-btn>
+          </div>
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
+
+    <q-page class="q-pa-md">
+      <q-tab-panels
+        v-model="tab"
+        animated
+        style="height:-webkit-fill-available"
+      >
+        <q-tab-panel
+          class="q-pt-sm q-px-none"
+          name="assigmentpacket"
+          style="height:100%;background-color:white"
+        >
+          <div class="row q-px-sm q-pb-md full-width">
+            <div class="col-10">
+              <q-input 
+                outlined
+                rounded
+                dense
+                no-caps
+                label="Cari Paket Soal"
+                >
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+            <div class="col-2 text-center">
+              <span class="material-icons" style="color:#828282;font-size:38px">
+                tune
+              </span>
+            </div>
+          </div>
+          <div class="q-px-sm q-py-xs" v-for="n in 5" :key="n">
+            <training-list-item></training-list-item>
+          </div>
+        </q-tab-panel>
+        <q-tab-panel
+          class="q-pt-sm q-px-none"
+          name="finishedpacket"
+          style="height:100%;background-color:white"
+        >
+          <div class="row q-px-sm q-pb-md full-width">
+            <div class="col-10">
+              <q-input 
+                outlined
+                rounded
+                dense
+                no-caps
+                label="Cari Paket Soal"
+                >
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+            <div class="col-2 text-center">
+              <span class="material-icons" style="color:#828282;font-size:38px">
+                tune
+              </span>
+            </div>
+          </div>
+          <div class="q-pa-sm" v-for="n in 5" :key="n">
+            <training-list-item></training-list-item>
+          </div>
+        </q-tab-panel>
+      </q-tab-panels>
+    </q-page>
+    <!-- <q-toolbar class="text-primary bg-teal">
       <q-btn color="white" flat round dense icon="arrow_back" @click="$router.back()" />
       <q-toolbar-title>
         <div class="text-body1 text-bold text-white">Latihan Mandiri</div>
@@ -72,10 +355,8 @@
   </div>
      
         
-    </q-page>
-    
-    </div>
-  
+    </q-page> -->   
+  </div>
 </template>
 
 <script>
@@ -84,6 +365,10 @@ import { copyToClipboard } from 'quasar'
 import { mapState } from "vuex";
 import moment from "moment";
 export default {
+  components: {
+      TrainingListItem: () =>import('components/training/TrainingItem.vue'),
+      AnnouncementList: () =>import('components/announcement/AnnouncementList.vue')
+    },
   props: {
     assigmentId: null,
     userId: null,
@@ -95,6 +380,8 @@ export default {
       assigments: {
         data:[]
       },
+      navigation:false,
+      tab:"assigmentpacket",
       sessions:[],
       loading: false,
       step: 1,
@@ -249,7 +536,12 @@ export default {
         this.$store.dispatch('Notif/send',payload).then(res=>{
           console.log(res)
         })
-      }
+      },
+      onLogout(){
+      this.$router.push("/login").then(() => {
+        this.$store.dispatch("Auth/logout");
+      });
+    }
   }
 };
 </script>
