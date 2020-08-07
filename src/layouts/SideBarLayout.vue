@@ -1,8 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-page-container>
-    <q-drawer
-    v-model="navigation"
+  <q-drawer
+    v-model="Setting.navigation"
     :width="270"
     :breakpoint="500"
     overlay
@@ -160,72 +158,35 @@
       </q-list>
     </q-scroll-area>
   </q-drawer>
-      <router-view v-on:navigation-toggle="navigation = !navigation" />
-    </q-page-container>
-  </q-layout>
 </template>
-
 <script>
 import { mapState } from "vuex";
 
 export default {
-  name: 'MainLayout',
-  components: {
+  name: "SideBarlayout",
+  computed: {
+    ...mapState(["Auth", "AssigmentSession", "Setting", "Achievement"])
   },
-  data () {
+  components: {},
+  data() {
     return {
-      navigation:false,
-      leftDrawerOpen: false,
-      essentialLinks: [
-        {
-          title: 'Docs',
-          caption: 'quasar.dev',
-          icon: 'school',
-          link: 'https://quasar.dev'
-        },
-        {
-          title: 'Github',
-          caption: 'github.com/quasarframework',
-          icon: 'code',
-          link: 'https://github.com/quasarframework'
-        },
-        {
-          title: 'Discord Chat Channel',
-          caption: 'chat.quasar.dev',
-          icon: 'chat',
-          link: 'https://chat.quasar.dev'
-        },
-        {
-          title: 'Forum',
-          caption: 'forum.quasar.dev',
-          icon: 'record_voice_over',
-          link: 'https://forum.quasar.dev'
-        },
-        {
-          title: 'Twitter',
-          caption: '@quasarframework',
-          icon: 'rss_feed',
-          link: 'https://twitter.quasar.dev'
-        },
-        {
-          title: 'Facebook',
-          caption: '@QuasarFramework',
-          icon: 'public',
-          link: 'https://facebook.quasar.dev'
-        }
-      ]
-    }
+      //navigation: false
+    };
   },
   computed:{
-    ...mapState(["Auth","Setting"])
+      navigation:{
+          get(){
+              return this.Setting.navigation;
+          },
+          set(newValue){
+              return this.$store.dispatch("Setting/toggleNavigation");
+          }
+      }
   },
-  methods:{
-     onLogout:function() {
-      //alert('asdsa')
-      this.$router.push("/login").then(() => {
-        this.$store.dispatch("Auth/logout");
-      });
-    }
+  methods: {
+      toggleNavigation(){
+          this.$store.dispatch("Setting/toggleNavigation");
+      }
   }
-}
+};
 </script>

@@ -11,11 +11,11 @@
         <q-item-section>
           <q-card-section class="q-pb-none">
             <div class="text-h6" style="word-wrap:break-word">
-              Penilaian UAS
+              {{assigment.name}}
             </div>
           </q-card-section>
           <q-card-section class="q-py-none">
-            <div class="text-caption" style="font-size:14px">Oleh Bapak...</div>
+            <div class="text-caption" style="font-size:14px">Oleh {{assigment.teacher?assigment.teacher.name:''}}</div>
           </q-card-section>
           <q-card-section class="q-py-sm">
             <q-item class="q-px-none">
@@ -50,14 +50,14 @@
             </q-item>
           </q-card-section>
         </q-item-section>
-        <q-item-section side top class="q-pa-none text-right" style="padding-left:0px">
+        <q-item-section side top class="q-pa-none text-right" style="padding-left:0px" v-if="assigment.latest_auth_session[0].pivot.total_score!=null">
           <div 
             class="q-pa-md text-center" 
             style="background-color:#27AE60;
             color:white;font-size:20px;
             border-radius: 25px 0px 25px 25px;"
           > 
-            90
+            {{assigment.latest_auth_session[0].pivot.total_score}}
           </div>
         </q-item-section>
       </q-item>
@@ -66,7 +66,11 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
-    
+    props:{
+      assigment:null
+    }
 }
 </script>

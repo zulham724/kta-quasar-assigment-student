@@ -8,7 +8,9 @@ const state = {
 // Mutations
 const mutations = {
     setGrade(state, payload) {
-        state.grade = payload;
+        state.grade = payload.map(e=>{
+            return {...e}
+        })
     }
 
 }
@@ -27,8 +29,9 @@ const actions = {
     show({commit}, id){
         return new Promise((resolve,reject)=>{
             axios.get(`${this.state.Setting.url}/api/v1/educationallevel/${id}`).then(res=>{
-                commit("setGrade",res.data.grades);
-                console.log("dalam module: ", this.state.EducationalLevel.grade)
+                commit("setGrade", res.data.grades);
+                //console.log("dalam module: ", this.state.EducationalLevel.grade)
+                //console.log(res.data.grades)
                 resolve(res)
             }).catch(err=>{
                 reject(err)

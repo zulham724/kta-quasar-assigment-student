@@ -12,6 +12,7 @@
       </q-card-section>
       <q-card-section class="text-center">
         <q-input 
+        v-model="code"
           outlined 
           no-caps 
           color="teal" 
@@ -24,9 +25,11 @@
         <q-btn
           class="text-weight-light q-px-md q-py-xs"
           flat
+          :loading="loading"
           no-caps
           rounded
           style="background-color:#009688;color:white"
+          @click="onOKClick"
           >
           Kerjakan
         </q-btn>
@@ -135,6 +138,7 @@ export default {
     },
 
     onOKClick() {
+      //alert('asd')
       // on OK, it is REQUIRED to
       // emit "ok" event (with optional payload)
       // before hiding the QDialog
@@ -164,9 +168,10 @@ export default {
             this.code1 = true
             this.assigment = res.data
             this.user = res.data.teacher
+            this.$router.push({name:'quizpage', params:{assigment:res.data}})
             this.$q.notify("Kode Soal Ditemukan");
           } else {
-            this.$q.notify("Kode soal tidak ditemukan")
+            this.$q.notify("Kode soal tidak ditemukan atau paket soal telah dikerjakan")
           }
         
         })

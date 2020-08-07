@@ -10,9 +10,11 @@
               background-color:#005951"
             >
               <q-card-section class="q-px-xl q-py-xl text-center" style="font-size:18px">
-                <div class="text-weight-medium" style="color:#B2DFDB">Soal Penilaian Semester Ganjil</div>
-                <div class="text-weight-light" style="color:white">Oleh: bambabng</div>
-                <div class="text-weight-light" style="color:white">Kelas 10 SMA</div>
+                <div class="text-weight-medium" style="color:#B2DFDB">{{assigmentForSubmit.name}}</div>
+                <div class="text-weight-light" style="color:white">Oleh: {{assigmentForSubmit.teacher.name}}</div>
+                <div class="text-weight-light" style="color:white">Kelas: {{assigmentForSubmit.grade.description}}</div>
+                <div class="text-weight-light" style="color:white">Semester {{assigmentForSubmit.teacher.name}}</div>
+
               </q-card-section>
             </q-card>
           </div>
@@ -63,7 +65,7 @@
                       Beranda 
                     </q-btn>
                   </q-item-section>
-                  <q-item-section>
+                  <!--<q-item-section>
                     <q-btn 
                       class="q-py-xs text-weight-regular"
                       rounded 
@@ -75,7 +77,7 @@
                     >
                       Review Nilai 
                     </q-btn>
-                  </q-item-section>
+                  </q-item-section>-->
                 </q-item>
             </div>
           </div>
@@ -126,7 +128,7 @@
                       Beranda 
                     </q-btn>
                   </q-item-section>
-                  <q-item-section>
+                  <!--<q-item-section>
                     <q-btn 
                       class="q-py-xs text-weight-regular"
                       rounded 
@@ -138,7 +140,7 @@
                     >
                       Review Nilai 
                     </q-btn>
-                  </q-item-section>
+                  </q-item-section>-->
                 </q-item>
             </div>
           </div>
@@ -189,7 +191,7 @@
                       Beranda 
                     </q-btn>
                   </q-item-section>
-                  <q-item-section>
+                 <!-- <q-item-section>
                     <q-btn 
                       class="q-py-xs text-weight-regular"
                       rounded 
@@ -201,7 +203,7 @@
                     >
                       Review Nilai 
                     </q-btn>
-                  </q-item-section>
+                  </q-item-section>-->
                 </q-item>
             </div>
           </div>
@@ -242,6 +244,7 @@
 export default {
     props:{
         assigment: null,
+        assigmentForSubmit:null,
         // assigmentId: null
     },
     data(){
@@ -259,8 +262,11 @@ export default {
       // ...mapState(["Auth"])
     },
     mounted(){
+      
+      //console.log(this.assigmentForSubmit)
+      //return "asu";
       this.loading=true;
-      this.$store.dispatch('AssigmentSession/store',this.assigment).then(res=>{
+      this.$store.dispatch('AssigmentSession/store',this.assigmentForSubmit).then(res=>{
           this.score=res.data.score.value;
           this.isKeterangan=res.data.score.isTemporary;
       }).finally(err=>{

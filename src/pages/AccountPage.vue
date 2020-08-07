@@ -2,7 +2,7 @@
   <div>
     <q-header>
       <q-toolbar style="background-color:white">
-        <div class="q-pa-sm" style="color:#009688;font-size:26px" clickable @click="navigation = !navigation">
+        <div class="q-pa-sm" style="color:#009688;font-size:26px" clickable @click="$emit('navigation-toggle')">
           <span class="material-icons">
             menu
           </span>
@@ -54,133 +54,17 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="navigation"
-      :width="270"
-      :breakpoint="500"
-      overlay
-      bordered
-      content-class="bg-white"
-    >
-      <q-scroll-area class="fit">
-        <q-list>
-          <q-item class="q-pa-md">
-            <q-item-section avatar top>
-              <q-avatar size="3.6rem">
-                <q-img no-default-spinner src="~assets/grass-pattern.jpg"></q-img>
-              </q-avatar>
-            </q-item-section>
-            <q-item-section top>
-              <q-item-label>
-                <div class="text-weight-medium" style="font-size:14px">
-                  John nono
-                </div>
-              </q-item-label>
-              <q-item-label style=" color:#F2C94C">
-                <span class="material-icons" style="font-size:18px">
-                  emoji_events
-                </span> 100 points
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/')">
-            <q-item-section avatar>
-              <span class="material-icons" style="font-size:30px;color:#009688">
-                home
-              </span>
-            </q-item-section>
-            <q-item-section>
-              <div style="font-size:15px">Beranda</div>
-            </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/account')">
-            <q-item-section avatar>
-              <span class="material-icons" style="font-size:30px;color:#009688">
-                person
-              </span>
-            </q-item-section>
-            <q-item-section>
-              <div style="font-size:15px">Profil</div>
-            </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/assigment')">
-            <q-item-section avatar>
-              <span class="material-icons" style="font-size:30px;color:#009688">
-                assignment
-              </span>
-            </q-item-section>
-            <q-item-section>
-              <div style="font-size:15px">Kerjakan Soal</div>
-            </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/traininglist')">
-            <q-item-section avatar>
-              <span class="material-icons" style="font-size:30px;color:#009688">
-                edit
-              </span>
-            </q-item-section>
-            <q-item-section>
-              <div style="font-size:15px">Latihan Mandiri</div>
-            </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/theory')">
-            <q-item-section avatar>
-              <span class="material-icons" style="font-size:30px;color:#009688">
-                class
-              </span>
-            </q-item-section>
-            <q-item-section>
-              <div style="font-size:15px">Materi</div>
-            </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/post')">
-            <q-item-section avatar>
-              <span class="material-icons" style="font-size:30px;color:#009688">
-                forum
-              </span>
-            </q-item-section>
-            <q-item-section>
-              <div style="font-size:15px">Diskusi</div>
-            </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple style="border-bottom:1px solid #E0E0E0" @click="$router.push('/setting')">
-            <q-item-section avatar>
-              <span class="material-icons" style="font-size:30px;color:#009688">
-                settings
-              </span>
-            </q-item-section>
-            <q-item-section>
-              <div style="font-size:15px">Pengaturan Akun</div>
-            </q-item-section>
-          </q-item>
-          <div class="q-pa-lg text-center">
-            <q-btn 
-              class="text-weight-regular"
-              flat
-              rounded
-              no-caps
-              style="width:90%;font-size:18px;background-color:#4DB6AC;color:white"
-              @click="onLogout()"
-            >
-              <span class="material-icons" style="font-size:30px;color:white;padding-right:5px">
-                exit_to_app
-              </span> Keluar
-            </q-btn>
-          </div>
-        </q-list>
-      </q-scroll-area>
-    </q-drawer>
-
     <q-page class="q-pa-lg">
       <q-item class="q-pa-none">
         <q-item-section avatar top>
           <q-avatar size="6rem">
-            <q-img no-default-spinner src="~assets/man.png"></q-img>
+            <q-img no-default-spinner :src="`${Setting.storageUrl}/${Auth.auth.avatar}`"></q-img>
+             <q-skeleton type="circle" size="100%" />
           </q-avatar>
         </q-item-section>
         <q-item-section top>
           <q-item-label>
-            <div class="text-weight-bold text-h6">John nono</div>
+            <div class="text-weight-bold text-h6">  {{ Auth.auth.name }}</div>
           </q-item-label>
           <q-item-label style="color:#F2C94C;font-size:17px;margin-top:0px">
             <span class="material-icons" style="font-size:26px">
@@ -189,6 +73,7 @@
           </q-item-label>
           <q-item-label>
             <q-btn
+             @click="$refs.inputFile.pickFiles()"
               class="q-px-sm" 
               dense
               flat
@@ -199,16 +84,23 @@
                 camera_alt
               </span> Ubah Foto Profil
             </q-btn> 
+            <q-file v-show="false" v-model="file" ref="inputFile" @input="file=>$router.push({
+                  name:'accountchangeavatar',
+                  params:{
+                    file:file
+                  }
+                })"></q-file>
           </q-item-label>
         </q-item-section>
       </q-item>
       <div  shrink class="q-pt-lg q-pb-xs">
+     
         <q-btn
           class="q-py-xs" 
           dense
           no-caps
           style="background-color:#4DB6AC;width:100%;border-radius:10px"
-          @click="$router.push('/dailytask')"
+          @click="$q.notify('Dalam konstruksi')/*$router.push('/dailytask')*/"
         > 
           <div class="row full-width">
             <div class="col-2 text-left">
@@ -233,7 +125,7 @@
           dense
           no-caps
           style="background-color:#4DB6AC;width:100%;border-radius:10px"
-          @click="$router.push('/statistic')"
+          @click="$q.notify('Dalam konstruksi')/*$router.push('/statistic')*/"
         > 
           <div class="row full-width">
             <div class="col-2 text-left">
@@ -258,7 +150,7 @@
           dense
           no-caps
           style="background-color:#4DB6AC;width:100%;border-radius:10px"
-          @click="$router.push('/ranking')"
+          @click="$q.notify('Dalam konstruksi') /*$router.push('/ranking')*/"
         > 
           <div class="row full-width">
             <div class="col-2 text-left">
@@ -283,7 +175,7 @@
           dense
           no-caps
           style="background-color:#4DB6AC;width:100%;border-radius:10px"
-          @click="$router.push('/theory/modul/save')"
+          @click="$q.notify('Dalam konstruksi')/*$router.push('/theory/modul/save')*/"
         > 
           <div class="row full-width">
             <div class="col-2 text-left">
@@ -308,7 +200,7 @@
           dense
           no-caps
           style="background-color:#4DB6AC;width:100%;border-radius:10px"
-          @click="$router.push('/theory/media/save')"
+          @click="$q.notify('Dalam konstruksi')/*$router.push('/theory/media/save')*/"
         > 
           <div class="row full-width">
             <div class="col-2 text-left">
@@ -338,6 +230,7 @@
             outlined
             bg-color="white"
             no-caps
+            v-model="credential.name"
             dense
             label="Nama"
             color="teal-3"
@@ -353,7 +246,7 @@
             no-caps
             dense
             disable
-            label="Johnnono@gmail.com"
+            :label="credential.email"
             color="teal-3"
           >
           </q-input>
@@ -366,9 +259,9 @@
             bg-color="white"
             no-caps
             dense
-            style="width:50%"
-            filled type="date"
-            label="Tanggal Lahir"
+            filled 
+            type="date"
+            v-model="credential.profile.birthdate"
             color="teal-3"
           >
             <template v-slot:prepend>
@@ -378,9 +271,10 @@
         </q-card-section>
         <q-card-section class="q-py-xs">
           <div class="text-weight-medium" style="font-size:15px;color:#4DB6AC">Jenis Kelamin</div>
-            <q-radio v-model="gender" val="Laki-Laki" label="Laki-Laki" color="teal-3" />
-            <q-radio v-model="gender" val="Perempuan" label="Perempuan" color="teal-3" />
+            <q-radio v-model="credential.profile.gender" val="Laki-Laki" label="Laki-Laki" color="teal-3" />
+            <q-radio v-model="credential.profile.gender" val="Perempuan" label="Perempuan" color="teal-3" />
         </q-card-section>
+         
         <q-card-section class="q-py-xs">
           <div class="q-pb-xs text-weight-medium" style="font-size:15px;color:#4DB6AC">Alamat</div>
           <q-input
@@ -389,6 +283,7 @@
             bg-color="white"
             no-caps
             dense
+            v-model="credential.profile.home_address"
             autogrow
             label="Alamat"
             color="teal-3"
@@ -402,8 +297,8 @@
             outlined
             bg-color="white"
             no-caps
-            type="number"
             dense
+            v-model ="credential.profile.contact" 
             label="Nomor Telepon"
             color="teal-3"
           >
@@ -411,13 +306,13 @@
         </q-card-section>
         <q-card-section class="text-right">
           <q-btn
+            @click="saveProfile"
             class="q-px-xs text-weight-regular"
             flat
             no-caps
             rounded
             label="Simpan"
             style="font-size:16px;color:white;background-color:#009688">
-
           </q-btn>
         </q-card-section>
       </q-card>
@@ -430,48 +325,62 @@
             <div class="col-5 q-pr-sm">
               <div class="q-pb-xs text-weight-medium" style="font-size:15px;color:#4DB6AC">Jenjang</div>
               <q-select 
+              
+                :disable="loading"
+                v-model="credential.profile.educational_level"
+                option-label="name"
+                option-value="id"
                 outlined  
                 dense 
                 color="teal-3"
                 bg-color="white"
-                v-model="model" 
                 style="width:100%"
-                :options="options"
-                map-options
+                :options="educationallevels"
                 label="Jenjang"
+                 @input="item=>{
+                    credential.profile.educational_level_id = item.id
+                    getGrades(credential.profile.educational_level_id)
+                  }"
               >
               </q-select>
             </div>
             <div class="col-7 q-pl-sm">
               <div class="q-pb-xs text-weight-medium" style="font-size:15px;color:#4DB6AC">Kelas</div>
-              <q-input
-                flat
-                outlined
-                bg-color="white"
-                no-caps
-                dense
+               <q-select
+               :disabled="loading"
+                outlined  
+                dense 
+                v-model="credential.profile.grade"
+                :options="grades"
                 label="Kelas"
-                color="teal-3"
-              >
-              </q-input>
+                :display-value="displayValueGrade"
+                option-label="description"
+                option-value="id"
+                @input="grade => (credential.profile.grade_id = grade.id)"
+                >
+                  
+                </q-select>
             </div>
           </div>
         </q-card-section>
         <q-card-section class="q-py-xs">
           <div class="q-pb-xs text-weight-medium" style="font-size:15px;color:#4DB6AC">Sekolah</div>
           <q-input
+          v-model="credential.profile.school_place" 
             flat
             outlined
             bg-color="white"
             no-caps
             dense
             label="Sekolah"
+            autogrow
             color="teal-3"
           >
           </q-input>
         </q-card-section>
         <q-card-section class="text-right">
           <q-btn
+          @click="saveSchool"
             class="q-px-xs text-weight-regular"
             flat
             no-caps
@@ -586,6 +495,14 @@
 import { mapState } from "vuex";
 import AchievementStore from '../store/modules/Achievement.store';
 export default {
+  watch:{
+    'credential.profile.educational_level':function(val, oldval){
+      console.log(oldval);
+      console.log('>');
+      console.log(val);
+    }
+  },
+  
   components: {
     AnnouncementList: () =>import('components/announcement/AnnouncementList.vue')
   },
@@ -593,30 +510,125 @@ export default {
 
   data() {
     return {
+      credential: {
+        profile:{
+        },
+      },
+      file:null,
       options:null,
-      navigation:false
+      navigation:false,
+      loading:false,
+      educationallevels: [{
+        "name": null,
+        "id": null
+      }],
+      grades: [{
+        "description": null,
+        "id": null
+      }],
       // perfect_score: null,
       // finished_question: null,
       // total_post: null
     };
   },
   computed: {
-    ...mapState(["Auth", "Setting", "Achievement"])
+    ...mapState(["Auth", "Setting", "Achievement"]),
+    displayValueGrade(){
+      // if(!this.credential.profile.educational_level)return null;
+      
+      // console.log(this.credential.profile.educational_level.grades)
+      // let cek=this.credential.profile.educational_level.grades.find(e=>{
+      //   return e.id==this.credential.profile.grade.id;
+      // });
+
+      // if(cek)return this.credential.profile.grade.description;
+      // return null;
+      if(this.credential.profile.educational_level && this.credential.profile.grade){
+        let cek=this.credential.profile.educational_level.grades.find(e=>{
+          return e.id==this.credential.profile.grade.id;
+        });
+        if(cek)return this.credential.profile.grade.description;
+        else return "Pilih kelas";
+      }else if(this.credential.profile.educational_level && !this.credential.profile.grade){
+        return "Pilih kelas"; 
+      }
+      return "Pilih jenjang dulu"
+    }
   },
   created() {
-    this.onRefresh()
+    this.getEducationalLevels()
+    
+    //this.getGrades()
+
+  },
+  mounted(){
+     this.onRefresh()
   },
   methods: {
+    saveProfile(){
+      this.loading = true;
+      let credential= {...this.credential};
+      /*delete credential.profile.educational_level;
+      delete credential.profile.educational_level_id;
+      delete credential.profile.grade_id;*/
+      this.$store.dispatch("Auth/updateProfile", credential)
+          .then(res => {
+              this.$q.notify("Berhasil update profile");
+              //this.$router.push("/account");
+              //window.history.pushState(null, null, window.location.href);
+            })
+            .catch(err => {
+              this.$q.notify(err.response.data.message);
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+    },
+     saveSchool(){
+      this.loading = true;
+      this.$store.dispatch("Auth/updateProfile", this.credential)
+          .then(res => {
+              this.$q.notify("Berhasil update data sekolah");
+              //this.$router.push("/account");
+              //window.history.pushState(null, null, window.location.href);
+            })
+            .catch(err => {
+              this.$q.notify(err.response.data.message);
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+    },
+    getEducationalLevels(){
+      this.loading=true;
+      this.$store.dispatch('EducationalLevel/index').then(res=>{
+        this.educationallevels = res.data
+        this.loading=false;
+      })
+    },
+    getGrades(educationallevelsId){
+      this.loading=true;
+      this.grades[0].description="";
+
+      this.$store.dispatch('EducationalLevel/show',educationallevelsId).then(res=>{
+        this.grades = res.data.grades
+        this.loading=false
+      })
+    },
     onRefresh(done) {
       this.$store.dispatch('Auth/getAuth').then(res=>{
-        this.$store.dispatch('Achievement/calculateAchievement').then(res=>{
-          // this.perfect_score = res.data.achievements_account.perfect_score,
-          // this.total_post = res.data.achievements_account.total_post,
-          // this.finished_question = res.data.achievements_account.finished_question
-          if(done)done()
-        });
-      });
-      console.log()
+        this.credential = {
+          ...this.Auth.auth,
+          profile: {
+            ...this.Auth.auth.profile
+          }
+        }
+        if(this.credential.profile.educational_level){
+          //alert('as')
+          this.getGrades(this.credential.profile.educational_level.id);
+        }
+        if(done)done()
+      })
     },
     onLogout(){
       this.$router.push("/login").then(() => {

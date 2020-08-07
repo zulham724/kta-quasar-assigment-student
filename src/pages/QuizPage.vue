@@ -233,11 +233,13 @@
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
+
 export default {
   props: {
     assigmentId: null,
     userId: null,
-    user:null
+    user:null,
+    assigmentDetail:null,
   },
   data() {
     return {
@@ -262,6 +264,8 @@ export default {
     ...mapState(["Setting","AssigmentSession","Auth"])
   },
   created() {
+    console.log("quiaz");
+    console.log(this.assigmentDetail);
     this.teacher=this.user;
     if (this.assigmentId) this.init();
     // user:this.user

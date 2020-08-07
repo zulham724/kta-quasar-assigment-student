@@ -48,6 +48,9 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  props:{
+    postToEdit:null,
+  },
   computed: {
     ...mapState(["Setting", "Auth"])
   },
@@ -58,6 +61,10 @@ export default {
       files: [],
       images: []
     };
+  },
+  created:function(){
+    console.log('cok')
+    console.log(this.postToEdit)
   },
   mounted() {},
   methods: {

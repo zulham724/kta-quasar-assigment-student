@@ -3,8 +3,7 @@ import axios from "axios";
 
 // State object
 const state = {
-    posts: {},
-    ownedposts: {}
+    posts: {}
 };
 
 // Mutations
@@ -13,32 +12,17 @@ const mutations = {
         // payload.posts.data.map(item => item.isReadMore = false)
         state.posts = payload.posts;
     },
-    set2(state, payload) {
-        // payload.posts.data.map(item => item.isReadMore = false)
-        state.ownedposts = payload.posts;
-    },
     setComment(state, payload) {
         // payload.posts.data.map(item => item.isReadMore = false)
         state.posts = payload;
     },
     remove(state, payload) {
         const index = state.posts.data.findIndex(item => item.id == payload.id);
-        if(index>-1)state.posts.data.splice(index, 1);
-
-        const index2 = state.ownedposts.data.findIndex(item => item.id == payload.id);
-        if(index2>-1)state.ownedposts.data.splice(index2, 1);
+        state.posts.data.splice(index, 1);
     },
     add(state, payload) {
         // payload.post.isReadMore = false
         state.posts.data = [payload.post, ...state.posts.data];
-    },
-    update(state, payload) {
-    
-        const index = state.posts.data.findIndex(item => item.id == payload.id);
-        if(index>-1)state.posts.data[index].body = payload.body
-
-        const index2 = state.ownedposts.data.findIndex(item => item.id == payload.id);
-        if(index2>-1)state.ownedposts.data[index2].body = payload.body
     },
     addLikes(state, payload) {
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
@@ -63,13 +47,6 @@ const mutations = {
             data: [...state.posts.data, ...payload.posts.data]
         };
     },
-    next2(state, payload) {
-        // payload.posts.data.map(item => item.isReadMore = false)
-        state.ownedposts = {
-            ...payload.posts,
-            data: [...state.ownedposts.data, ...payload.posts.data]
-        };
-    },
     addReadMore(state, payload) {
         const index = state.posts.data.findIndex(item => item.id == payload.id);
         state.posts.data[index].isReadMore = false
@@ -89,22 +66,9 @@ const actions = {
     index({ commit }) {
         return new Promise((resolve, reject) => {
             axios
-                .get(`${this.state.Setting.url}/api/v1/studentpost`)
+                .get(`${this.state.Setting.url}/api/v1/mediapost`)
                 .then(res => {
                     commit("set", { posts: res.data });
-                    resolve(res);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
-    },
-    index2({ commit }) {
-        return new Promise((resolve, reject) => {
-            axios
-                .get(`${this.state.Setting.url}/api/v1/ownstudentpost`)
-                .then(res => {
-                    commit("set2", { posts: res.data });
                     resolve(res);
                 })
                 .catch(err => {
@@ -125,20 +89,6 @@ const actions = {
                     reject(err);
                 });
         });
-    },
-    update({ commit }, payload) {
-        return new Promise((resolve, reject) => {
-            let access = {
-                _method: 'put',
-                ...payload
-            }
-            axios.post(`${this.state.Setting.url}/api/v1/post/${payload.id}`, access).then(res => {
-                commit('update', res.data)
-                resolve(res)
-            }).catch(err => {
-                reject(err)
-            })
-        })
     },
     show({ commit }, id) {
         return new Promise((resolve, reject) => {
@@ -161,20 +111,6 @@ const actions = {
                 .get(`${state.posts.next_page_url}`)
                 .then(res => {
                     commit("next", { posts: res.data });
-                    resolve(res);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
-    },
-    next2({ commit, state }) {
-        return new Promise((resolve, reject) => {
-            // console.log(state.posts.next_page_url);
-            axios
-                .get(`${state.ownedposts.next_page_url}`)
-                .then(res => {
-                    commit("next2", { posts: res.data });
                     resolve(res);
                 })
                 .catch(err => {

@@ -13,6 +13,7 @@ const auth = function(to, from, next) {
 
 const routes = [{
         path: "/",
+        beforeEnter: multiguard([auth]),
         component: () =>
             import ("layouts/MainLayout.vue"),
         children: [{
@@ -28,8 +29,10 @@ const routes = [{
             },
             {
                 path: "/post/create",
+                name: "create",
                 component: () =>
-                    import ("pages/post/CreatePage.vue")
+                    import ("pages/post/CreatePage.vue"),
+                props: true
             },
             {
                 path: "/post/like/:postId",
@@ -39,8 +42,8 @@ const routes = [{
                 props: true
             },
             {
-                // path: "/post/comment/:postId",
-                path: "/post/comment",
+                path: "/post/comment/:postId",
+                //path: "/post/comment",
                 name: "postcomment",
                 component: () =>
                     import ("pages/post/CommentPage.vue"),
@@ -79,9 +82,11 @@ const routes = [{
             },
             {
                 path: "/account",
+                name: 'account',
                 beforeEnter: multiguard([auth]),
                 component: () =>
                     import ("pages/AccountPage.vue")
+                
             },
             {
                 path: "/setting",
@@ -139,6 +144,7 @@ const routes = [{
             },
             {
                 path: "/assigment",
+                name: "assigment",
                 beforeEnter: multiguard([auth]),
                 component: () =>
                     import ("pages/AssigmentListPage.vue")
