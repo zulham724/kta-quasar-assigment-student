@@ -42,22 +42,31 @@
                   style="color:black;background-color:white;font-size:12px"
                 >
                   <span class="material-icons" style="color:#009688;padding-right:4px;font-size:16px">
-                    date_range
+                    date_range 
                   </span>
-                  20 / 03 / 2020
+                  
+                  {{getAssigmentDate}}
                 </q-btn>
               </q-item-section>
             </q-item>
           </q-card-section>
         </q-item-section>
-        <q-item-section side top class="q-pa-none text-right" style="padding-left:0px" v-if="assigment.latest_auth_session[0].pivot.total_score!=null">
+        <q-item-section side top class="q-pa-none text-right" style="padding-left:0px" >
           <div 
+          v-if="assigment.auth_sessions[0].pivot.total_score!=null"
             class="q-pa-md text-center" 
-            style="background-color:#27AE60;
+            :style="`background-color:${assigment.auth_sessions[0].pivot.total_score>=60?'#27AE60':'#EB5757'};
             color:white;font-size:20px;
-            border-radius: 25px 0px 25px 25px;"
+            border-radius: 25px 0px 25px 25px;`"
           > 
-            {{assigment.latest_auth_session[0].pivot.total_score}}
+            {{assigment.auth_sessions[0].pivot.total_score}}
+          </div>
+          <div v-else class="q-pa-xs text-center" 
+            style="background-color:#F2C94C;position:relative;
+            color:white;font-size:14px;
+            border-radius: 25px 0px 25px 25px;
+            width:70px">
+          Belum dinilai
           </div>
         </q-item-section>
       </q-item>
@@ -67,10 +76,17 @@
 
 <script>
 import {mapState} from 'vuex'
+import { date } from 'quasar'
 
 export default {
     props:{
       assigment:null
+    },
+    computed:{
+      getAssigmentDate(){
+        //20 / 03 / 2020
+        return this.assigment.created_at;
+      }
     }
 }
 </script>

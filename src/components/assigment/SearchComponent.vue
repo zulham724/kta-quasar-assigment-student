@@ -170,6 +170,9 @@ export default {
             this.user = res.data.teacher
             this.$router.push({name:'quizpage', params:{assigment:res.data}})
             this.$q.notify("Kode Soal Ditemukan");
+          }else if(res.data.error_jenjang){
+             this.$q.notify("Silahkan isi jenjang terlebih dahulu di menu edit profile");
+             this.$router.push({name:'account'})
           } else {
             this.$q.notify("Kode soal tidak ditemukan atau paket soal telah dikerjakan")
           }
