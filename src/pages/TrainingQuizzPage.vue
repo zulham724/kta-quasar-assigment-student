@@ -444,7 +444,7 @@ export default {
           }
         });
         this.$router.push({
-          name: "result",
+          name: "trainingresult",
           params: { assigmentForSubmit: this.assigmentForSubmit }
         });
       }catch (e) {

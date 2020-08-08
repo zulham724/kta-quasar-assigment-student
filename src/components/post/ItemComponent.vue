@@ -347,7 +347,8 @@ export default {
     };
   },
   created() {
-    //console.log(this.post)
+    // console.log('asdasd')
+    // console.log(this.post)
   },
   methods: {
     moment: function() {

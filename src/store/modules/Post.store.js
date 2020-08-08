@@ -30,7 +30,13 @@ const mutations = {
     },
     add(state, payload) {
         // payload.post.isReadMore = false
-        state.posts.data = [payload.post, ...state.posts.data];
+        const index = state.posts.data.findIndex(item => item.id == payload.id);
+        if(index==-1) state.posts.data = [payload.post, ...state.posts.data];
+    },
+    add2(state, payload) {
+        // payload.post.isReadMore = false
+        const index = state.ownedposts.data.findIndex(item => item.id == payload.id);
+        state.ownedposts.data = [payload.post, ...state.ownedposts.data];
     },
     update(state, payload) {
     
@@ -58,16 +64,24 @@ const mutations = {
     },
     next(state, payload) {
         // payload.posts.data.map(item => item.isReadMore = false)
+
+        let fileredposts = payload.posts.data.filter(item=>{
+            return state.posts.data.find(e=>e.id==item.id)?false:true;
+        })
         state.posts = {
             ...payload.posts,
-            data: [...state.posts.data, ...payload.posts.data]
+            data: [...state.posts.data, ...fileredposts]
         };
     },
     next2(state, payload) {
         // payload.posts.data.map(item => item.isReadMore = false)
+        let fileredposts = payload.posts.data.filter(item=>{
+            return state.ownedposts.data.find(e=>e.id==item.id)?false:true;
+        })
+
         state.ownedposts = {
             ...payload.posts,
-            data: [...state.ownedposts.data, ...payload.posts.data]
+            data: [...state.ownedposts.data, ...fileredposts]
         };
     },
     addReadMore(state, payload) {
@@ -86,7 +100,7 @@ const mutations = {
 
 // Actions
 const actions = {
-    index({ commit }) {
+    index({ commit}) {
         return new Promise((resolve, reject) => {
             axios
                 .get(`${this.state.Setting.url}/api/v1/studentpost`)
@@ -112,13 +126,17 @@ const actions = {
                 });
         });
     },
-    store({ commit }, access) {
+    store({ commit, rootGetters }, access) {
         return new Promise((resolve, reject) => {
             // console.log(access)
             axios
                 .post(`${this.state.Setting.url}/api/v1/post`, access, { headers: { 'Content-Type': 'multipart/form-data' } })
                 .then(res => {
                     commit("add", { post: res.data });
+                    let auth=rootGetters["Auth/auth"];
+                    if(auth.id==res.data.author_id.id){
+                        commit("add2", { post: res.data });
+                    }
                     resolve(res);
                 })
                 .catch(err => {

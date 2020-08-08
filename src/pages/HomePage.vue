@@ -203,7 +203,7 @@
           </q-card>
         </div>
       </div>
-      <q-item class="q-py-md">
+      <!--<q-item class="q-py-md">
         <q-item-section>
           <q-item-label>
             <div class="text-h6 text-weight-bold" style="color:#009688">
@@ -238,7 +238,7 @@
             </div>
           </div>
         </q-scroll-area>
-      </q-item>
+      </q-item>-->
       <q-item>
         <q-item-section>
           <q-item-label>
@@ -426,7 +426,7 @@ import { mapState } from "vuex";
 import moment from "moment";
 export default {
   components: {
-    NewAssigment: () => import("components/assigment/NewAssigment.vue"),
+    //NewAssigment: () => import("components/assigment/NewAssigment.vue"),
     DailyTask: () => import("components/daily-task/DailyTask.vue"),
     AnnouncementList: () =>
       import("components/announcement/AnnouncementList.vue")

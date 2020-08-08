@@ -265,9 +265,11 @@
                       </q-avatar>
                     </q-item-section>
                     <q-item-section top style="width:100">
+                       <q-form ref="form">
                       <q-item-label>
                         <q-input
-                          v-model="random"
+                          v-model="post.body"
+                          
                           outlined
                           clearable
                           autogrow
@@ -278,6 +280,7 @@
                       </q-item-label>
                       <q-item-label class="q-pt-xs text-right">
                         <q-btn
+                         @click="store()"
                           class="q-px-lg text-center"
                           dense
                           no-caps
@@ -288,6 +291,7 @@
                           Kirim
                         </q-btn>
                       </q-item-label>
+                       </q-form>
                     </q-item-section>
                   </q-item>
                 </div>
@@ -470,7 +474,7 @@ export default {
     },
     onLoad2(index, done) {
       this.Post.posts.next_page_url
-        ? this.$store.dispatch("Post/next").then(res => done())
+        ? this.$store.dispatch("Post/next2").then(res => done())
         : done();
     },
     onRefresh(done) {

@@ -169,6 +169,8 @@ const routes = [{
             },
             {
                 path: "/review",
+                name: 'review',
+                props:true,
                 beforeEnter: multiguard([auth]),
                 component: () =>
                     import ("pages/quiz/QuizReviewPage.vue")
@@ -240,7 +242,13 @@ const routes = [{
         name: 'trainingresult',
         component: ()=> import('pages/quiz/TrainingResultPage.vue'),
         props: true
-    }
+    },
+    // {
+    //     path: '/trainingresult',
+    //     name: 'trainingresult',
+    //     component: ()=> import('pages/quiz/TrainingResultPage.vue'),
+    //     props: true
+    // }
 ];
 
 // Always leave this as last one

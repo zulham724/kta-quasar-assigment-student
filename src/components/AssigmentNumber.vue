@@ -26,9 +26,9 @@
               class="col-2 text-center q-pa-md cursor-pointer" @click="onOKClick(n) "
               :style="
                 `border: 1px solid #80CBC4;border-radius: 5px;${
-                  question_list.answer.name
-                    ? 'background-color:#6FCF97;color:white'
-                    : 'background-color:white;color:black'
+                  question_list.answer.value==100 
+                    ?'background-color:#6FCF97;color:white'
+                    : 'background-color:#EB5757;color:white'
                 }`
               "
             >

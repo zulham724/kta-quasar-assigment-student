@@ -2,104 +2,130 @@
   <div>
     <q-header>
       <q-toolbar style="background-color:#7A6180">
-        <div class="q-pa-sm" style="color:#E0E0E0;font-size:26px" clickable @click="$emit('navigation-toggle')">
+        <div
+          class="q-pa-sm"
+          style="color:#E0E0E0;font-size:26px"
+          clickable
+          @click="$emit('navigation-toggle')"
+        >
           <span class="material-icons">
             menu
           </span>
         </div>
-        <q-toolbar-title>
-        </q-toolbar-title>
+        <q-toolbar-title> </q-toolbar-title>
         <q-space />
-          <div class="q-pa-sm" style="color:#E0E0E0;font-size:26px " clickable>
-            <span class="material-icons">
-              notifications
-            </span>
-            <q-menu 
-              anchor="bottom right"
-              self="top right"
-              auto-close 
-              transition-show="scale"
-              transition-hide="scale"
+        <div class="q-pa-sm" style="color:#E0E0E0;font-size:26px " clickable>
+          <span class="material-icons">
+            notifications
+          </span>
+          <q-menu
+            anchor="bottom right"
+            self="top right"
+            auto-close
+            transition-show="scale"
+            transition-hide="scale"
+          >
+            <q-list
+              style="width:250px;border:2px solid #80CBC4; border-radius:5px"
             >
-              <q-list style="width:250px;border:2px solid #80CBC4; border-radius:5px">
-                <q-item>
-                  <q-item-section class="text-center">
-                    <div 
-                      class="text-weight-bold" 
-                      style="font-size:15px"
-                    >
-                      Pemberitahuan
-                    </div>
-                  </q-item-section>
-                </q-item>
-                <div v-for="n in 3" :key="n" class="q-py-xs" style="background-color:#E0F2F1">
-                  <announcement-list></announcement-list>
-                </div>
-                <q-item>
-                  <q-item-section class="text-center">
-                    <div 
-                      class="text-weight-bold" 
-                      style="color:#009688;font-size:13px"
-                      clickable
-                      @click="$router.push('/announcement')"
-                    >
-                      Lihat Semua
-                    </div>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </div>
+              <q-item>
+                <q-item-section class="text-center">
+                  <div class="text-weight-bold" style="font-size:15px">
+                    Pemberitahuan
+                  </div>
+                </q-item-section>
+              </q-item>
+              <div
+                v-for="n in 3"
+                :key="n"
+                class="q-py-xs"
+                style="background-color:#E0F2F1"
+              >
+                <announcement-list></announcement-list>
+              </div>
+              <q-item>
+                <q-item-section class="text-center">
+                  <div
+                    class="text-weight-bold"
+                    style="color:#009688;font-size:13px"
+                    clickable
+                    @click="$router.push('/announcement')"
+                  >
+                    Lihat Semua
+                  </div>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </div>
       </q-toolbar>
-      <q-toolbar class="q-pa-none q-pb-md" style="height:85px;background-color:#7A6180" inset>
-        <q-img no-default-spinner src="~assets/latihan-mandiri.png" style="width:100%"></q-img>
+      <q-toolbar
+        class="q-pa-none q-pb-md"
+        style="height:85px;background-color:#7A6180"
+        inset
+      >
+        <q-img
+          no-default-spinner
+          src="~assets/latihan-mandiri.png"
+          style="width:100%"
+        ></q-img>
       </q-toolbar>
-      <q-toolbar class="q-px-none" style="background-color:white;min-height:0px;align-items:none">
+      <q-toolbar
+        class="q-px-none"
+        style="background-color:white;min-height:0px;align-items:none"
+      >
         <div class="full-width" style="height:100%">
-        <q-tabs
-          v-model="tab"
-          dense
-          switch-indicator
-          class=""
-          active-color="white"
-          indicator-color="transparent"
-          align="justify"
-        >
-          <div class="row full-width text-weight-medium">
-            <div
-              class="col-6"
-              style=""
-              :style="`${tab == 'assigmentpacket'? 
-                        'background-color:#7A6180;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white': 
-                        'background-color:white;color:#7A6180'}`"
-            >
-              <q-tab
-                class="q-px-sm q-py-sm"
-                no-caps
-                name="assigmentpacket"
-                label="Paket Soal"
-              />
+          <q-tabs
+            v-model="tab"
+            dense
+            switch-indicator
+            class=""
+            active-color="white"
+            indicator-color="transparent"
+            align="justify"
+          >
+            <div class="row full-width text-weight-medium">
+              <div
+                class="col-6"
+                style=""
+                :style="
+                  `${
+                    tab == 'assigmentpaket'
+                      ? 'background-color:#7A6180;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white'
+                      : 'background-color:white;color:#7A6180'
+                  }`
+                "
+              >
+                <q-tab
+                  class="q-px-sm q-py-sm"
+                  no-caps
+                  name="assigmentpaket"
+                  label="Paket Soal"
+                />
+              </div>
+              <div
+                class="col-6"
+                style=""
+                :style="
+                  `${
+                    tab == 'finishedpaket'
+                      ? 'background-color:#7A6180;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white'
+                      : 'background-color:white;color:#7A6180'
+                  }`
+                "
+              >
+                <q-tab
+                  class="q-px-sm q-py-sm"
+                  no-caps
+                  name="finishedpaket"
+                  label="Dikerjakan"
+                />
+              </div>
             </div>
-            <div
-              class="col-6"
-              style=""
-              :style="`${tab == 'finishedpacket'? 
-                        'background-color:#7A6180;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white': 
-                        'background-color:white;color:#7A6180'}`"
-            >
-              <q-tab
-                class="q-px-sm q-py-sm"
-                no-caps
-                name="finishedpacket"
-                label="Dikerjakan"
-              />
-            </div>
-          </div>
-        </q-tabs>
+          </q-tabs>
         </div>
       </q-toolbar>
     </q-header>
-
 
     <q-page class="q-pa-md">
       <q-tab-panels
@@ -109,18 +135,20 @@
       >
         <q-tab-panel
           class="q-pt-sm q-px-none"
-          name="assigmentpacket"
+          name="assigmentpaket"
           style="height:100%;background-color:white"
         >
           <div class="row q-px-sm q-pb-md full-width">
             <div class="col-10">
-              <q-input 
+              <q-input
                 outlined
                 rounded
                 dense
+                v-model="search"
                 no-caps
+                @input="onSearch"
                 label="Cari Paket Soal"
-                >
+              >
                 <template v-slot:append>
                   <q-icon name="search" />
                 </template>
@@ -133,25 +161,36 @@
             </div>
           </div>
           <div v-if="TrainingAssigment.assigments">
-          <div class="q-px-sm q-py-xs" v-for="assigment in TrainingAssigment.assigments.data" :key="`training-${assigment.id}`">
-            <training-list-item :assigment="assigment"></training-list-item>
+            <div
+              class="q-px-sm q-py-xs"
+              v-for="assigment in TrainingAssigment.assigments.data"
+              :key="`training-${assigment.id}`"
+            >
+              <training-list-item :assigment="assigment"></training-list-item>
+            </div>
           </div>
+          <div v-else class="q-gutter-y-sm">
+            <div v-for="n in 4" :key="n">
+              <q-skeleton height="100px" />
+            </div>
           </div>
         </q-tab-panel>
         <q-tab-panel
           class="q-pt-sm q-px-none"
-          name="finishedpacket"
+          name="finishedpaket"
           style="height:100%;background-color:white"
         >
           <div class="row q-px-sm q-pb-md full-width">
             <div class="col-10">
-              <q-input 
+              <q-input
                 outlined
                 rounded
                 dense
                 no-caps
+                v-model="search"
+                @input="onSearch"
                 label="Cari Paket Soal"
-                >
+              >
                 <template v-slot:append>
                   <q-icon name="search" />
                 </template>
@@ -163,8 +202,17 @@
               </span>
             </div>
           </div>
-          <div class="q-pa-sm" v-for="n in 5" :key="n">
-            <training-list-item></training-list-item>
+          <div v-if="FinishedTrainingAssigment.assigments">
+            <div  v-for="assigment in FinishedTrainingAssigment.assigments.data" :key="`finishedtraining-${assigment.id}`">
+              <div class="q-pa-sm" v-for="session in assigment.auth_sessions" :key="`session-${session.id}`">
+                  <finished-training-list-item :assigment="assigment" :session="session"></finished-training-list-item>
+              </div>
+            </div>
+          </div>
+          <div v-else class="q-gutter-y-sm">
+            <div v-for="n in 4" :key="n">
+              <q-skeleton height="100px" />
+            </div>
           </div>
         </q-tab-panel>
       </q-tab-panels>
@@ -241,41 +289,42 @@
   </div>
      
         
-    </q-page> -->   
+    </q-page> -->
   </div>
 </template>
 
 <script>
-import { debounce } from 'quasar'
-import { copyToClipboard } from 'quasar'
+import { debounce } from "quasar";
+import { copyToClipboard } from "quasar";
 import { mapState } from "vuex";
 import moment from "moment";
 export default {
   components: {
-      TrainingListItem: () =>import('components/training/TrainingItem.vue'),
-      //FinishedTrainingListItem: () =>import('components/training/FinishedTrainingItem.vue'),
-      AnnouncementList: () =>import('components/announcement/AnnouncementList.vue')
-    },
+    TrainingListItem: () => import("components/training/TrainingItem.vue"),
+    FinishedTrainingListItem: () =>import('components/training/FinishedTrainingItem.vue'),
+    AnnouncementList: () =>
+      import("components/announcement/AnnouncementList.vue")
+  },
   props: {
     assigmentId: null,
     userId: null,
-    user:null
+    user: null
   },
   data() {
     return {
-      search:'',
+      search: "",
       assigments: {
-        data:[]
+        data: []
       },
-      navigation:false,
-      tab:"assigmentpacket",
-      sessions:[],
+      navigation: false,
+      tab: "assigmentpaket",
+      sessions: [],
       loading: false,
       step: 1,
       isTime: false,
       isStart: false,
-      dispMinutes :  null,
-      dispSeconds : null,
+      dispMinutes: null,
+      dispSeconds: null,
       timer: null,
       session: {},
       questions: null,
@@ -287,57 +336,72 @@ export default {
     };
   },
   computed: {
-    ...mapState(["Setting","AssigmentSession","Auth", "TrainingAssigment"]),
+    ...mapState([
+      "Setting",
+      "AssigmentSession",
+      "Auth",
+      "TrainingAssigment",
+      "FinishedTrainingAssigment"
+    ])
   },
-  watch:{
-    'assigments.data':function (val, oldVal) {
-      console.log(val)
-    }
-  },
+  // watch: {
+  //   "assigments.data": function(val, oldVal) {
+  //     console.log(val);
+  //   }
+  // },
   created() {
-   this.onSearch = debounce(this.onSearch, 1000);
-  if(!this.TrainingAssigment.assigments) this.$store.dispatch("TrainingAssigment/index", this.search);
-   
+    this.onSearch = debounce(this.onSearch, 1000);
+    if (!this.TrainingAssigment.assigments)
+      this.$store.dispatch("TrainingAssigment/index", this.search);
+    if (!this.FinishedTrainingAssigment.assigments)
+      this.$store.dispatch("FinishedTrainingAssigment/index", this.search);
   },
   methods: {
-    init(){
+    init() {
       this.loading = true;
-   
     },
     onSearch() {
-       this.loading = true;
+      this.loading = true;
       this.$store
-         .dispatch("Assigment/getMasterPublish", this.search)
-         .then(res => {
-           this.assigments = res.data;
-         })
-         .finally(() => {
+        .dispatch("Assigment/getMasterPublish", this.search)
+        .then(res => {
+          this.assigments = res.data;
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
-    onLoad(index, done){
-       this.assigments.next_page_url
-        ? this.$store.dispatch("Assigment/nextMasterPublish", this.assigments.next_page_url).then(res =>{
-          this.assigments.data = [...this.assigments.data, ...res.data.data];
-          this.assigments.next_page_url = res.data.next_page_url;
-          done();
+    onLoad(index, done) {
+      this.assigments.next_page_url
+        ? this.$store
+            .dispatch(
+              "Assigment/nextMasterPublish",
+              this.assigments.next_page_url
+            )
+            .then(res => {
+              this.assigments.data = [
+                ...this.assigments.data,
+                ...res.data.data
+              ];
+              this.assigments.next_page_url = res.data.next_page_url;
+              done();
 
-          //console.log(this.assigments);
-        })
+              //console.log(this.assigments);
+            })
         : done();
     },
     onCountdown() {
-      const time = moment().add(this.assigment.timer,'minutes')
-      this.intervalTime = setInterval(()=>{
-        let now = moment()
-        let distance = time - now
+      const time = moment().add(this.assigment.timer, "minutes");
+      this.intervalTime = setInterval(() => {
+        let now = moment();
+        let distance = time - now;
         let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        this.dispMinutes = minutes
+        this.dispMinutes = minutes;
         let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        this.dispSeconds = seconds
-        let timeDisplay = minutes + " Menit" + seconds + " Detik"
+        this.dispSeconds = seconds;
+        let timeDisplay = minutes + " Menit" + seconds + " Detik";
         // console.log( "menit: ", minutes, "detik ", seconds)
-        if  (distance < 2) {
+        if (distance < 2) {
           clearInterval(intervalTime);
           this.$router.push({
             name: "result",
@@ -346,36 +410,35 @@ export default {
             }
           });
         } else {
-          null
+          null;
         }
       }, 1000);
-      
     },
-    onTextarea(payload){
+    onTextarea(payload) {
       if (payload.pivot.assigment_type.description == "textarea") {
-        payload.answer_lists[0].name = payload.answer_lists.name
+        payload.answer_lists[0].name = payload.answer_lists.name;
         payload.answer = payload.answer_lists[0];
-        payload.answer.value = null
+        payload.answer.value = null;
         this.$forceUpdate();
       }
     },
-    onTextfield(payload){
+    onTextfield(payload) {
       if (payload.pivot.assigment_type.description == "textfield") {
-        payload.answer_lists[0].name = payload.answer_lists.name
+        payload.answer_lists[0].name = payload.answer_lists.name;
         payload.answer = payload.answer_lists[0];
-        payload.answer.value = null
+        payload.answer.value = null;
         this.$forceUpdate();
       }
     },
     onStart() {
-      this.assigment.timer? this.onCountdown() : null
+      this.assigment.timer ? this.onCountdown() : null;
     },
     onSubmit() {
       // console.log("ini assigment: ", this.assigment)
-      let indikator = 0
+      let indikator = 0;
       this.assigment.question_lists.forEach(item => {
         if (item.answer.name == null) {
-          indikator = 1
+          indikator = 1;
         }
       });
       this.$refs.form.validate().then(success => {
@@ -385,11 +448,11 @@ export default {
           indikator == 0
         ) {
           clearInterval(this.intervalTime);
-          this.sendNotif()
+          this.sendNotif();
           this.$router.push({
             name: "result",
             params: {
-              assigment: this.assigment,
+              assigment: this.assigment
             }
           });
         } else {
@@ -397,26 +460,25 @@ export default {
         }
       });
     },
-    sendNotif(){
-        const payload = {
-          title: `AGPAII DIGITAL`,
-          // body: `Postingan anda dikomentari oleh ${this.Auth.auth.name}: ${this.comment.value}`,
-          body: `Soal telah selesai dikerjakan oleh ${this.Auth.auth.name}`,
-          params:{
-            sender_id: this.Auth.auth.id,
-            target_id: this.userId,
-            target_type: `Post`,
-            text: `${this.Auth.auth.name} telah melakukan submit jawaban`,
-          },
-          to: `/topics/user_${this.userId}_assigment_${this.assigmentId}_quiz`
-          // `/topics/user_${this.Auth.auth.id}_post_${this.Auth.auth.posts.id}_comment`
-          
-        }
-        this.$store.dispatch('Notif/send',payload).then(res=>{
-          console.log(res)
-        })
-      },
-      onLogout(){
+    sendNotif() {
+      const payload = {
+        title: `AGPAII DIGITAL`,
+        // body: `Postingan anda dikomentari oleh ${this.Auth.auth.name}: ${this.comment.value}`,
+        body: `Soal telah selesai dikerjakan oleh ${this.Auth.auth.name}`,
+        params: {
+          sender_id: this.Auth.auth.id,
+          target_id: this.userId,
+          target_type: `Post`,
+          text: `${this.Auth.auth.name} telah melakukan submit jawaban`
+        },
+        to: `/topics/user_${this.userId}_assigment_${this.assigmentId}_quiz`
+        // `/topics/user_${this.Auth.auth.id}_post_${this.Auth.auth.posts.id}_comment`
+      };
+      this.$store.dispatch("Notif/send", payload).then(res => {
+        console.log(res);
+      });
+    },
+    onLogout() {
       this.$router.push("/login").then(() => {
         this.$store.dispatch("Auth/logout");
       });

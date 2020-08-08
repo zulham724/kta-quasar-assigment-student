@@ -7,101 +7,64 @@
       background-image: url('statics/training-background.png');
       border-radius:15px;color:black"
       clickable
-      @click="$router.push('/quiz')"
+      @click="$router.push({name:'review', params:{assigment:assigment, session:session}})"
     >
-      <q-item class="q-pa-none">
+     <q-item class="q-pa-none q-ma-none" >
         <q-item-section>
-          <q-card-section class="q-py-none">
-            <q-item class="q-pa-none">
-              <q-item-section avatar style="padding-right:5px">
-                <q-btn 
-                  class="text-weight-regular q-px-sm" 
-                  dense
-                  rounded 
-                  flat 
-                  size="12px"
-                  style="color:white;background-color:#009688"
-                >
-                  10 SMA
-                </q-btn>
-              </q-item-section>
-              <q-item-section avatar style="padding-right:5px">
-                <q-btn 
-                  class="text-weight-regular q-px-sm" 
-                  dense
-                  rounded 
-                  flat 
-                  size="11px"
-                  style="color:white;background-color:#009688"
-                >
-                  <span class="material-icons" style="color:white;padding-right:4px;font-size:12px">
-                    access_time
-                  </span>
-                  120 m
-                </q-btn>
-              </q-item-section>
-              <q-item-section avatar style="padding-right:5px">
-                <q-btn 
-                  class="text-weight-regular q-px-sm" 
-                  dense
-                  rounded 
-                  flat 
-                  size="11px"
-                  style="color:white;background-color:#009688"
-                >
-                  <span class="material-icons" style="color:white;padding-right:4px;font-size:12px">
-                    date_range
-                  </span>
-                  20 / 20 / 2020
-                </q-btn>
-              </q-item-section>
-            </q-item>
+        
+          <q-card-section class="q-pb-none">
+            <div class="text-h6" style="word-wrap:break-word">
+              {{assigment.name}}
+            </div>
           </q-card-section>
           <q-card-section class="q-py-none">
-            <div class="text-h6">Penilaian UAS</div>
+            <div class="text-caption" style="font-size:14px">Oleh {{assigment.user?assigment.user.name:''}}</div>
           </q-card-section>
-          <q-card-section class="q-pt-none q-pb-lg">
-            <div class="text-caption" style="font-size:14px">Oleh Bapak...</div>
+          <q-card-section class="q-py-sm">
+           
           </q-card-section>
         </q-item-section>
-        <q-item-section side top class="q-pa-none text-right" style="padding-left:0px">
+        <q-item-section side top class="q-pa-none text-right" style="padding-left:0px" >
           <div 
-            v-if ="nilai > 75"
+          v-if="session.pivot.total_score!=null"
             class="q-pa-md text-center" 
-            style="background-color:#6FCF97;
+            :style="`background-color:${session.pivot.total_score>=60?'#27AE60':'#EB5757'};
             color:white;font-size:20px;
-            border-radius: 25px 0px 25px 25px;"
+            border-radius: 25px 0px 25px 25px;`"
           > 
-            90
+            {{session.pivot.total_score}}
           </div>
-          <div 
-            v-if ="nilai < 75 && nilai > 0"
-            class="q-pa-md text-center" 
-            style="background-color:#EB5757;
-            color:white;font-size:20px;
-            border-radius: 25px 0px 25px 25px;"
-          > 
-            90
-          </div>
-          <div 
-            v-if ="nilai == 0"
-            class="q-pa-md text-center" 
-            style="background-color:#F2C94C;
-            color:white;font-size:20px;
+          <div v-else class="q-pa-xs text-center" 
+            style="background-color:#F2C94C;position:relative;
+            color:white;font-size:14px;
             border-radius: 25px 0px 25px 25px;
-            width:70px"
-          > 
-            <div style="font-size:14px;color:white">Belum dinilai</div>
+            width:70px">
+          Belum dinilai
           </div>
         </q-item-section>
       </q-item>
-      
+      <div class="q-px-md q-pb-md"> 
+        <div class="q-gutter-sm">
+          <q-badge class="text-body2" style="background:#009688"><q-icon class="q-mr-xs" name="school"/>{{assigment.grade.description}}</q-badge>
+          <q-badge class="text-body2" style="background:#009688"><q-icon class="q-mr-xs" name="date_range"/>{{session.created_at}}</q-badge>
+          </div>
+      </div>
     </q-card>
   </div>
 </template>
 
 <script>
 export default {
+    props:{
+      assigment:null,
+      session:null
+    },
+    computed:{
+        getAssigmentDate(){
+        //20 / 03 / 2020
+        return this.session.created_at;
+      }
+    },
     data() {
       return{
         nilai:0
