@@ -20,7 +20,7 @@
           <span class="material-icons">
             notifications
           </span>
-          <q-menu
+          <!--<q-menu
             anchor="bottom right"
             self="top right"
             auto-close
@@ -58,29 +58,29 @@
                 </q-item-section>
               </q-item>
             </q-list>
-          </q-menu>
+          </q-menu>-->
         </div>
       </q-toolbar>
     </q-header>
 
 
     <q-page class="q-pt-sm q-pb-md">
-      <q-item class="q-px-md q-pb-sm" style="padding-top:0px">
-        <q-item-section avatar>
-          <q-avatar round size="5rem">
+      <q-item class="q-px-md q-pb-sm" style="padding-top:0px" >
+        <q-item-section avatar clicable @click="$router.push('/account')">
+          <q-avatar round size="5rem" v-if="Auth.auth">
             <q-img
               :src="`${Setting.storageUrl}/${Auth.auth.avatar}`"
               no-default-spinner
             />
           </q-avatar>
         </q-item-section>
-        <q-item-section top>
+        <q-item-section top clicable @click="$router.push('/account')">
           <q-item-label class="q-mt-none">
             <div class="text-body1 text-weight-regular" style="font-size:20px">
-              Hello
+              Assalamualaikum
             </div>
           </q-item-label>
-          <q-item-label>
+          <q-item-label v-if="Auth.auth">
             <div
               class="q-mt-none text-h6 text-weight-bold"
               style="font-size:30px"
@@ -92,7 +92,7 @@
             <span class="material-icons" style="font-size:22px">
               emoji_events
             </span>
-            100 points
+            0 points
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -105,7 +105,7 @@
             no-caps
             style="width:100%;font-size:16px;color:white"
             color="teal"
-            @click="$router.push('/ranking')"
+            @click="$q.notify('Dalam konstruksi')/*$router.push('/ranking')*/"
           >
             <span
               class="material-icons"
@@ -124,7 +124,7 @@
             no-caps
             style="width:100%;font-size:16px;color:white"
             color="teal"
-            @click="$router.push('/statistic')"
+            @click="$q.notify('Dalam konstruksi')/*$router.push('/statistic')*/"
           >
             <span
               class="material-icons"
@@ -136,7 +136,7 @@
           </q-btn>
         </div>
         <div class="col-4 q-pl-sm ">
-          <q-select
+          <!--<q-select
             outlined
             rounded
             dense
@@ -148,7 +148,7 @@
             map-options
             label="Semua"
           >
-          </q-select>
+          </q-select>-->
         </div>
       </div>
       <div class="row q-px-md">
@@ -269,8 +269,8 @@
           class="bg-white rounded-borders"
         >
           <div class="row no-wrap q-pa-sm">
-            <div v-for="n in 4" :key="n" style="width: 150px" class="">
-              <daily-task></daily-task>
+            <div v-for="(item, n) in Achievement.items" :key="n" style="width: 150px" class="">
+              <daily-task :item="item"></daily-task>
             </div>
           </div>
         </q-scroll-area>
@@ -428,36 +428,60 @@ export default {
   components: {
     //NewAssigment: () => import("components/assigment/NewAssigment.vue"),
     DailyTask: () => import("components/daily-task/DailyTask.vue"),
-    AnnouncementList: () =>
-      import("components/announcement/AnnouncementList.vue")
+    //AnnouncementList: () =>import("components/announcement/AnnouncementList.vue")
   },
   data() {
     return {
       navigation: false,
       slide: 1,
-      items: []
+      items: [],
+      model:null,
+      options:[]
     };
   },
   computed: {
     ...mapState(["Auth", "AssigmentSession", "Setting", "Achievement"])
   },
   mounted() {
-    this.$store.dispatch("Auth/getAuth").then(res => {
-      console.log("cek: ", Auth.auth);
+    /*this.$store.dispatch("Auth/getAuth").then(res => {
+      //console.log("cek: ", this.Auth.auth);
       this.$store.dispatch("Achievement/calculateDailyTask").then(res => {
-        this.items = this.Achievement.items;
-        this.items.map(item => {
-          item.daily_progress = item.value / item.limit;
-          return item;
-        });
-        // console.log("DT1: ",this.Achievement.items[0].value,
-        //               " DT2: ",this.Achievement.items[1].value,
-        //               " DT3 : ",this.Achievement.items[2].value,
-        //               " DT5: ",this.Achievement.items[4].value)
+        console.log('suskses calculateDailyTask')
+        // console.log('matamu');
+        // console.log(this.Achievement);
+        // this.Achievement.items.map(item => {
+        //   item.daily_progress = (item.value / item.limit).toFixed(2);
+        //   return item;
+        // });
+        
+      }).catch(err=>{
+        console.log('gagal achievement');
+        console.log(err);
       });
-    });
+    }).catch(err=>{
+       //alert(err)
+    });*/
   },
-  created() {},
+  created() {
+      this.$store.dispatch("Auth/getAuth").then(res => {
+      //console.log("cek: ", this.Auth.auth);
+      this.$store.dispatch("Achievement/calculateDailyTask").then(res => {
+        console.log('suskses calculateDailyTask')
+        // console.log('matamu');
+        // console.log(this.Achievement);
+        // this.Achievement.items.map(item => {
+        //   item.daily_progress = (item.value / item.limit).toFixed(2);
+        //   return item;
+        // })
+      }).catch(err=>{
+        console.log('gagal achievement');
+        console.log(err);
+      });
+    }).catch(err=>{
+       //aler
+    });
+
+  },
   methods: {
     onLogout(){
       //alert('asdsa')

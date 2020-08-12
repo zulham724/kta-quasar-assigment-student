@@ -25,20 +25,25 @@ const mutations = {
         state.posts.data = [payload.post, ...state.posts.data];
     },
     addLikes(state, payload) {
+        if(!state.posts.data)return;
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
-        state.posts.data[index].likes_count += 1;
+        if(index>-1)state.posts.data[index].likes_count = payload.likes_count
     },
     addLiked(state, payload) {
+        if(!state.posts.data)return;
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
-        state.posts.data[index].liked_count = 1;
+        if(index>-1)state.posts.data[index].liked_count = payload.liked_count
+        //state.posts.data[index].liked_count = 1;
     },
     removeLikes(state, payload) {
+        if(!state.posts.data)return;
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
-        state.posts.data[index].likes_count -= 1;
+        if(index>-1)state.posts.data[index].likes_count = payload.likes_count
     },
     removeLiked(state, payload) {
+        if(!state.posts.data)return;
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
-        state.posts.data[index].liked_count = 0;
+        if(index>-1)state.posts.data[index].liked_count = payload.liked_count
     },
     next(state, payload) {
         // payload.posts.data.map(item => item.isReadMore = false)

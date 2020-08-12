@@ -201,7 +201,7 @@ export default {
     //console.log(this.Auth.auth)
   },
   mounted() {
-    this.$store.dispatch("Post/show", this.postId).then(res => {
+    this.$store.dispatch("MediaPost/show", this.postId).then(res => {
       this.post = res.data;
     });
     // this.post == null ? this.getPost() : null;
@@ -211,14 +211,14 @@ export default {
   },
   methods: {
    like() {
-      this.$store.dispatch("Post/like", this.post.id).then(res => {
+      this.$store.dispatch("MediaPost/like", this.post.id).then(res => {
         this.post.liked_count=res.data.liked_count
         if (this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
         this.$forceUpdate();
       });
     },
     dislike() {
-      this.$store.dispatch("Post/dislike", this.post.id).then(res => {
+      this.$store.dispatch("MediaPost/dislike", this.post.id).then(res => {
           this.post.liked_count=res.data.liked_count
         this.$forceUpdate();
       });
@@ -240,7 +240,7 @@ export default {
       })
     },
     getPost() {
-      this.$store.dispatch("Post/show", this.postId).then(res => {
+      this.$store.dispatch("MediaPost/show", this.postId).then(res => {
         this.post = res.data;
       });
     },

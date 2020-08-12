@@ -15,7 +15,7 @@
             <span class="material-icons">
               notifications
             </span>
-            <q-menu 
+            <!--<q-menu 
               anchor="bottom right"
               self="top right"
               auto-close 
@@ -49,7 +49,7 @@
                   </q-item-section>
                 </q-item>
               </q-list>
-            </q-menu>
+            </q-menu>-->
         </div>
       </q-toolbar>
     </q-header>
@@ -69,7 +69,7 @@
           <q-item-label style="color:#F2C94C;font-size:17px;margin-top:0px">
             <span class="material-icons" style="font-size:26px">
               emoji_events
-            </span> 100 points
+            </span> 0 points
           </q-item-label>
           <q-item-label>
             <q-btn
@@ -504,7 +504,7 @@ export default {
   },
   
   components: {
-    AnnouncementList: () =>import('components/announcement/AnnouncementList.vue')
+    //AnnouncementList: () =>import('components/announcement/AnnouncementList.vue')
   },
   name: "AccountPage",
 

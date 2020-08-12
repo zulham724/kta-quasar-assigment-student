@@ -7,13 +7,13 @@
         </q-item-section>
         <q-item-section top> 
           <q-item-label>
-            <q-linear-progress size="10px" color="teal-2" value="0.6" class="q-mt-md" />
+            <q-linear-progress size="10px" color="teal-2" :value="toFloat(item.daily_progress)" class="q-mt-md" />
           </q-item-label>
           <q-item-label>
-            <div class="text-weight-bold">Menyelesaikan 3 paket soal</div>
+            <div class="text-weight-bold">{{item.description}}</div>
           </q-item-label>
           <q-item-label overline>
-            <div style="color:#828282;font-size:13px">(2/3)</div>
+            <div style="color:#828282;font-size:13px">({{item.value}}/{{item.limit}})</div>
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -23,10 +23,18 @@
 
 <script>
 export default {
+  props:{
+    item:null
+  },
   data() {
     return{
       tab:false
     }
-  }
+  },
+   methods: {
+      toFloat(n){
+          return parseFloat(n)
+      }  
+    }
 }
 </script>

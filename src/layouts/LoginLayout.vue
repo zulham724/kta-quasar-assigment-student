@@ -50,11 +50,11 @@
 
            <div class="row q-pt-lg">
             <div class="col-6">
-                <q-btn flat color="primary" @click="$router.push('/register')" label="Buat Akun" />
+                <q-btn flat color="primary" @click="register" label="Buat Akun" />
               
             </div>
              <div class="col-6 text-right">
-                <q-btn flat color="primary" label=" Lupa Kata Sandi" />
+                <q-btn flat color="primary" type="a" label=" Lupa Kata Sandi" href="https://agpaiidigital.org/password/reset" />
               
             </div>
           </div>
@@ -81,6 +81,9 @@ export default {
     ...mapState(['Auth'])
   },
   methods: {
+    register(){
+      this.$router.push('/register');              //window.history.pushState(null, null ,window.location.href)
+    },
     onSubmit() {
       this.$refs.form.validate().then(success=>{
         if(success){

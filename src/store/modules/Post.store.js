@@ -4,7 +4,8 @@ import axios from "axios";
 // State object
 const state = {
     posts: {},
-    ownedposts: {}
+    ownedposts: {},
+    comments: {},
 };
 
 // Mutations
@@ -19,7 +20,7 @@ const mutations = {
     },
     setComment(state, payload) {
         // payload.posts.data.map(item => item.isReadMore = false)
-        state.posts = payload;
+        state.comments = payload;
     },
     remove(state, payload) {
         const index = state.posts.data.findIndex(item => item.id == payload.id);
@@ -39,7 +40,7 @@ const mutations = {
         state.ownedposts.data = [payload.post, ...state.ownedposts.data];
     },
     update(state, payload) {
-    
+        console.log(state.posts.data)
         const index = state.posts.data.findIndex(item => item.id == payload.id);
         if(index>-1)state.posts.data[index].body = payload.body
 
@@ -47,20 +48,26 @@ const mutations = {
         if(index2>-1)state.ownedposts.data[index2].body = payload.body
     },
     addLikes(state, payload) {
+        if(!state.posts.data)return;
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
-        state.posts.data[index].likes_count += 1;
+        if(index>-1)state.posts.data[index].likes_count = payload.likes_count
     },
     addLiked(state, payload) {
+        if(!state.posts.data)return;
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
-        state.posts.data[index].liked_count = 1;
+        if(index>-1)state.posts.data[index].liked_count = payload.liked_count
+        //state.posts.data[index].liked_count = 1;
     },
     removeLikes(state, payload) {
+        if(!state.posts.data)return;
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
-        state.posts.data[index].likes_count -= 1;
+        if(index>-1)state.posts.data[index].likes_count -= 1;
     },
     removeLiked(state, payload) {
+       // alert('asd')
+        if(!state.posts.data)return;
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
-        state.posts.data[index].liked_count = 0;
+        if(index>-1)state.posts.data[index].liked_count = 0;
     },
     next(state, payload) {
         // payload.posts.data.map(item => item.isReadMore = false)
@@ -211,6 +218,19 @@ const actions = {
                 .post(`${this.state.Setting.url}/api/v1/post/${id}`, access)
                 .then(res => {
                     commit("remove", { id: id });
+                    resolve(res);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    },
+    report({ commit }, id) {
+        return new Promise((resolve, reject) => {
+            axios
+                .post(`${this.state.Setting.url}/api/v1/post/report`, {id:id})
+                .then(res => {
+                    if(res.data.is_removed)commit("remove", {id:id});
                     resolve(res);
                 })
                 .catch(err => {

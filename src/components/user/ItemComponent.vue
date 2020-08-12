@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-item clickable v-ripple v-if="user != null" @click="$router.push(`/user/profile/${user.id}`)">
+    <q-item clickable v-ripple v-if="user != null" @click="$q.notify('Dalam konstruksi')/*$router.push(`/user/profile/${user.id}`)*/">
       <q-item-section avatar>
         <q-avatar>
           <q-img :src="`${Setting.storageUrl}/${user.avatar}`" width="15vw" no-default-spinner />

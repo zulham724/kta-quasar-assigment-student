@@ -23,7 +23,7 @@
           </q-item-section>
           <q-item-section top side class="text-right">
             <q-btn
-              v-if="post.author_id.id == Auth.auth.id"
+             
               color="grey-7"
               round
               flat
@@ -38,6 +38,7 @@
               >
                 <q-list>
                   <q-item
+                   v-if="post.author_id.id == Auth.auth.id"
                     clickable
                     style="background-color:#E0E0E0;border: 0.5px solid #BDBDBD;"
                   >
@@ -54,6 +55,7 @@
                     </q-item-section>
                   </q-item>
                   <q-item
+                   v-if="post.author_id.id == Auth.auth.id"
                     clickable
                     style="background-color:#E0E0E0;border: 0.5px solid #BDBDBD;"
                   >
@@ -66,6 +68,21 @@
                       </div>
                     </q-item-section>
                   </q-item>
+
+                   <q-item
+                    clickable
+                    style="background-color:#E0E0E0;border: 0.5px solid #BDBDBD;"
+                  >
+                    <q-item-section @click="report()">
+                      <div>
+                        <span class="material-icons" style="padding-right:6px">
+                          report
+                        </span>
+                        Laporkan
+                      </div>
+                    </q-item-section>
+                  </q-item>
+
                 </q-list>
               </q-menu>
             </q-btn>
@@ -394,6 +411,40 @@ export default {
             });
         });
     },
+    report(){
+      this.$q
+        .dialog({
+          title: "Laporkan postingan ini?",
+          message: "Laporkan jika postingan ini mengandung unsur SARA, kebencian, atau konten yang tidak pantas.",
+          cancel: true,
+          ok:'Laporkan',
+          cancel:'Batal'
+        })
+        .onOk(() => {
+          this.$q.loadingBar.start();
+          this.$store
+            .dispatch("Post/report", this.post.id)
+            .then(res => {
+              this.$store.dispatch("Auth/getAuth");
+              if(res.data.is_removed==true){
+                this.$q.notify("Postingan berhasil dilaporkan dan sudah dihapus");
+              }else if(res.data.is_removed==false){
+                this.$q.notify("Postingan berhasil dilaporkan");
+              }else if(res.data.error){
+                this.$q.notify(res.data.error);
+              }else{
+                this.$q.notify(res);
+              }
+              
+            })
+            .catch(err => {
+              this.$q.notify("Terjadi kesalahan");
+            })
+            .finally(() => {
+              this.$q.loadingBar.stop();
+            });
+        });
+    },
     like() {
       this.$store.dispatch("Post/like", this.post.id).then(res => {
         if (this.post.author_id.id != this.Auth.auth.id) this.sendNotif();
@@ -433,6 +484,7 @@ export default {
           // console.log('I am triggered on both OK and Cancel')
         });
     },
+ 
     update() {
       //alert('asdsa')
       //return;

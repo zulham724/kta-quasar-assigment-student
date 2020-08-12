@@ -10,10 +10,10 @@
     content-class="bg-white"
   >
     <q-scroll-area class="fit">
-      <q-list>
+      <q-list >
         <q-item class="q-pa-md">
           <q-item-section avatar top>
-            <q-avatar size="3.6rem">
+            <q-avatar size="3.6rem" v-if="Auth.auth">
               <q-img
                 no-default-spinner
                 :src="`${Setting.storageUrl}/${Auth.auth.avatar}`"
@@ -21,7 +21,7 @@
             </q-avatar>
           </q-item-section>
           <q-item-section top>
-            <q-item-label>
+            <q-item-label v-if="Auth.auth">
               <div class="text-weight-medium" style="font-size:14px">
                 {{ Auth.auth.name }}
               </div>
@@ -30,7 +30,7 @@
               <span class="material-icons" style="font-size:18px">
                 emoji_events
               </span>
-              100 points
+              0 points
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -38,7 +38,7 @@
           clickable
           v-ripple
           style="border-bottom:1px solid #E0E0E0"
-          @click="$router.push('/')"
+          @click="$router.currentRoute.fullPath=='/'?navigation=!navigation:$router.push('/')"
         >
           <q-item-section avatar>
             <span class="material-icons" style="font-size:30px;color:#009688">
@@ -53,7 +53,7 @@
           clickable
           v-ripple
           style="border-bottom:1px solid #E0E0E0"
-          @click="$router.push('/account')"
+          @click="$router.currentRoute.fullPath=='/account'?navigation=!navigation:$router.push('/account')"
         >
           <q-item-section avatar>
             <span class="material-icons" style="font-size:30px;color:#009688">
@@ -68,7 +68,7 @@
           clickable
           v-ripple
           style="border-bottom:1px solid #E0E0E0"
-          @click="$router.push('/assigment')"
+          @click="$router.currentRoute.fullPath=='/assigment'?navigation=!navigation:$router.push('/assigment')"
         >
           <q-item-section avatar>
             <span class="material-icons" style="font-size:30px;color:#009688">
@@ -83,7 +83,7 @@
           clickable
           v-ripple
           style="border-bottom:1px solid #E0E0E0"
-          @click="$router.push('/traininglist')"
+          @click="$router.currentRoute.fullPath=='/traininglist'?navigation=!navigation:$router.push('/traininglist')"
         >
           <q-item-section avatar>
             <span class="material-icons" style="font-size:30px;color:#009688">
@@ -98,7 +98,7 @@
           clickable
           v-ripple
           style="border-bottom:1px solid #E0E0E0"
-          @click="$router.push('/theory')"
+          @click="$router.currentRoute.fullPath=='/theory'?navigation=!navigation:$router.push('/theory')"
         >
           <q-item-section avatar>
             <span class="material-icons" style="font-size:30px;color:#009688">
@@ -113,7 +113,7 @@
           clickable
           v-ripple
           style="border-bottom:1px solid #E0E0E0"
-          @click="$router.push('/post')"
+          @click="$router.currentRoute.fullPath=='/post'?navigation=!navigation:$router.push('/post')"
         >
           <q-item-section avatar>
             <span class="material-icons" style="font-size:30px;color:#009688">
@@ -128,7 +128,7 @@
           clickable
           v-ripple
           style="border-bottom:1px solid #E0E0E0"
-          @click="$router.push('/setting')"
+          @click="$router.currentRoute.fullPath=='/setting'?navigation=!navigation:$router.push('/setting')"
         >
           <q-item-section avatar>
             <span class="material-icons" style="font-size:30px;color:#009688">
@@ -218,6 +218,9 @@ export default {
   },
   computed:{
     ...mapState(["Auth","Setting"])
+  },
+  mounted(){
+     
   },
   methods:{
      onLogout:function() {

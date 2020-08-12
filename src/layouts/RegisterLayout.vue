@@ -112,7 +112,9 @@ export default {
               window.history.pushState(null, null, window.location.href);
             })
             .catch(err => {
-              this.$q.notify(err.response.data.message);
+              //this.$q.notify(err.response.data.errors);
+              let key=Object.keys(err.response.data.errors)[0]
+              this.$q.notify(err.response.data.errors[key][0]);
             })
             .finally(() => {
               this.loading = false;

@@ -2,7 +2,7 @@
 import axios from 'axios'
 // State object
 const state = {
-    assigments: null
+    assigments: {}
 }
 
 // Mutations

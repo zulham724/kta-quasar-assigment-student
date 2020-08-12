@@ -2,7 +2,8 @@
 import axios from 'axios'
 // State object
 const state = {
-    assigments: null
+    assigments: {},
+    //search:''
 }
 
 // Mutations
@@ -31,7 +32,15 @@ const mutations = {
                 ...payload.assigments.data
             ]
         }
-    }
+    },
+    // setSearchKeyword(state, payload){
+    //     state.search = payload;
+    // },
+    // filterAssigments(state, payload){
+    //     // state.assigments = .filter(item=>{
+    //     //     return item.topic.includes(state.search);
+    //     // });
+    // }
 }
 
 // Actions
@@ -82,6 +91,12 @@ const actions = {
             })
         })
     },
+    // filterAssigments({commit}){
+    //     commit("filterAssigments", search);
+    // },
+    // setKeywordSearch({commit}, search){
+    //     commit("setSearchKeyword", search);
+    // },
     next({ commit, state }, next_page_url) {
         return new Promise((resolve, reject) => {
             axios

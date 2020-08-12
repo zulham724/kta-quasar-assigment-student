@@ -1,24 +1,25 @@
 <template>
   <div>
-    <q-header>
-      <q-toolbar style="background-color:#7A6180">
-        <div
-          class="q-pa-sm"
-          style="color:#E0E0E0;font-size:26px"
-          clickable
-          @click="$emit('navigation-toggle')"
-        >
-          <span class="material-icons">
-            menu
-          </span>
-        </div>
-        <q-toolbar-title> </q-toolbar-title>
-        <q-space />
-        <div class="q-pa-sm" style="color:#E0E0E0;font-size:26px " clickable>
-          <span class="material-icons">
-            notifications
-          </span>
-          <q-menu
+    <q-pull-to-refresh @refresh="onRefresh">
+      <q-header>
+        <q-toolbar style="background-color:#7A6180">
+          <div
+            class="q-pa-sm"
+            style="color:#E0E0E0;font-size:26px"
+            clickable
+            @click="$emit('navigation-toggle')"
+          >
+            <span class="material-icons">
+              menu
+            </span>
+          </div>
+          <q-toolbar-title> </q-toolbar-title>
+          <q-space />
+          <div class="q-pa-sm" style="color:#E0E0E0;font-size:26px " clickable>
+            <span class="material-icons">
+              notifications
+            </span>
+            <!--<q-menu
             anchor="bottom right"
             self="top right"
             auto-close
@@ -56,168 +57,189 @@
                 </q-item-section>
               </q-item>
             </q-list>
-          </q-menu>
-        </div>
-      </q-toolbar>
-      <q-toolbar
-        class="q-pa-none q-pb-md"
-        style="height:85px;background-color:#7A6180"
-        inset
-      >
-        <q-img
-          no-default-spinner
-          src="~assets/latihan-mandiri.png"
-          style="width:100%"
-        ></q-img>
-      </q-toolbar>
-      <q-toolbar
-        class="q-px-none"
-        style="background-color:white;min-height:0px;align-items:none"
-      >
-        <div class="full-width" style="height:100%">
-          <q-tabs
-            v-model="tab"
-            dense
-            switch-indicator
-            class=""
-            active-color="white"
-            indicator-color="transparent"
-            align="justify"
-          >
-            <div class="row full-width text-weight-medium">
-              <div
-                class="col-6"
-                style=""
-                :style="
-                  `${
-                    tab == 'assigmentpaket'
-                      ? 'background-color:#7A6180;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white'
-                      : 'background-color:white;color:#7A6180'
-                  }`
-                "
-              >
-                <q-tab
-                  class="q-px-sm q-py-sm"
-                  no-caps
-                  name="assigmentpaket"
-                  label="Paket Soal"
-                />
-              </div>
-              <div
-                class="col-6"
-                style=""
-                :style="
-                  `${
-                    tab == 'finishedpaket'
-                      ? 'background-color:#7A6180;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white'
-                      : 'background-color:white;color:#7A6180'
-                  }`
-                "
-              >
-                <q-tab
-                  class="q-px-sm q-py-sm"
-                  no-caps
-                  name="finishedpaket"
-                  label="Dikerjakan"
-                />
-              </div>
-            </div>
-          </q-tabs>
-        </div>
-      </q-toolbar>
-    </q-header>
-
-    <q-page class="q-pa-md">
-      <q-tab-panels
-        v-model="tab"
-        animated
-        style="height:-webkit-fill-available"
-      >
-        <q-tab-panel
-          class="q-pt-sm q-px-none"
-          name="assigmentpaket"
-          style="height:100%;background-color:white"
-        >
-          <div class="row q-px-sm q-pb-md full-width">
-            <div class="col-10">
-              <q-input
-                outlined
-                rounded
-                dense
-                v-model="search"
-                no-caps
-                @input="onSearch"
-                label="Cari Paket Soal"
-              >
-                <template v-slot:append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
-            </div>
-            <div class="col-2 text-center">
-              <span class="material-icons" style="color:#828282;font-size:38px">
-                tune
-              </span>
-            </div>
+          </q-menu>-->
           </div>
-          <div v-if="TrainingAssigment.assigments">
-            <div
-              class="q-px-sm q-py-xs"
-              v-for="assigment in TrainingAssigment.assigments.data"
-              :key="`training-${assigment.id}`"
+        </q-toolbar>
+        <q-toolbar
+          class="q-pa-none q-pb-md"
+          style="height:85px;background-color:#7A6180"
+          inset
+        >
+          <q-img
+            no-default-spinner
+            src="~assets/latihan-mandiri.png"
+            style="width:100%"
+          ></q-img>
+        </q-toolbar>
+        <q-toolbar
+          class="q-px-none"
+          style="background-color:white;min-height:0px;align-items:none"
+        >
+          <div class="full-width" style="height:100%">
+            <q-tabs
+              v-model="tab"
+              dense
+              switch-indicator
+              class=""
+              active-color="white"
+              indicator-color="transparent"
+              align="justify"
             >
-              <training-list-item :assigment="assigment"></training-list-item>
-            </div>
-          </div>
-          <div v-else class="q-gutter-y-sm">
-            <div v-for="n in 4" :key="n">
-              <q-skeleton height="100px" />
-            </div>
-          </div>
-        </q-tab-panel>
-        <q-tab-panel
-          class="q-pt-sm q-px-none"
-          name="finishedpaket"
-          style="height:100%;background-color:white"
-        >
-          <div class="row q-px-sm q-pb-md full-width">
-            <div class="col-10">
-              <q-input
-                outlined
-                rounded
-                dense
-                no-caps
-                v-model="search"
-                @input="onSearch"
-                label="Cari Paket Soal"
-              >
-                <template v-slot:append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
-            </div>
-            <div class="col-2 text-center">
-              <span class="material-icons" style="color:#828282;font-size:38px">
-                tune
-              </span>
-            </div>
-          </div>
-          <div v-if="FinishedTrainingAssigment.assigments">
-            <div  v-for="assigment in FinishedTrainingAssigment.assigments.data" :key="`finishedtraining-${assigment.id}`">
-              <div class="q-pa-sm" v-for="session in assigment.auth_sessions" :key="`session-${session.id}`">
-                  <finished-training-list-item :assigment="assigment" :session="session"></finished-training-list-item>
+              <div class="row full-width text-weight-medium">
+                <div
+                  class="col-6"
+                  style=""
+                  :style="
+                    `${
+                      tab == 'assigmentpaket'
+                        ? 'background-color:#7A6180;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white'
+                        : 'background-color:white;color:#7A6180'
+                    }`
+                  "
+                >
+                  <q-tab
+                    class="q-px-sm q-py-sm"
+                    no-caps
+                    name="assigmentpaket"
+                    label="Paket Soal"
+                  />
+                </div>
+                <div
+                  class="col-6"
+                  style=""
+                  :style="
+                    `${
+                      tab == 'finishedpaket'
+                        ? 'background-color:#7A6180;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white'
+                        : 'background-color:white;color:#7A6180'
+                    }`
+                  "
+                >
+                  <q-tab
+                    class="q-px-sm q-py-sm"
+                    no-caps
+                    name="finishedpaket"
+                    label="Dikerjakan"
+                  />
+                </div>
               </div>
-            </div>
+            </q-tabs>
           </div>
-          <div v-else class="q-gutter-y-sm">
-            <div v-for="n in 4" :key="n">
-              <q-skeleton height="100px" />
-            </div>
-          </div>
-        </q-tab-panel>
-      </q-tab-panels>
-    </q-page>
-    <!-- <q-toolbar class="text-primary bg-teal">
+        </q-toolbar>
+      </q-header>
+
+      <q-page class="q-pa-md">
+        <q-infinite-scroll @load="onLoadCheck" :offset="250" ref="scrollGan">
+          <q-tab-panels
+            v-model="tab"
+            animated
+            style="height:-webkit-fill-available"
+          >
+            <q-tab-panel
+              class="q-pt-sm q-px-none"
+              name="assigmentpaket"
+              style="height:100%;background-color:white"
+            >
+              <div class="row q-px-sm q-pb-md full-width">
+                <div class="col-10">
+                  <q-input
+                    outlined
+                    rounded
+                    dense
+                    v-model="search"
+                    no-caps
+                    label="Cari Paket Soal"
+                  >
+                    <template v-slot:append>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-2 text-center">
+                  <span
+                    class="material-icons"
+                    style="color:#828282;font-size:38px"
+                  >
+                    tune
+                  </span>
+                </div>
+              </div>
+              <div v-if="TrainingAssigment.assigments">
+                <q-intersection
+                  class="q-px-sm q-py-xs"
+                  style="min-height:100px;width:100%"
+                  v-for="assigment in getFilteredAssigments"
+                  :key="`training-${assigment.id}`"
+                >
+                  <training-list-item
+                    :assigment="assigment"
+                  ></training-list-item>
+                </q-intersection>
+              </div>
+              <div v-else class="q-gutter-y-sm">
+                <div v-for="n in 4" :key="n">
+                  <q-skeleton height="100px" />
+                </div>
+              </div>
+            </q-tab-panel>
+            <q-tab-panel
+              class="q-pt-sm q-px-none"
+              name="finishedpaket"
+              style="height:100%;background-color:white"
+            >
+              <div class="row q-px-sm q-pb-md full-width">
+                <div class="col-10">
+                  <q-input
+                    outlined
+                    rounded
+                    dense
+                    no-caps
+                    v-model="search2"
+                    label="Cari Paket Soal"
+                  >
+                    <template v-slot:append>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-2 text-center">
+                  <span
+                    class="material-icons"
+                    style="color:#828282;font-size:38px"
+                  >
+                    tune
+                  </span>
+                </div>
+              </div>
+              <div v-if="FinishedTrainingAssigment.assigments">
+                <q-intersection
+                  class="q-px-sm q-py-xs"
+                  style="min-height:100px;width:100%"
+                  v-for="assigment in getFilteredFinishedAssigments"
+                  :key="`finishedtraining-${assigment.id}`"
+                >
+                  <div
+                    class="q-pa-sm"
+                    v-for="session in assigment.auth_sessions"
+                    :key="`session-${session.id}`"
+                  >
+                    <finished-training-list-item
+                      :assigment="assigment"
+                      :session="session"
+                    ></finished-training-list-item>
+                  </div>
+                </q-intersection>
+              </div>
+              <div v-else class="q-gutter-y-sm">
+                <div v-for="n in 4" :key="n">
+                  <q-skeleton height="100px" />
+                </div>
+              </div>
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-infinite-scroll>
+      </q-page>
+      <!-- <q-toolbar class="text-primary bg-teal">
       <q-btn color="white" flat round dense icon="arrow_back" @click="$router.back()" />
       <q-toolbar-title>
         <div class="text-body1 text-bold text-white">Latihan Mandiri</div>
@@ -290,6 +312,7 @@
      
         
     </q-page> -->
+    </q-pull-to-refresh>
   </div>
 </template>
 
@@ -301,9 +324,9 @@ import moment from "moment";
 export default {
   components: {
     TrainingListItem: () => import("components/training/TrainingItem.vue"),
-    FinishedTrainingListItem: () =>import('components/training/FinishedTrainingItem.vue'),
-    AnnouncementList: () =>
-      import("components/announcement/AnnouncementList.vue")
+    FinishedTrainingListItem: () =>
+      import("components/training/FinishedTrainingItem.vue")
+    //AnnouncementList: () => import("components/announcement/AnnouncementList.vue")
   },
   props: {
     assigmentId: null,
@@ -313,6 +336,7 @@ export default {
   data() {
     return {
       search: "",
+      search2: "",
       assigments: {
         data: []
       },
@@ -342,7 +366,23 @@ export default {
       "Auth",
       "TrainingAssigment",
       "FinishedTrainingAssigment"
-    ])
+    ]),
+    getFilteredAssigments:function(){
+      if(this.search.trim().length>=2){
+        return this.TrainingAssigment.assigments.data.filter(item=>{
+          //console.log(this.search)
+          return item.topic?item.topic.toLowerCase().includes(this.search.toLowerCase()):false;
+        });
+      }else return this.TrainingAssigment.assigments.data;
+    },
+    getFilteredFinishedAssigments:function(){
+      if(this.search2.trim().length>=2){
+        return this.FinishedTrainingAssigment.assigments.data.filter(item=>{
+          //console.log(this.search)
+          return item.topic?item.topic.toLowerCase().includes(this.search2.toLowerCase()):false;
+        });
+      }else return this.FinishedTrainingAssigment.assigments.data;
+    }
   },
   // watch: {
   //   "assigments.data": function(val, oldVal) {
@@ -351,44 +391,52 @@ export default {
   // },
   created() {
     this.onSearch = debounce(this.onSearch, 1000);
-    if (!this.TrainingAssigment.assigments)
-      this.$store.dispatch("TrainingAssigment/index", this.search);
-    if (!this.FinishedTrainingAssigment.assigments)
-      this.$store.dispatch("FinishedTrainingAssigment/index", this.search);
+    this.onRefresh();
   },
   methods: {
     init() {
       this.loading = true;
     },
-    onSearch() {
-      this.loading = true;
-      this.$store
-        .dispatch("Assigment/getMasterPublish", this.search)
-        .then(res => {
-          this.assigments = res.data;
+    onRefresh(done){
+     this.$store.dispatch("TrainingAssigment/index", this.search).then(res => {
+         this.$store.dispatch("FinishedTrainingAssigment/index", this.search).then(res=>{
+           if(done)done();
         })
-        .finally(() => {
-          this.loading = false;
-        });
+     }).catch(err=>{
+        this.$q.notify("Silahkan isi jenjang terlebih dahulu di menu edit profile");
+        this.$router.push({name:'account'})
+        if(done)done();
+     });
+    },
+    onLoadCheck(index, done) {
+      if (this.tab == "assigmentpaket") {
+        this.onLoad(index, done);
+      } else if (this.tab == "finishedpaket") {
+         this.onLoad2(index, done);
+      } else {
+        done();
+      }
     },
     onLoad(index, done) {
-      this.assigments.next_page_url
-        ? this.$store
-            .dispatch(
-              "Assigment/nextMasterPublish",
-              this.assigments.next_page_url
-            )
-            .then(res => {
-              this.assigments.data = [
-                ...this.assigments.data,
-                ...res.data.data
-              ];
-              this.assigments.next_page_url = res.data.next_page_url;
-              done();
-
-              //console.log(this.assigments);
-            })
+      this.TrainingAssigment.assigments.next_page_url
+        ? this.$store.dispatch("TrainingAssigment/next").then(res => done())
         : done();
+    },
+    onLoad2(index, done) {
+      this.FinishedTrainingAssigment.assigments.next_page_url
+        ? this.$store.dispatch("FinishedTrainingAssigment/next").then(res => done())
+        : done();
+    },
+     onSearch() {
+      // this.loading = true;
+      // this.$store
+      //   .dispatch("TrainingAssigment/setKeywordSearch", this.search)
+      //   .then(res => {
+      //      this.$store.dispatch("TrainingAssigment/filterAssigments", this.search)
+      //   })
+      //   .finally(() => {
+      //     this.loading = false;
+      //   });
     },
     onCountdown() {
       const time = moment().add(this.assigment.timer, "minutes");

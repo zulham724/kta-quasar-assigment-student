@@ -1,32 +1,30 @@
 <template>
   <div>
-    <q-item class="q-pa-none">
+    <q-item class="q-pa-none q-ma-none"  v-if="this.item != null">
       <q-item-section avatar top>
         <q-avatar size="2.5rem">
-          <q-img no-default-spinner src="~assets/man.png"></q-img>
+          <q-img no-default-spinner :src="`${Setting.storageUrl}/${item.user.avatar}`"></q-img>
+           <q-skeleton type="circle" size="100%" />
         </q-avatar>
       </q-item-section>
       <q-item-section top>
         <q-item-label>
-          <div class="text-weight-bold">John nono</div>
+          <div class="text-weight-bold">{{comment.user.name}}</div>
         </q-item-label>
         <q-item-label>
           <div class="q-pa-sm" style="background-color:#E0F2F1;border-radius:5px;word-wrap-break-word">
-            Keistimewaan yang dimiliki nabi Isa diantaranya 
-            adalah dapat berbicara sewaktu lahir, 
-            menyembuhkan orang buta, menghidupkan kembali orang mati.
+           {{ item.value }}
           </div>
         </q-item-label>
-        <q-item-label caption style="height:21px">
-          <div class="row full-width justify-between">
-            <div class="col-4">
-              <span class="material-icons" style="font-size:20px;color:#BDBDBD" clickable>
-                favorite_border
+        <q-item-label caption>
+          <div class="row full-width justify-between" style="">
+            <div class="row">
+              <span class="material-icons" :style="`font-size:20px;color:${item.liked_count ? 'red' : '#BDBDBD'}`" clickable  @click="item.liked_count ? dislike(item.id) : like(item.id)">
+                {{item.liked_count ? 'favorite' : 'favorite_border'}}
               </span>
+              <div class="text-caption text-grey text-bold" v-show="item.likes_count" @click="$router.push(`/post/comment/like/${comment.id}`)">{{item.likes_count}} suka</div>
             </div>
-            <div class="col-4 text-right text-caption">
-              2 jam yang lalu
-            </div>
+                 {{item.created_at | moment('from','now')}}
           </div>
         </q-item-label>
       </q-item-section>

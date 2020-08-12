@@ -145,6 +145,7 @@ export default {
       //console.log(this.assigmentForSubmit)
       //return "asu";
       this.loading=true;
+      this.assigmentForSubmit._training=true;
       this.$store.dispatch('AssigmentSession/store',this.assigmentForSubmit).then(res=>{
           this.score=res.data.score.value;
           this.isKeterangan=res.data.score.isTemporary;

@@ -1,24 +1,25 @@
 <template>
   <div>
-    <q-header>
-      <q-toolbar style="background-color:#9EC646">
-        <div
-          class="q-pa-sm"
-          style="color:white;font-size:26px"
-          clickable
-          @click="$emit('navigation-toggle')"
-        >
-          <span class="material-icons">
-            menu
-          </span>
-        </div>
-        <q-toolbar-title> </q-toolbar-title>
-        <q-space />
-        <div class="q-pa-sm" style="color:white;font-size:26px " clickable>
-          <span class="material-icons">
-            notifications
-          </span>
-          <q-menu
+    <q-pull-to-refresh @refresh="onRefresh">
+      <q-header>
+        <q-toolbar style="background-color:#9EC646">
+          <div
+            class="q-pa-sm"
+            style="color:white;font-size:26px"
+            clickable
+            @click="$emit('navigation-toggle')"
+          >
+            <span class="material-icons">
+              menu
+            </span>
+          </div>
+          <q-toolbar-title> </q-toolbar-title>
+          <q-space />
+          <div class="q-pa-sm" style="color:white;font-size:26px " clickable>
+            <span class="material-icons">
+              notifications
+            </span>
+            <!--<q-menu
             anchor="bottom right"
             self="top right"
             auto-close
@@ -56,220 +57,203 @@
                 </q-item-section>
               </q-item>
             </q-list>
-          </q-menu>
-        </div>
-      </q-toolbar>
-      <q-toolbar class="q-pa-none q-pb-none" inset>
-        <q-img
-          no-default-spinner
-          src="~assets/diskusi.png"
-          style="width:100%"
-        ></q-img>
-      </q-toolbar>
-      <q-toolbar
-        class="q-px-none"
-        style="background-color:white;min-height:0px;align-items:none"
-      >
-        <div class="full-width" style="height:100%">
-          <q-tabs
-            v-model="tab"
-            dense
-            switch-indicator
-            class=""
-            active-color="white"
-            indicator-color="transparent"
-            align="justify"
-          >
-            <div class="row full-width text-weight-medium">
-              <div
-                class="col-6"
-                :style="
-                  `${
-                    tab == 'forum'
-                      ? 'background-color:#9EC646;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white'
-                      : 'background-color:white;color:#9EC646'
-                  }`
-                "
-              >
-                <q-tab
-                  class="q-px-sm q-py-sm"
-                  no-caps
-                  name="forum"
-                  label="Forum Diskusi"
-                />
-              </div>
-              <div
-                class="col-6"
-                :style="
-                  `${
-                    tab == 'discuss'
-                      ? 'background-color:#9EC646;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white'
-                      : 'background-color:white;color:#9EC646'
-                  }`
-                "
-              >
-                <q-tab
-                  class="q-px-sm q-py-sm"
-                  no-caps
-                  name="discuss"
-                  label="Diskusi Anda"
-                />
-              </div>
-            </div>
-          </q-tabs>
-        </div>
-      </q-toolbar>
-    </q-header>
-
-    <q-page>
-      <q-pull-to-refresh>
-        <q-tab-panels v-model="tab" animated>
-          <q-tab-panel
-            class="q-pt-sm q-px-none"
-            name="forum"
-            style="background-color:white"
-          >
-            <div
-              ref="scrollTargetRef"
-              style="max-height:90vh;overflow: auto;"
+          </q-menu>-->
+          </div>
+        </q-toolbar>
+        <q-toolbar class="q-pa-none q-pb-none" inset>
+          <q-img
+            no-default-spinner
+            src="~assets/diskusi.png"
+            style="width:100%"
+          ></q-img>
+        </q-toolbar>
+        <q-toolbar
+          class="q-px-none"
+          style="background-color:white;min-height:0px;align-items:none"
+        >
+          <div class="full-width" style="height:100%">
+            <q-tabs
+              v-model="tab"
+              dense
+              switch-indicator
+              class=""
+              active-color="white"
+              indicator-color="transparent"
+              align="justify"
             >
-              <q-infinite-scroll
-                @load="onLoad"
-                :offset="500"
-                :scroll-target="$refs.scrollTargetRef"
-              >
-                <div class="q-px-sm q-pb-xs full-width">
-                  <q-item class="q-pa-none">
-                    <q-item-section top avatar>
-                      <q-avatar size="3rem">
-                        <q-skeleton type="QAvatar" style="position:absolute" />
-                        <q-img
-                          style="z-index:1"
-                          :src="`${Setting.storageUrl}/${Auth.auth.avatar}`"
-                          no-default-spinner
-                        />
-                      </q-avatar>
-                    </q-item-section>
-                    <q-item-section top>
-                      <q-form ref="form">
-                        <q-item-label>
-                          <q-input
-                            v-model="post.body"
-                            outlined
-                            clearable
-                            autogrow
-                            style="max-width:100vh"
-                            color="teal"
-                            placeholder="Ada pertanyaan? Coba tanya di sini"
-                          />
-                        </q-item-label>
-                        <q-item-label class="text-right q-pt-none">
-                          <q-btn
-                            class="q-px-lg text-center"
-                            dense
-                            no-caps
-                            flat
-                            rounded
-                            style="color:white;font-size:14px;background-color:#009688"
-                            @click="store()"
-                            :loading="loading"
-                            :disable="loading"
-                          >
-                            Kirim
-                          </q-btn>
-                        </q-item-label>
-                      </q-form>
-                    </q-item-section>
-                  </q-item>
-                </div>
-                <div v-if="!this.Post.posts.data" style="width:100%">
-                  <q-card
-                    flat
-                    bordered
-                    class="q-mt-sm"
-                    style="width:100%"
-                    v-for="n in 3"
-                    :key="`loading-${n}`"
-                  >
-                    <q-item>
-                      <q-item-section avatar>
-                        <q-skeleton type="QAvatar" animation="fade" />
-                      </q-item-section>
-
-                      <q-item-section>
-                        <q-item-label>
-                          <q-skeleton type="text" animation="fade" />
-                        </q-item-label>
-                        <q-item-label caption>
-                          <q-skeleton type="text" animation="fade" />
-                        </q-item-label>
-                      </q-item-section>
-                    </q-item>
-
-                    <q-skeleton height="200px" square animation="fade" />
-
-                    <q-card-section>
-                      <q-skeleton
-                        type="text"
-                        class="text-subtitle2"
-                        animation="fade"
-                      />
-                      <q-skeleton
-                        type="text"
-                        width="50%"
-                        class="text-subtitle2"
-                        animation="fade"
-                      />
-                    </q-card-section>
-                  </q-card>
-                </div>
-
-                <q-intersection
-                  
-                  class="q-pa-xs"
-                  style="min-height:10vh;width:100%"
-                  v-for="post in Post.posts.data"
-                  :key="`forum-${post.id}`"
+              <div class="row full-width text-weight-medium">
+                <div
+                  class="col-6"
+                  :style="
+                    `${
+                      tab == 'forum'
+                        ? 'background-color:#9EC646;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white'
+                        : 'background-color:white;color:#9EC646'
+                    }`
+                  "
                 >
-                  <item-component :post="post"></item-component>
-                </q-intersection>
+                  <q-tab
+                    class="q-px-sm q-py-sm"
+                    no-caps
+                    name="forum"
+                    label="Forum Diskusi"
+                  />
+                </div>
+                <div
+                  class="col-6"
+                  :style="
+                    `${
+                      tab == 'discuss'
+                        ? 'background-color:#9EC646;border-bottom-left-radius:30px;border-bottom-right-radius:30px;color:white'
+                        : 'background-color:white;color:#9EC646'
+                    }`
+                  "
+                >
+                  <q-tab
+                    class="q-px-sm q-py-sm"
+                    no-caps
+                    name="discuss"
+                    label="Diskusi Anda"
+                  />
+                </div>
+              </div>
+            </q-tabs>
+          </div>
+        </q-toolbar>
+      </q-header>
 
-                <template v-slot:loading>
-                  <div class="row justify-center q-my-md">
-                    <q-spinner-dots color="primary" size="40px" />
-                  </div>
-                </template>
-              </q-infinite-scroll>
-            </div>
-          </q-tab-panel>
-
-          <q-tab-panel
-            class="q-pt-sm q-px-none"
-            name="discuss"
-            style="background-color:white"
-          >
-            <div
-              ref="scrollTargetRef2"
-              style="max-height:90vh;overflow: auto;"
+      <q-page>
+        <q-infinite-scroll @load="onLoadCheck" :offset="250" ref="scrollGan">
+          <q-tab-panels v-model="tab" animated>
+            <q-tab-panel
+              class="q-pt-sm q-px-none"
+              name="forum"
+              style="background-color:white"
             >
-              <q-infinite-scroll
-                @load="onLoad2"
-                :offset="500"
-                :scroll-target="$refs.scrollTargetRef2"
-              >
-                <div class="q-px-sm q-pb-md full-width">
-                  <q-item class="q-pa-none">
-                    <q-item-section top avatar>
-                      <q-avatar size="3rem">
-                        <q-img no-default-spinner src="~assets/man.png"></q-img>
-                      </q-avatar>
-                    </q-item-section>
-                    <q-item-section top style="width:100">
-                       <q-form ref="form">
+              <div class="q-px-sm q-pb-xs full-width">
+                <q-item class="q-pa-none">
+                  <q-item-section top avatar>
+                    <q-avatar size="3rem">
+                      <q-skeleton type="QAvatar" style="position:absolute" />
+                      <q-img
+                        style="z-index:1"
+                        :src="`${Setting.storageUrl}/${Auth.auth.avatar}`"
+                        no-default-spinner
+                      />
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section top>
+                    <q-form ref="form">
                       <q-item-label>
                         <q-input
                           v-model="post.body"
-                          
+                          outlined
+                          clearable
+                          autogrow
+                          style="max-width:100vh"
+                          color="teal"
+                          placeholder="Ada pertanyaan? Coba tanya di sini"
+                        />
+                      </q-item-label>
+                      <q-item-label class="text-right q-pt-none">
+                        <q-btn
+                          class="q-px-lg text-center"
+                          dense
+                          no-caps
+                          flat
+                          rounded
+                          style="color:white;font-size:14px;background-color:#009688"
+                          @click="store()"
+                          :loading="loading"
+                          :disable="loading"
+                        >
+                          Kirim
+                        </q-btn>
+                      </q-item-label>
+                    </q-form>
+                  </q-item-section>
+                </q-item>
+              </div>
+              <div v-if="!this.Post.posts.data" style="width:100%">
+                <q-card
+                  flat
+                  bordered
+                  class="q-mt-sm"
+                  style="width:100%"
+                  v-for="n in 3"
+                  :key="`loading-${n}`"
+                >
+                  <q-item>
+                    <q-item-section avatar>
+                      <q-skeleton type="QAvatar" animation="fade" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>
+                        <q-skeleton type="text" animation="fade" />
+                      </q-item-label>
+                      <q-item-label caption>
+                        <q-skeleton type="text" animation="fade" />
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-skeleton height="200px" square animation="fade" />
+
+                  <q-card-section>
+                    <q-skeleton
+                      type="text"
+                      class="text-subtitle2"
+                      animation="fade"
+                    />
+                    <q-skeleton
+                      type="text"
+                      width="50%"
+                      class="text-subtitle2"
+                      animation="fade"
+                    />
+                  </q-card-section>
+                </q-card>
+              </div>
+
+              <q-intersection
+                class="q-pa-xs"
+                style="min-height:10vh;width:100%"
+                v-for="post in Post.posts.data"
+                :key="`forum-${post.id}`"
+              >
+                <item-component :post="post"></item-component>
+              </q-intersection>
+
+              <template v-slot:loading>
+                <div class="row justify-center q-my-md">
+                  <q-spinner-dots color="primary" size="40px" />
+                </div>
+              </template>
+            </q-tab-panel>
+
+            <q-tab-panel
+              class="q-pt-sm q-px-none"
+              name="discuss"
+              style="background-color:white"
+            >
+              <div class="q-px-sm q-pb-md full-width">
+                <q-item class="q-pa-none">
+                  <q-item-section top avatar>
+                    <q-avatar size="3rem">
+                      <q-skeleton type="QAvatar" style="position:absolute" />
+                      <q-img
+                        style="z-index:1"
+                        :src="`${Setting.storageUrl}/${Auth.auth.avatar}`"
+                        no-default-spinner
+                      />
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section top style="width:100">
+                    <q-form ref="form">
+                      <q-item-label>
+                        <q-input
+                          v-model="post.body"
                           outlined
                           clearable
                           autogrow
@@ -280,7 +264,7 @@
                       </q-item-label>
                       <q-item-label class="q-pt-xs text-right">
                         <q-btn
-                         @click="store()"
+                          @click="store()"
                           class="q-px-lg text-center"
                           dense
                           no-caps
@@ -291,33 +275,30 @@
                           Kirim
                         </q-btn>
                       </q-item-label>
-                       </q-form>
-                    </q-item-section>
-                  </q-item>
-                </div>
-                <!--postingan sendiri-->
-                <q-intersection
-                  class="q-pa-xs"
-                  style="min-height:10vh;width:100%"
-                  v-for="post in Post.ownedposts.data"
-                  :key="`forum-${post.id}`"
-                >
-                  <item-component :post="post"></item-component>
-                </q-intersection>
-
-              </q-infinite-scroll>
+                    </q-form>
+                  </q-item-section>
+                </q-item>
+              </div>
+              <!--postingan sendiri-->
+              <q-intersection
+                class="q-pa-xs"
+                style="min-height:10vh;width:100%"
+                v-for="post in Post.ownedposts.data"
+                :key="`forum-${post.id}`"
+              >
+                <item-component :post="post"></item-component>
+              </q-intersection>
+            </q-tab-panel>
+          </q-tab-panels>
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="teal" size="40px" />
             </div>
-          </q-tab-panel>
-        </q-tab-panels>
-        <template v-slot:loading>
-          <div class="row justify-center q-my-md">
-            <q-spinner-dots color="teal" size="40px" />
-          </div>
-        </template>
-      </q-pull-to-refresh>
-    </q-page>
+          </template>
+        </q-infinite-scroll>
+      </q-page>
 
-    <!-- <q-header elevated>
+      <!-- <q-header elevated>
       <q-toolbar style="background-color:teal">
         <q-btn flat dense icon="arrow_back" @click="$router.back()" />
         <q-toolbar-title>
@@ -401,6 +382,7 @@
         </q-infinite-scroll>
       </q-pull-to-refresh>
     </q-page> -->
+    </q-pull-to-refresh>
   </div>
 </template>
 
@@ -409,9 +391,8 @@ import { mapState } from "vuex";
 export default {
   name: "PostPage",
   components: {
-    ItemComponent: () => import("components/post/ItemComponent.vue"),
-    AnnouncementList: () =>
-      import("components/announcement/AnnouncementList.vue")
+    ItemComponent: () => import("components/post/ItemComponent.vue")
+    //AnnouncementList: () =>import("components/announcement/AnnouncementList.vue")
   },
   data() {
     return {
@@ -467,19 +448,31 @@ export default {
       });
     },
     onLoad(index, done) {
-      
+
       this.Post.posts.next_page_url
         ? this.$store.dispatch("Post/next").then(res => done())
         : done();
     },
     onLoad2(index, done) {
-      this.Post.posts.next_page_url
+      this.Post.ownedposts.next_page_url
         ? this.$store.dispatch("Post/next2").then(res => done())
         : done();
     },
+    onLoadCheck(index, done) {
+      if (this.tab == "discuss") {
+        this.onLoad2(index,done);
+      } else if (this.tab == "forum") {
+        this.onLoad(index,done);
+      } else {
+        done();
+      }
+    },
     onRefresh(done) {
       this.$store.dispatch("Post/index").then(res => {
-        done();
+        this.$store.dispatch("Post/index2").then(res=>{
+           done();
+        })
+       
       });
     }
   }

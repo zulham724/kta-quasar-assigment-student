@@ -44,6 +44,9 @@
                 <div class="text-weight-medium" style="color:#B2DFDB">
                   Soal latihan {{ assigment.name }}
                 </div>
+                 <div class="text-weight-light" style="color:#B2DFDB">
+                  {{ assigment.topic }}
+                </div>
                 <div class="text-weight-light" style="color:white">
                   Oleh: {{ assigment.user.name }}
                 </div>

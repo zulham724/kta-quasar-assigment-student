@@ -132,6 +132,22 @@ const actions = {
             resolve()
         })
     },
+    changePassword({commit}, payload){
+        return new Promise((resolve, reject) => {
+            axios
+                .post(`${this.state.Setting.url}/api/v1/users/changePassword`, payload)
+                .then(res => {
+                   if(res.data.error){
+                       reject(res.data)
+                   }else{
+                       resolve(res.data)
+                   }
+                })
+                .catch(err => {
+                    reject(err)
+                })
+        })
+    },
     getAuth({ commit }) {
         return new Promise((resolve, reject) => {
             axios

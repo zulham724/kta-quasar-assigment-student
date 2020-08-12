@@ -13,7 +13,7 @@ const auth = function(to, from, next) {
 
 const routes = [{
         path: "/",
-        beforeEnter: multiguard([auth]),
+        //beforeEnter: multiguard([auth]),
         component: () =>
             import ("layouts/MainLayout.vue"),
         children: [{
@@ -30,6 +30,7 @@ const routes = [{
             {
                 path: "/post/create",
                 name: "create",
+                beforeEnter: multiguard([auth]),
                 component: () =>
                     import ("pages/post/CreatePage.vue"),
                 props: true
@@ -37,20 +38,24 @@ const routes = [{
             {
                 path: "/post/like/:postId",
                 name: "postlike",
+                beforeEnter: multiguard([auth]),
                 component: () =>
                     import ("pages/post/LikePage.vue"),
                 props: true
             },
             {
                 path: "/post/comment/:postId",
+                beforeEnter: multiguard([auth]),
                 //path: "/post/comment",
                 name: "postcomment",
                 component: () =>
                     import ("pages/post/CommentPage.vue"),
-                props: true
+                props: true,
+                
             },
             {
                 path: "/post/comment/like/:commentId",
+                beforeEnter: multiguard([auth]),
                 name: "postcommentlike",
                 component: () =>
                     import ("pages/post/comment/LikePage.vue"),
@@ -137,10 +142,19 @@ const routes = [{
                     import ("pages/theory/save/MediaItemSavePage.vue")
             },
             {
-                path: "/theory/media/comment",
+                path: "/theory/media/comment/:postId",
                 beforeEnter: multiguard([auth]),
                 component: () =>
-                    import ("pages/theory/comment/MediaItemCommentPage.vue")
+                    import ("pages/post/CommentMediaPage.vue"),
+                props:true
+            },
+            {
+                path: "/mediapost/like/:postId",
+                name: "mediapostlike",
+                beforeEnter: multiguard([auth]),
+                component: () =>
+                    import ("pages/post/LikeMediaPage.vue"),
+                props: true
             },
             {
                 path: "/assigment",
@@ -200,11 +214,6 @@ const routes = [{
                 props: true
             },
             {
-            path: "/register",
-                component: () =>
-                    import ("layouts/RegisterLayout.vue")
-            },
-            {
             path: "/account/edit",
                 component: () =>
                     import ("pages/account/EditPage.vue")
@@ -230,6 +239,11 @@ const routes = [{
         name: "login",
         component: () =>
             import ("layouts/LoginLayout.vue")
+    },
+    {
+        path: "/register",
+        name:'register',
+        component: () =>import ("layouts/RegisterLayout.vue")
     },
     {
         path: '/result',
