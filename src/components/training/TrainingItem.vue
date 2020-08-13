@@ -24,6 +24,7 @@
             <div class="text-h6">{{assigment.name}}</div>
           </q-card-section>
           <q-card-section class="q-pt-none q-pb-lg">
+            <div class="text-caption" >{{assigment.topic}}</div>
             <div class="text-caption" style="font-size:14px">Oleh {{assigment.user.name}}</div>
           </q-card-section>
         </q-item-section>

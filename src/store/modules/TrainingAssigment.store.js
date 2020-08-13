@@ -48,7 +48,7 @@ const actions = {
     index({ commit }, subject='') {
         return new Promise((resolve, reject) => {
             axios
-                .get(`${this.state.Setting.url}/api/v1/assigments/getmasterpublish/${subject}`)
+                .get(`${this.state.Setting.url}/api/v1/assigments/getmasterpublish`)
                 .then(res => {
                     commit("set", { assigments: res.data });
                     //console.log('cok',res.data);

@@ -47,6 +47,9 @@ const mutations = {
         const index2 = state.ownedposts.data.findIndex(item => item.id == payload.id);
         if(index2>-1)state.ownedposts.data[index2].body = payload.body
     },
+    updateRead(state, payload){
+        state.posts.data[payload.index].auth_read_count = 1
+    },
     addLikes(state, payload) {
         if(!state.posts.data)return;
         const index = state.posts.data.findIndex(item=>item.id == payload.id);
@@ -236,6 +239,25 @@ const actions = {
                 .catch(err => {
                     reject(err);
                 });
+        });
+    },
+    read({ commit, state }, id) {
+        return new Promise((resolve, reject) => {
+            const index = state.posts.data.findIndex(item => item.id == id);
+            if(index>-1){
+                if(state.posts.data[index].auth_read_count<1){
+                    axios
+                      .post(`${this.state.Setting.url}/api/v1/post/read`, {id: id})
+                      .then(res => {
+                        resolve(res.data);
+                        commit("updateRead",{index:index})
+                      })
+                      .catch(err => {
+                        reject(err);
+                      });
+                }else resolve('telah diread '+id);
+            }else resolve('notfound '+id);
+            
         });
     },
     like({ commit }, id) {

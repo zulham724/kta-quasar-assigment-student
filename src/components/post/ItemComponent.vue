@@ -22,13 +22,7 @@
             </q-item-label>
           </q-item-section>
           <q-item-section top side class="text-right">
-            <q-btn
-             
-              color="grey-7"
-              round
-              flat
-              icon="more_vert"
-            >
+            <q-btn color="grey-7" round flat icon="more_vert">
               <q-menu
                 anchor="bottom right"
                 self="top right"
@@ -38,14 +32,18 @@
               >
                 <q-list>
                   <q-item
-                   v-if="post.author_id.id == Auth.auth.id"
+                    v-if="post.author_id.id == Auth.auth.id"
                     clickable
                     style="background-color:#E0E0E0;border: 0.5px solid #BDBDBD;"
                   >
-                    <q-item-section @click="item=>{
-                      editPost.body = post.body
-                      editDialog =! editDialog
-                      }">
+                    <q-item-section
+                      @click="
+                        item => {
+                          editPost.body = post.body;
+                          editDialog = !editDialog;
+                        }
+                      "
+                    >
                       <div>
                         <span class="material-icons" style="padding-right:6px">
                           edit
@@ -55,7 +53,7 @@
                     </q-item-section>
                   </q-item>
                   <q-item
-                   v-if="post.author_id.id == Auth.auth.id"
+                    v-if="post.author_id.id == Auth.auth.id"
                     clickable
                     style="background-color:#E0E0E0;border: 0.5px solid #BDBDBD;"
                   >
@@ -69,7 +67,7 @@
                     </q-item-section>
                   </q-item>
 
-                   <q-item
+                  <q-item
                     clickable
                     style="background-color:#E0E0E0;border: 0.5px solid #BDBDBD;"
                   >
@@ -82,7 +80,6 @@
                       </div>
                     </q-item-section>
                   </q-item>
-
                 </q-list>
               </q-menu>
             </q-btn>
@@ -113,7 +110,6 @@
             </div>
           </div>
         </div>
-        
       </q-card-section>
 
       <q-item dense>
@@ -131,66 +127,77 @@
                 {{ post.likes_count }} Suka
               </div>
             </q-btn>
-            <q-btn flat round no-caps icon="message" @click="$router.push(`/post/comment/${post.id}`)" >
+            <q-btn
+              flat
+              round
+              no-caps
+              icon="message"
+              @click="$router.push(`/post/comment/${post.id}`)"
+            >
               <div class="text-caption text-grey">
                 {{ post.comments.length }} Komentar
               </div></q-btn
             >
           </div>
         </q-item-section>
-
-      
       </q-item>
     </q-card>
- <q-dialog v-model="editDialog" :position="'bottom'" full-width v-on:editpost = "editDialog = !editDialog" >
-      <q-card class="q-py-md q-px-none"  style="border-top-left-radius: 25px;border-top-right-radius: 25px;">
+    <q-dialog
+      v-model="editDialog"
+      :position="'bottom'"
+      full-width
+      v-on:editpost="editDialog = !editDialog"
+    >
+      <q-card
+        class="q-py-md q-px-none"
+        style="border-top-left-radius: 25px;border-top-right-radius: 25px;"
+      >
         <div class="text-h6 text-center">Sunting Pertanyaan Diskusi</div>
         <q-card-section>
           <div class="full-width">
-              <q-item class="q-pa-none">
-                <q-item-section top avatar>
-                  <q-avatar size="3rem">
-                    <q-skeleton type="QAvatar" style="position:absolute" />
-                    <q-img
-                      style="z-index:1"
-                      :src="`${Setting.storageUrl}/${Auth.auth.avatar}`"
-                      no-default-spinner
+            <q-item class="q-pa-none">
+              <q-item-section top avatar>
+                <q-avatar size="3rem">
+                  <q-skeleton type="QAvatar" style="position:absolute" />
+                  <q-img
+                    style="z-index:1"
+                    :src="`${Setting.storageUrl}/${Auth.auth.avatar}`"
+                    no-default-spinner
+                  />
+                </q-avatar>
+              </q-item-section>
+              <q-item-section top>
+                <q-form ref="formEdit">
+                  <q-item-label>
+                    <q-input
+                      v-model="editPost.body"
+                      outlined
+                      clearable
+                      autogrow
+                      style="max-width:100vh"
+                      color="teal"
+                      placeholder="Ada pertanyaan? Coba tanya di sini"
                     />
-                  </q-avatar>
-                </q-item-section>
-                <q-item-section top>
-                  <q-form ref="formEdit">
-                    <q-item-label>
-                      <q-input
-                        v-model="editPost.body"
-                        outlined
-                        clearable
-                        autogrow
-                        style="max-width:100vh"
-                        color="teal"
-                        placeholder="Ada pertanyaan? Coba tanya di sini"
-                       
-                      />
-                    </q-item-label>
-                    <q-item-label class="q-pt-xs text-right">
-                      <q-btn
-                        class="q-px-lg text-center"
-                        dense
-                        no-caps
-                        flat
-                        rounded
-                        style="color:white;font-size:14px;background-color:#009688"
-                        @click="update()"
-                        :loading="loading"
-                        :disable="loading"
-                      >
-                        Ubah
-                      </q-btn>
-                    </q-item-label>
-                  </q-form>
-                </q-item-section>
-              </q-item>
-            </div>
+                  </q-item-label>
+                  <q-item-label class="q-pt-xs text-right">
+                    <q-btn
+                      class="q-px-lg text-center"
+                      dense
+                      no-caps
+                      flat
+                      rounded
+                      style="color:white;font-size:14px;background-color:#009688"
+                      @click="update()"
+                      :loading="loading"
+                      :disable="loading"
+                    >
+                      Ubah
+                    </q-btn>
+                  </q-item-label>
+                </q-form>
+              </q-item-section>
+            </q-item>
+          </div>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -354,23 +361,31 @@ export default {
       isReadMore: false,
       dialog: false,
       file: null,
-      loading:false,
-      editPost:{},
-      editDialog:false,
+      loading: false,
+      editPost: {},
+      editDialog: false,
       tab: null,
-      inception:true,
-       files: [],
-      images: [],
+      inception: true,
+      files: [],
+      images: []
     };
   },
   created() {
     // console.log('asdasd')
     // console.log(this.post)
   },
+  mounted() {
+    setTimeout(()=> {
+      this.$store.dispatch("Post/read", this.post.id).then(res => {
+        console.log(res);
+      });
+    }, 5000);
+  },
   methods: {
     moment: function() {
       return moment();
     },
+    read() {},
     zoom(file) {
       this.$q
         .dialog({
@@ -411,14 +426,15 @@ export default {
             });
         });
     },
-    report(){
+    report() {
       this.$q
         .dialog({
           title: "Laporkan postingan ini?",
-          message: "Laporkan jika postingan ini mengandung unsur SARA, kebencian, atau konten yang tidak pantas.",
+          message:
+            "Laporkan jika postingan ini mengandung unsur SARA, kebencian, atau konten yang tidak pantas.",
           cancel: true,
-          ok:'Laporkan',
-          cancel:'Batal'
+          ok: "Laporkan",
+          cancel: "Batal"
         })
         .onOk(() => {
           this.$q.loadingBar.start();
@@ -426,16 +442,22 @@ export default {
             .dispatch("Post/report", this.post.id)
             .then(res => {
               this.$store.dispatch("Auth/getAuth");
-              if(res.data.is_removed==true){
-                this.$q.notify("Postingan berhasil dilaporkan dan sudah dihapus");
-              }else if(res.data.is_removed==false){
+              if(res.data.attached.length>0){
                 this.$q.notify("Postingan berhasil dilaporkan");
-              }else if(res.data.error){
-                this.$q.notify(res.data.error);
               }else{
-                this.$q.notify(res);
+                this.$q.notify("Kamu sudah melaporkan postingan ini");
               }
-              
+              // if (res.data.is_removed == true) {
+              //   this.$q.notify(
+              //     "Postingan berhasil dilaporkan dan sudah dihapus"
+              //   );
+              // } else if (res.data.is_removed == false) {
+              //   this.$q.notify("Postingan berhasil dilaporkan");
+              // } else if (res.data.error) {
+              //   this.$q.notify(res.data.error);
+              // } else {
+              //   this.$q.notify(res);
+              // }
             })
             .catch(err => {
               this.$q.notify("Terjadi kesalahan");
@@ -484,7 +506,7 @@ export default {
           // console.log('I am triggered on both OK and Cancel')
         });
     },
- 
+
     update() {
       //alert('asdsa')
       //return;
@@ -495,12 +517,12 @@ export default {
           let access = {
             id: this.post.id,
             body: this.editPost.body
-          }
+          };
           this.$store
             .dispatch("Post/update", access)
             .then(res => {
               this.$q.notify("Berhasil");
-              this.editDialog=false;
+              this.editDialog = false;
             })
             .finally(() => {
               this.loading = false;
