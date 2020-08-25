@@ -33,6 +33,15 @@ const actions = {
             })
         })
     },
+    show({commit}, id){
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.state.Setting.url}/api/v1/assigmentsession/${id}`).then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
 }
 
 // Getter functions

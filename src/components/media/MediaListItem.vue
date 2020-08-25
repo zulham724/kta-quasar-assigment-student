@@ -116,6 +116,7 @@
 
 <script>
 import { mapState } from "vuex";
+import ImageZoomer from "components/ImageZoomerComponent.vue";
 
 export default {
   props: {
@@ -148,6 +149,23 @@ export default {
       this.$store.dispatch("Notif/send", payload).then(res => {
         console.log(res);
       });
+    },
+    zoom(file) {
+      this.$q
+        .dialog({
+          component: ImageZoomer,
+          parent: this,
+          src: file.src
+        })
+        .onOk(() => {
+          console.log("OK");
+        })
+        .onCancel(() => {
+          console.log("Cancel");
+        })
+        .onDismiss(() => {
+          console.log("Called on OK or Cancel");
+        });
     },
     like() {
     this.$store.dispatch("MediaPost/like", this.post.id).then(res => {

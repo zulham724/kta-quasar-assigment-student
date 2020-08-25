@@ -10,6 +10,14 @@ const auth = function(to, from, next) {
         next("/login");
     }
 };
+const notloggedin = function(to, from, next) {
+    let isLoggedIn = store().getters["Auth/isLoggedIn"];
+    if (isLoggedIn) {
+        next('/');
+    } else {
+        next();
+    }
+};
 
 const routes = [{
         path: "/",
@@ -237,6 +245,7 @@ const routes = [{
     {
         path: "/login",
         name: "login",
+        beforeEnter: multiguard([notloggedin]),
         component: () =>
             import ("layouts/LoginLayout.vue")
     },
@@ -249,6 +258,12 @@ const routes = [{
         path: '/result',
         name: 'result',
         component: ()=> import('pages/quiz/ResultPage.vue'),
+        props: true
+    },
+    {
+        path: '/result2/:assigmentSessionId',
+        name: 'result2',
+        component: ()=> import('pages/quiz/ResultPage2.vue'),
         props: true
     },
     {

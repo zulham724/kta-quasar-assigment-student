@@ -4,7 +4,7 @@ import axios from 'axios'
 const state = {
     //url: 'https://agpaiidigital.org',
     storageUrl: 'https://S3.wasabisys.com/agpaiidigital.org',
-    url: process.env.DEV ? 'http://localhost:8000' : 'https://agpaiidigital.org',
+    url: !process.env.DEV ? 'http://localhost:8000' : 'https://agpaiidigital.org',
     // storageUrl: 'http://localhost:8000/storage',
     assets: {
         bgToolbar: 'statics/bg-toolbar.jpeg'
@@ -30,8 +30,8 @@ const actions = {
 
 // Getter functions
 const getters = {
-
-}
+    url: state => state.url
+};
 
 export default {
     namespaced: true,

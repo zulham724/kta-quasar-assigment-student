@@ -14,6 +14,8 @@ module.exports = function(ctx) {
             'vue-zoomer',
             'Notifications',
             'apexchart',
+            'laravel-echo',
+            'vue-plyr',
             
         ],
 

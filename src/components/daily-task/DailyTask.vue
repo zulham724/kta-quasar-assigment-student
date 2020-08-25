@@ -18,7 +18,7 @@
                     
                 </q-card-section>
                 <q-card-section class="q-pa-sm text-center" style="background-color:#009688">
-                    <q-linear-progress color="teal-2" :value="toFloat(item.daily_progress)" class="" />
+                    <q-linear-progress color="teal-2" :value="toFloat(item.daily_progress)/100" class="" />
                     <div class="text-body2 text-center">
                         {{item.daily_progress}}%
                     </div>

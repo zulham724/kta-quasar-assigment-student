@@ -198,6 +198,19 @@ const actions = {
                     reject(err);
                 });
         });
+    },
+    statistics({commit}){
+         return new Promise((resolve, reject) => {
+            axios
+            .get(`${this.state.Setting.url}/api/v1/assigments/statistics`)
+            .then(res => {
+                // commit("add", { assigment: res.data });
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            });
+        });
     }
 };
 

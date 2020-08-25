@@ -6,6 +6,7 @@ Vue.prototype.$axios = axios
 Vue.prototype.$http = axios
 const token = store().getters['Auth/token']
 if (token) {
+    console.log(token.access_token)
     Vue.prototype.$http.defaults.headers.common.Accept = 'application/json'
     Vue.prototype.$http.defaults.headers.common.Authorization = `${token.token_type} ${token.access_token}`
 }

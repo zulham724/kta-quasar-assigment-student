@@ -89,6 +89,7 @@ export default {
         if(success){
           this.loading = true
           this.$store.dispatch('Auth/login',this.credential).then(res=>{
+              this.$store.dispatch('EchoNotification/index');
               this.$router.push('/')
               window.history.pushState(null, null ,window.location.href)
           }).catch(err=>{

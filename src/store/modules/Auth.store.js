@@ -17,6 +17,7 @@ const mutations = {
     auth_success(state, payload) {
         state.token = payload.token;
         state.auth = payload.auth;
+
     },
     setAuth(state, payload) {
         state.auth = payload.auth;
@@ -56,6 +57,10 @@ const actions = {
                                     }
                                 })
                             }
+                            //pusher
+                            //const pusher =
+                        
+                            //
                             const auth = res.data;
                             // Add the following line:
                             const payload = {

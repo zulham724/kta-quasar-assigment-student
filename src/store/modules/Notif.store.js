@@ -28,23 +28,25 @@ const mutations = {
 // Actions
 const actions = {
     async init({ commit, dispatch }) {
-        // console.log(FCM)
-        // alert('cek')
-        // const fcmToken = await FCM.getToken()
-        // console.log(fcmToken)
-        // dispatch("listen");
-        // dispatch("subscribeEvent");
-        // dispatch("subscribePost");
-        // dispatch('subscribeBook');
-        // dispatch("subscribeUserPostComment");
-        // dispatch("subscribeUserPostLike");
-        // FCM.getToken(function(token) {
-        //     // dispatch("subscribeEvent");
-        //     // dispatch("subscribePost");
-        //     // dispatch('subscribeBook');
-        //     // dispatch("subscribeUserPostComment");
-        //     // dispatch("subscribeUserPostLike");
-        // });
+        if(!process.env.DEV){
+            console.log(FCM)
+            //alert('cek')
+            const fcmToken = await FCM.getToken()
+            console.log(fcmToken)
+            dispatch("listen");
+            dispatch("subscribeEvent");
+            dispatch("subscribePost");
+            dispatch('subscribeBook');
+            dispatch("subscribeUserPostComment");
+            dispatch("subscribeUserPostLike");
+            FCM.getToken(function(token) {
+                // dispatch("subscribeEvent");
+                // dispatch("subscribePost");
+                // dispatch('subscribeBook');
+                // dispatch("subscribeUserPostComment");
+                // dispatch("subscribeUserPostLike");
+            });
+        }
     },
     subscribeEvent() {
         FCM.subscribeToTopic("events");
