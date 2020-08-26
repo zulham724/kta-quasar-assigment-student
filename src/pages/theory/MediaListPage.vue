@@ -61,7 +61,7 @@
         </q-header>
         <q-page style="background-color:#009688">
             <q-infinite-scroll @load="onLoad" :offset="250">
-                <q-intersection class="q-pb-sm" v-for="post in MediaPost.posts.data" :key="post.id">
+                <q-intersection :style="`min-height: 80vh;width: 100vw`" class="q-pb-sm" v-for="post in MediaPost.posts.data" :key="post.id">
 
                     <media-list-item :post="post"></media-list-item>
 
@@ -93,7 +93,7 @@ export default {
     },
     created() {
         this.initNotification();
-        if (!this.MediaPost.posts.data) {
+        if (this.MediaPost.posts.data == null) {
             this.$store.dispatch("MediaPost/index").catch(res => {
                 if (res.response.data.errors["profile.educational_level_id"]) {
                     this.$router.push({
