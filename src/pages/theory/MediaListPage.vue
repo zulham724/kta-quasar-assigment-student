@@ -45,7 +45,7 @@
             <q-toolbar style="background-color:#009688">
                 <div class="row q-px-sm q-pb-md q-pt-sm full-width">
                     <div class="col-10">
-                        <q-input outlined rounded dense no-caps disable label="Dalam konstruksi" bg-color="white">
+                        <q-input outlined rounded dense no-caps label="Cari materi" bg-color="white" v-model="search">
                             <template v-slot:append>
                                 <q-icon name="search" />
                             </template>
@@ -61,7 +61,7 @@
         </q-header>
         <q-page style="background-color:#009688">
             <q-infinite-scroll @load="onLoad" :offset="250">
-                <q-intersection :style="`min-height: 80vh;width: 100vw`" class="q-pb-sm" v-for="post in MediaPost.posts.data" :key="post.id">
+                <q-intersection :style="`min-height: 40vh;width: 100vw`" class="q-pb-sm" v-for="post in fileredMediaPost" :key="post.id">
 
                     <media-list-item :post="post"></media-list-item>
 
@@ -84,11 +84,16 @@ export default {
         MediaListItem: () => import('components/media/MediaListItem.vue')
     },
     computed: {
-        ...mapState(["MediaPost", "Setting", "Auth", 'EchoNotification'])
+        ...mapState(["MediaPost", "Setting", "Auth", 'EchoNotification']),
+        fileredMediaPost: function () {
+            if (this.MediaPost.posts.data == null) return [];
+            return this.MediaPost.posts.data.filter(item => item.body.toLowerCase().includes(this.search.toLowerCase()))
+        }
     },
     data() {
         return {
-            navigation: false
+            navigation: false,
+            search: '',
         }
     },
     created() {

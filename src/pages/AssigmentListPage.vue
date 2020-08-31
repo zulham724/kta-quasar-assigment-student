@@ -100,8 +100,8 @@
 
                             </div>
                             <div v-if="FinishedAssigment.assigments">
-                                <q-intersection style="width:100%;min-height:100px" class="q-pa-sm" v-for="assigment in FinishedAssigment.assigments.data" :key="`finishedassigment-${assigment.id}`">
-                                    <finished-assigment :assigment="assigment"></finished-assigment>
+                                <q-intersection style="width:100%;min-height:100px" class="q-pa-sm" v-for="session in FinishedAssigment.assigments.data" :key="`finishedassigment-${session.id}`">
+                                    <finished-assigment :session="session"></finished-assigment>
                                 </q-intersection>
                             </div>
                         </div>

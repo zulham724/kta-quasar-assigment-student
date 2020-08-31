@@ -111,10 +111,8 @@
                             </div>
                         </div>
                         <div v-if="FinishedTrainingAssigment.assigments">
-                            <q-intersection class="q-px-sm q-py-xs" style="min-height:100px;width:100%" v-for="assigment in getFilteredFinishedAssigments" :key="`finishedtraining-${assigment.id}`">
-                                <div class="q-pa-sm" v-for="session in assigment.auth_sessions" :key="`session-${session.id}`">
-                                    <finished-training-list-item :assigment="assigment" :session="session"></finished-training-list-item>
-                                </div>
+                            <q-intersection class="q-px-sm q-py-xs" style="min-height:100px;width:100%" v-for="session in getFilteredSession" :key="`session-${session.id}`">
+                                <finished-training-list-item :session="session"></finished-training-list-item>
                             </q-intersection>
                         </div>
                         <div v-else class="q-gutter-y-sm">
@@ -267,11 +265,11 @@ export default {
                 });
             } else return this.TrainingAssigment.assigments.data;
         },
-        getFilteredFinishedAssigments: function () {
+        getFilteredSession: function () {
             if (this.search2.trim().length >= 2) {
                 return this.FinishedTrainingAssigment.assigments.data.filter(item => {
                     //console.log(this.search)
-                    return item.topic ? item.topic.toLowerCase().includes(this.search2.toLowerCase()) : false;
+                    return item.assigments[0].topic ? item.assigments[0].topic.toLowerCase().includes(this.search2.toLowerCase()) : false;
                 });
             } else return this.FinishedTrainingAssigment.assigments.data;
         }

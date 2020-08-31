@@ -444,6 +444,7 @@ export default {
             this.$store.dispatch("Auth/updateProfile", this.credential)
                 .then(res => {
                     this.$q.notify("Berhasil update data sekolah");
+
                     //this.$router.push("/account");
                     //window.history.pushState(null, null, window.location.href);
                 })
@@ -452,6 +453,8 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.$store.commit('MediaPost/reset');
+                    this.$store.commit('Post/reset');
                 });
         },
         getEducationalLevels() {

@@ -33,7 +33,7 @@
 
                 <div class="q-px-md">
                     <div style="overflow-wrap:break-word; white-space:pre-line" class="text-white text-body1 q-pt-md" v-html="post.body"></div>
-                    <q-carousel v-model="slide" transition-prev="slide-right" transition-next="slide-left" animated :navigation="post.files.length > 1" control-color="teal" swipeable class="rounded-borders q-pa-none">
+                    <q-carousel v-if="post.files.length>0" v-model="slide" transition-prev="slide-right" transition-next="slide-left" animated :navigation="post.files.length > 1" control-color="teal" swipeable class="rounded-borders q-pa-none">
                         <q-carousel-slide style="q-pa-none" v-for="(file, f) in post.files" :key="file.id" :name="f" class="column no-wrap flex-center">
                             <q-img v-if="file.type.includes('image')" :src="`${Setting.storageUrl}/${file.src}`" ratio="1" @click="zoom(file)">
                                 <template v-slot:loading>
