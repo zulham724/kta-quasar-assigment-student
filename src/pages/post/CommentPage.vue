@@ -278,20 +278,22 @@ export default {
                 });
         },
         sendNotif() {
-            const payload = {
-                title: `AGPAII DIGITAL`,
-                body: `Postingan anda dikomentari oleh ${this.Auth.auth.name}: ${this.comment.value}`,
-                params: {
-                    sender_id: this.Auth.auth.id,
-                    target_id: this.post.id,
-                    target_type: `Post`,
-                    text: `Postingan anda dikomentari oleh ${this.Auth.auth.name}: ${this.comment.value}`
-                },
-                to: `/topics/user_${this.post.author_id.id}_post_${this.post.id}_comment`
-            };
-            this.$store.dispatch("Notif/send", payload).then(res => {
-                console.log(res);
-            });
+            if(!process.env.DEV){
+                const payload = {
+                    title: `AGPAII DIGITAL`,
+                    body: `Postingan anda dikomentari oleh ${this.Auth.auth.name}: ${this.comment.value}`,
+                    params: {
+                        sender_id: this.Auth.auth.id,
+                        target_id: this.post.id,
+                        target_type: `Post`,
+                        text: `Postingan anda dikomentari oleh ${this.Auth.auth.name}: ${this.comment.value}`
+                    },
+                    to: `/topics/user_${this.post.author_id.id}_post_${this.post.id}_comment`
+                };
+                this.$store.dispatch("Notif/send", payload).then(res => {
+                    console.log(res);
+                });
+            }
         }
     }
 };

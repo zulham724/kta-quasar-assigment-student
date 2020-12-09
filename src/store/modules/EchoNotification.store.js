@@ -185,7 +185,8 @@ const actions = {
       let channel = "notification." + this.state.Auth.auth.id;
       console.log("Subscribing to notification channel: " + channel);
       //console.log(Vue.prototype.$echo)
-      const events = ["LikedPosEtvent", "LikedCommentEvent", "CommentedPostEvent","AssigmentStudentEvent"];
+      const events = ["LikedPostEvent", "LikedCommentEvent", "CommentedPostEvent","AssigmentStudentEvent"];
+      
       window.Echo.private(channel).listen(events[0], notification => {
         console.log(notification.data);
         notification.type = events[0];

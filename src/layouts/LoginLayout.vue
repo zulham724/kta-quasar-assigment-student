@@ -72,7 +72,9 @@ export default {
                         this.$router.push('/')
                         window.history.pushState(null, null, window.location.href)
                     }).catch(err => {
-                        this.$q.notify(err.response.data.message)
+                        //this.$q.notify('Email atau Password salah')
+                        if(err.response.status==400)this.$q.notify('Email atau Password salah')
+                        else this.$q.notify(err.response.data.message)
                     }).finally(() => {
                         this.loading = false
                     })

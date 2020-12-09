@@ -39,7 +39,7 @@
                     <q-icon class="q-mr-xs" name="school" />{{session.assigments[0].grade.description}}
                 </q-badge>
                 <q-badge class="text-body2" style="background:#009688">
-                    <q-icon class="q-mr-xs" name="date_range" />{{session.created_at}}
+                    <q-icon class="q-mr-xs" name="date_range" />{{moment(session.created_at).format("DD MMMM YYYY HH:mm")}}
                 </q-badge>
             </div>
         </div>
@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
     props: {
         session: null
@@ -59,6 +61,11 @@ export default {
         return {
             nilai: 0
         }
+    },
+    methods:{
+      moment(date){
+        return moment(date)
+      }
     }
 }
 </script>

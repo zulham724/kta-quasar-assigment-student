@@ -378,7 +378,6 @@ export default {
         });*/
     },
     created() {
-        this.initNotification();
         this.$store.dispatch("Auth/getAuth").then(res => {
             //console.log("cek: ", this.Auth.auth);
             this.$store.dispatch("Achievement/calculateDailyTask").then(res => {
@@ -406,12 +405,6 @@ export default {
                     name: 'login'
                 })
             });
-        },
-        initNotification: function () {
-            this.loading = true;
-            if (!this.EchoNotification.items.data) {
-                this.onRefresh();
-            } else this.loading = false;
         },
         onRefresh: function (done) {
             this.loading = true;

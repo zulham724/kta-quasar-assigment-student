@@ -15,7 +15,7 @@
           
           <div class="q-gutter-sm q-my-sm">
           <q-badge class="text-body2" style="background:#009688"><q-icon class="q-mr-xs" name="school"/>{{assigment.grade.description}}</q-badge>
-          <q-badge class="text-body2" style="background:#009688"><q-icon class="q-mr-xs" name="date_range"/>{{assigment.created_at}}</q-badge>
+          <q-badge class="text-body2" style="background:#009688"><q-icon class="q-mr-xs" name="date_range"/>{{moment(assigment.created_at).format("DD MMMM YYYY HH:mm")}}</q-badge>
           </div>
           
 
@@ -35,7 +35,9 @@
 </template>
 
 <script>
-import { date } from 'quasar'
+import { date } from 'quasar';
+import moment from "moment";
+
 export default {
   props:{
     assigment:null,
@@ -46,7 +48,9 @@ export default {
       }
     },
     methods:{
-
+      moment(date){
+        return moment(date)
+      }
     }
 }
 </script>

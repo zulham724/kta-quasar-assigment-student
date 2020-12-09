@@ -194,30 +194,23 @@ export default {
     },
     created: function () {
         this.initNotification();
+
     },
     mounted() {
         // console.log('user_id'+this.Auth.)
     },
     methods: {
-        initNotification: function () {
-            let channel = "App.User." + this.Auth.auth.id;
-            console.log("channel " + channel);
-            //if(!this.$echo)alert('kosong echo')
-            this.$connect(this.Auth.token).then(res => {
-                console.log('matamu')
-                this.$echo.private(channel).notification(notification => {
-                    console.log(notification);
-                    this.$store.dispatch(
-                        "EchoNotification/addNotification",
-                        notification
-                    );
-                });
-            });
-
-            if (!this.EchoNotification.items.data) {
-                this.$store.dispatch("EchoNotification/index");
-                this.$store.dispatch('EchoNotification/getCount');
-            }
+         initNotification() {
+            this.$store.dispatch("EchoNotification/initNotification");
+            // if (!this.EchoNotification.items.data) {
+            //     Promise.all([this.$store.dispatch("EchoNotification/index"), this.$store.dispatch('EchoNotification/getCount')]).then(res => {
+            //         this.subscribeNotification();
+            //     });
+            //     // this.$store.dispatch("EchoNotification/index");
+            //     // this.$store.dispatch('EchoNotification/getCount');
+            // } else {
+            //     this.subscribeNotification();
+            // }
         },
         onLogout() {
             //alert('asdsa')

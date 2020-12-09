@@ -9,6 +9,7 @@ module.exports = function(ctx) {
         boot: [
             'axios',
             'moment', 
+            'pusher',
             'vue-chat-scroll',
             'vue-linkify', 
             'vue-zoomer',

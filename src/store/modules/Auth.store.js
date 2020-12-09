@@ -4,6 +4,7 @@ import axios from "axios";
 // State object
 const state = {
     auth: null,
+    is_unauthorized:false,
     client_id: 2,
     client_secret: "RM0SqcmpoatgzQ5JXi6aeEXYI6dSaPiWDSbTW79s",
     token: {},
@@ -17,6 +18,7 @@ const mutations = {
     auth_success(state, payload) {
         state.token = payload.token;
         state.auth = payload.auth;
+        state.is_unauthorized = false;
 
     },
     setAuth(state, payload) {
@@ -26,6 +28,9 @@ const mutations = {
         state.token = {}
         state.auth = ''
     },
+    setUnauthorized(state, is_unauthorized){
+        state.is_unauthorized=is_unauthorized;
+    }
 };
 
 // Actions
@@ -130,9 +135,19 @@ const actions = {
                 });
         });
     },
-    logout({ commit }) {
+    logout({ commit, state }) {
         return new Promise((resolve, reject) => {
+            const user_id=state.auth.id;
+            const channel='notification.'+user_id;
+            console.log('leaving channel: '+channel);
+            if(window.Echo){
+                window.Echo.leave(channel);
+                window.Echo=null;
+            }
+
             commit("logout")
+            commit("EchoNotification/deleteItems",null,{root:true});
+         
             delete axios.defaults.headers.common.Authorization
             resolve()
         })
@@ -176,6 +191,7 @@ const actions = {
 // Getter functions
 const getters = {
     isLoggedIn: state => !!state.token.access_token,
+    isUnAuthorized: state=>state.is_unauthorized,
     auth: state => state.auth,
     token: state => state.token
 };

@@ -112,8 +112,8 @@
 
                 <q-tab-panels v-model="tab" animated style="background-color:#009688">
                     <q-tab-panel :name="`${assigment.code}-${n}`" v-for="(question_list, n) in assigment.question_lists" :key="`question-${question_list.id}`">
-                        <div style="color:white;font-size:16px">
-                            {{ question_list.name }}
+                        <div style="color:white;font-size:16px" v-html="question_list.name">
+                        
                         </div>
                     </q-tab-panel>
                 </q-tab-panels>
